@@ -82,10 +82,10 @@ ob_start();
               <td><strong>Why is it important?</strong> What it means to your site’s success.</td>
             </tr>
           </table>
-          <ul class="detail-list">
-            <li><span>What’s working?</span></li>
-          </ul>
         </div>
+        <ul class="detail-list">
+          <li><span>What’s working?</span></li>
+        </ul>
       </section>
 
     </div>

@@ -95,4 +95,7 @@
   'open sans' => array(
     'normal' => DOMPDF_FONT_DIR . 'bf11512877ef2223afd06e89358ef2fc',
   ),
+  'fontawesome' => array(
+    'normal' => DOMPDF_FONT_DIR . '4ec5f5a0bed548727e8a4a0689fd9f85',
+  ),
 ) ?>
