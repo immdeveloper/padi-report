@@ -1,0 +1,423 @@
+/*Backend CSS*/
+
+/*
+* Global
+*/
+body{
+  font-family: 'Open Sans', sans-serif;
+  background-color: #F3F3F3;
+}
+
+.no-pad{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+a:hover,
+a:active,
+a:visited,
+a:focus{
+  text-decoration: none;
+}
+
+/*
+* Top Bar
+*/
+header{
+  width: 100%;
+  background-color: #FFF;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  position: fixed;
+  height: 50px;
+  padding: 0 15px;
+  z-index: 10;
+}
+
+.page-title{
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+header a{
+  position: fixed;
+  right: 20px;
+  top: 6px;
+}
+
+/*
+* Content
+*/
+.page-wrapper{
+  margin-left: 18%;
+  //position: relative;
+}
+
+.content-wrapper{
+  padding:70px 20px 20px 20px;
+}
+
+/*
+* Sidebar
+*/
+.sidebar{
+    width: 18%;
+    height: 100%;
+    background-color: #212121;
+    position: fixed;
+    font-size: 15px;
+}
+
+.menu-category{
+  display: block;
+  padding: 10px 0 10px 20px;
+  //background-color: #19181D;
+  //border-top: rgba(0, 0, 0, 0.08) 1px solid;
+  //border-bottom: rgba(0, 0, 0, 0.08) 1px solid;
+  font-size:12px;
+  color: #546e7a;
+}
+
+.sidebar-menu ul{
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.sidebar-menu a{
+  padding: 15px 0 15px 20px;
+  display: block;
+  color: #757575;
+  background-color: #212121;
+  transition: background-color 300ms ease;
+}
+
+.sub-menu a{
+  background-color: #19181D;
+}
+
+.sub-menu a{
+  padding: 10px 0 10px 20px;
+}
+
+.sidebar-menu a:hover{
+  background-color: #302f2f;
+  color:#FFF;
+}
+
+.sidebar-menu i{
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.arrow-drop{
+  transition: all 300ms ease;
+}
+
+.arrow-drop.open{
+  transform: rotate(90deg) ;
+}
+
+.sub-menu a{
+  padding-left: 54px;
+}
+
+.logo-bar{
+  height: 50px;
+  background-color: #000;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.logo-bar span{
+  display: block;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #FFF;
+  position: relative;
+  top: 10px;
+  left: 20px;
+}
+
+.logo-bar img{
+  position: relative;
+  top: 5px;
+}
+
+/*
+* Footer
+*/
+footer{
+  padding: 15px;
+  position: absolute;
+  bottom: 0;
+}
+
+footer span{
+  color: #999;
+  display: none;
+}
+
+footer a{
+  color: #999;
+  font-weight: 600;
+}
+
+/*
+* Custom User Interfaces Design
+*/
+
+/*Card*/
+.card{
+  margin-bottom: 15px;
+  padding: 15px;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+}
+
+.card-title{
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.card-subtitle{
+  display: block;
+  color: #999;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+/*Custom button*/
+.button{
+  padding: 10px 15px;
+  text-align: center;
+  text-transform: uppercase;
+  display: inline-block;
+  transition: all 500ms ease;
+  background-color: #FFF;
+}
+
+.button::after{
+  content:'\f105';
+  font-family: FontAwesome;
+  opacity: 0;
+  margin-left: 0;
+  transition: margin-left 300ms ease;
+}
+
+.button:hover::after{
+  margin-left: 10px;
+  opacity: 1;
+}
+
+.button-red{
+  color: #f03;
+  border: 1px solid #f03;
+}
+
+.button-red:hover{
+  background-color: #f03;
+  color: #FFF;
+}
+
+.button-blue{
+  color: #039BE5;
+  border: 1px solid #039BE5;
+}
+
+.button-blue:hover{
+  background-color: #039BE5;
+  color: #FFF;
+}
+
+.button-green{
+  color: #7AA93C;
+  border: 1px solid #7AA93C;
+}
+
+.button-green:hover{
+  background-color: #7AA93C;
+  color: #FFF;
+}
+
+/*Analyze Result*/
+.result-title{
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.result-date{
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #999;
+}
+
+.summary-block{
+  height: 94px;
+  border: 1px solid #F3F3F3;
+  margin-bottom: 10px;
+  padding-left:10px;
+  padding-right: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.summary-block h4{
+  font-size: 14px;
+}
+
+.summary-block h1{
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.summary-block:last-child{
+  margin-bottom: 0;
+}
+
+.summary-block-full-height{
+  height: 200px;
+}
+
+.summary-block-full-height h1{
+  width: 120px;
+  height: 120px;
+  margin: auto;
+  border-radius: 100px;
+  font-size: 60px;
+  line-height: 120px;
+  position: relative;
+  top: 10px;
+}
+
+.summary-seo-test li{
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.summary-seo-test span{
+  display: block;
+  text-align: center;
+  width: 35px;
+}
+
+.status-critical h4,
+.status-critical h1,
+.status-warning h4,
+.status-warning h1,
+.status-valid h4,
+.status-valid h1{
+  color: #FFF;
+}
+
+.summary-seo-test li:first-child span:first-child,
+.status-critical{
+  background-color: #DD0000; //red
+}
+
+.summary-seo-test li:nth-child(2) span:first-child,
+.status-warning{
+  background-color: #FF9511; //yellow - orange
+}
+
+.summary-seo-test li:last-child span:first-child,
+.status-valid{
+  background-color: #008800; //green
+}
+
+.summary-seo-test span:first-child{
+  font-size: 15px;
+  border-radius: 100px;
+  font-weight: bold;
+  height: 35px;
+  line-height: 35px;
+  color: #FFF;
+}
+
+.summary-seo-test span:last-child{
+  font-size: 10px;
+  height: 20px;
+  line-height: 20px;
+  color: #999;
+}
+
+.speed-score h1{
+  font-size: 30px;
+}
+
+/*Result Navbar*/
+.result-navbar{
+  text-align: center;
+}
+
+.result-navbar ul{
+  margin-bottom: 15px;
+}
+
+.result-navbar li{
+  display: inline-block;
+}
+
+.result-navbar a{
+  padding:10px;
+  background-color: #0D8FDB;
+  border:1px solid #e5e5e5;
+  display: block;
+  margin-right: 15px;
+  color: #FFF;
+  transition: background-color 300ms ease;
+}
+
+.result-navbar li.active a,
+.result-navbar a:hover{
+  background-color: #0c78b7;
+}
+
+/*Result Block*/
+.input-fields-wrap{
+  margin-bottom: 15px;
+}
+
+.input-fields-wrap .col-md-4{
+  padding-right: 0;
+}
+
+/*Result Table*/
+.result-table{
+  border: 1px solid #333;
+  border-bottom: none;
+  border-right: none;
+  margin-bottom: 15px;
+}
+
+.result-table table{
+  width: 100%;
+}
+
+.result-table span{
+  display: block;
+  text-align: center;
+}
+
+.table-score-wrapper{
+  background-color: #008800;
+  color: #FFF;
+}
+
+.table-score{
+  font-size: 60px;
+}
+
+.result-table td{
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.result-table table td{
+  padding: 10px;
+}
