@@ -96,6 +96,15 @@
     'normal' => DOMPDF_FONT_DIR . 'bf11512877ef2223afd06e89358ef2fc',
   ),
   'fontawesome' => array(
-    'normal' => DOMPDF_FONT_DIR . '4ec5f5a0bed548727e8a4a0689fd9f85',
+    'normal' => DOMPDF_FONT_DIR . '408fafcb8071874792344f695f5767ad',
+  ),
+  'calibri' => array(
+    'normal' => DOMPDF_FONT_DIR . '79274d78c148e811dd0704a1fe6c9a48',
+  ),
+  'calibri-full' => array(
+    'normal' => DOMPDF_FONT_DIR . '2756e1482044ca68e2c9f44f25247101',
+    'bold' => DOMPDF_FONT_DIR . '75e7a0c437673dcf4c4421b122feee68',
+    'bold_italic' => DOMPDF_FONT_DIR . '09ccd297774abf0bc3d6ae7008e7bc80',
+    'italic' => DOMPDF_FONT_DIR . '65f974adf1b1c8a2f9df1d580470b446',
   ),
 ) ?>
