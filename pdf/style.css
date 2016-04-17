@@ -82,12 +82,17 @@ section p{
   border-bottom: 2px solid #A9A57C;
 }
 
-.heading a{
+.heading a,
+.heading span{
   font-size: 16;
 }
 
 .heading-section{
   margin-bottom: 30px;
+}
+
+.heading-section span{
+  margin-right: 30px;
 }
 
 .sub-heading{

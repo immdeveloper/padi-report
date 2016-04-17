@@ -105,7 +105,66 @@ ob_start();
           An Item with a low overall score and a high importance score should be deemed as a high priority. Some items may carry a score for your competition in this area, where it is relevant, or required. In instances where we are performing a follow-up review, we will track your progress by comparing your current scores to the “last review scores.”
         </p>
       </section>
-
+      <section>
+        <h2 class="heading heading-section"><a name="page-2"><span>Section 2:</span> Executive Summary</a></h2>
+        <h2 class="heading sub-heading">OVERALL SCORING SUMMARY:</h2>
+        <div class="result-table">
+        <table>
+          <tr>
+            <td style="vertical-align:middle" class="table-score-wrapper" rowspan="6">
+              <span class="table-score">xx</span>
+              <span>score %</span>
+            </td>
+            <td>NA</td>
+            <td>Last Report Score</td>
+            <td>xx</td>
+            <td>Meta Tags</td>
+            <td>xx</td>
+            <td>Overall Content</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>User Experience</td>
+            <td>xx</td>
+            <td>Images</td>
+            <td>xx</td>
+            <td>Social Integration</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>Navigation</td>
+            <td>xx</td>
+            <td>Text</td>
+            <td>xx</td>
+            <td>Quality Signals</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>Search Assessibility</td>
+            <td>xx</td>
+            <td>Link Profile</td>
+            <td>xx</td>
+            <td>Retention</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>Link Structure</td>
+            <td>xx</td>
+            <td>Hosting & Registration</td>
+            <td>xx</td>
+            <td>Conversion</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>Page Speed</td>
+            <td>xx</td>
+            <td>Search Rankings</td>
+            <td>xx</td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      </section>
     </div>
   </body>
 </html>
