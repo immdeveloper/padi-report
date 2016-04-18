@@ -5,6 +5,7 @@ class PageInsightController extends CI_Controller
   {
     parent::__construct();
     $this->load->model('PointCheckMaster','',TRUE);
+    $this->load->model('PageInsight','',TRUE);
   }
 
   public function index()
@@ -86,13 +87,22 @@ class PageInsightController extends CI_Controller
     $data['check-navigation8'] = $this->input->post('check-navigation8');
     $data['web-url'] = $this->input->post('web-url');
     $data['hidden-url'] = $this->input->post('hidden-url');
-$data['post-data'] = $this->input->post();
+    $data['post-data'] = $this->input->post();
 
     $data['checked'] = "null!";
     if($data['check-user-experience4'] != null){
       $data['checked'] = "checked!";
     }
     $data['save'] = "savee";
+
+    $domainId = $this->PageInsight->getDomainId($data['hidden-url']);
+    if($domainId == "null"){
+      $this->PageInsight->insertNewDomain($data['hidden-url']);
+      $domainId = $this->PageInsight->getDomainId($data['hidden-url']);
+      // $domainId = "null2";
+    }
+    $data['domain-id'] = $domainId;
+
     echo json_encode( $data );
   }
 }
