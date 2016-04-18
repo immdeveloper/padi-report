@@ -2,9 +2,6 @@
 //@author kevindebugging
 class PageInsight extends CI_Model {
 
-  private $tbl_domain = 'domain';
-
-
   public function __construct()
   {
     parent::__construct();
@@ -38,6 +35,15 @@ class PageInsight extends CI_Model {
     $this->db->insert('domain', $data);
   }
 
+  //insert new assessment
+  public function insertNewAssessment($domain_id, $date){
+    $data = array(
+        'id_domain' => $domain_id,
+        'date'      => $date
+      );
+
+    $this->db->insert('assessment', $data);
+  }
 
 }
 

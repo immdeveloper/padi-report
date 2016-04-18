@@ -95,15 +95,19 @@ class PageInsightController extends CI_Controller
     }
     $data['save'] = "savee";
 
-    $domainId = $this->PageInsight->getDomainId($data['hidden-url']);
-    if($domainId == "null"){
+    $domain_id = $this->PageInsight->getDomainId($data['hidden-url']);
+    if($domain_id == "null"){
       $this->PageInsight->insertNewDomain($data['hidden-url']);
-      $domainId = $this->PageInsight->getDomainId($data['hidden-url']);
-      // $domainId = "null2";
+      $domain_id = $this->PageInsight->getDomainId($data['hidden-url']);
     }
-    $data['domain-id'] = $domainId;
+    $data['domain-id'] = $domain_id;
+
+    $data['date'] = date("Y-m-d H:i:s");
+    $date = date("Y-m-d H:i:s");
+    $this->PageInsight->insertNewAssessment($domain_id, $date);
 
     echo json_encode( $data );
   }
 }
+//$formatted_url = str_ireplace('www.', '', parse_url($url_to_format, PHP_URL_HOST));
 ?>
