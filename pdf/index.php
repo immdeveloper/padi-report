@@ -23,7 +23,7 @@ ob_start();
         <img src="logo.png" alt="" width="230" height="138" class="logo" />
         <p class="first-page-imm">Island Media Management</p>
         <p class="first-page-title">Website review for <em>www.sample.com</em>, 14 <sup>th</sup> January 2015</p>
-        <div style="height:440px;"></div>
+        <div style="height:400px;"></div>
         <h2 class="heading">List of Contents</h2>
         <ul class="section-list">
           <li><span>Section 1:</span> <a href="#page-2">Introduction</a></li>
@@ -46,7 +46,7 @@ ob_start();
           If you have any questions about the report you are welcome to contact us direct at
           <a href="info@islandmediamanagement.com">info@islandmediamanagement.com</a> where our team is ready and waiting to assist you.
         </p>
-        <div style="height:40px"></div>
+        <div style="height:10px"></div>
         <h2 class="heading sub-heading">How to use this report</h2>
         <p>
           This report is created in multiple sections for your ease of use.
@@ -82,12 +82,89 @@ ob_start();
               <td><strong>Why is it important?</strong> What it means to your site’s success.</td>
             </tr>
           </table>
-          <ul class="detail-list">
-            <li><span>What’s working?</span></li>
-          </ul>
         </div>
+        <table class="detail-list">
+          <tr>
+            <td><span>What’s working?</span></td>
+            <td><span class="icon">&#xf00c;</span> We will tell you what aspects are working.</td>
+          </tr>
+          <tr>
+            <td><span>What needs fixing?</span></td>
+            <td><span class="icon">&#xf096;</span> We will also tell you what aspects need our attention.</td>
+          </tr>
+          <tr>
+            <td><span>Who can fix it?</span></td>
+            <td><span class="icon">&#xf183;</span> Basic user / webmaster / programmer</td>
+          </tr>
+          <tr>
+            <td><span>How do you fix it?</span></td>
+            <td><span class="icon">&#xf046;</span> We will tell you how to get the problem fixed, allowing you to determine if you can do it in-house, or if you need to outsource the service.</td>
+          </tr>
+        </table>
+        <p>
+          An Item with a low overall score and a high importance score should be deemed as a high priority. Some items may carry a score for your competition in this area, where it is relevant, or required. In instances where we are performing a follow-up review, we will track your progress by comparing your current scores to the “last review scores.”
+        </p>
       </section>
-
+      <section>
+        <h2 class="heading heading-section"><a name="page-2"><span>Section 2:</span> Executive Summary</a></h2>
+        <h2 class="heading sub-heading">OVERALL SCORING SUMMARY:</h2>
+        <div class="result-table">
+        <table>
+          <tr>
+            <td style="vertical-align:middle" class="table-score-wrapper" rowspan="6">
+              <span class="table-score">xx</span>
+              <span>score %</span>
+            </td>
+            <td>NA</td>
+            <td>Last Report Score</td>
+            <td>xx</td>
+            <td>Meta Tags</td>
+            <td>xx</td>
+            <td>Overall Content</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>User Experience</td>
+            <td>xx</td>
+            <td>Images</td>
+            <td>xx</td>
+            <td>Social Integration</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>Navigation</td>
+            <td>xx</td>
+            <td>Text</td>
+            <td>xx</td>
+            <td>Quality Signals</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>Search Assessibility</td>
+            <td>xx</td>
+            <td>Link Profile</td>
+            <td>xx</td>
+            <td>Retention</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>Link Structure</td>
+            <td>xx</td>
+            <td>Hosting & Registration</td>
+            <td>xx</td>
+            <td>Conversion</td>
+          </tr>
+          <tr>
+            <td>xx</td>
+            <td>Page Speed</td>
+            <td>xx</td>
+            <td>Search Rankings</td>
+            <td>xx</td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      </section>
     </div>
   </body>
 </html>
