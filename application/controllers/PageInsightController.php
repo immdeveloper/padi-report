@@ -79,21 +79,27 @@ class PageInsightController extends CI_Controller
 
   public function save()
   {
+    //get url that being assess
     $hidden_url = $this->input->post('hidden-url');
+
+    //get domain id from the url or insert new domain if doesn't exist
     $domain_id = $this->PageInsight->getDomainId($hidden_url);
     if($domain_id == "null"){
       $domain_id = $this->PageInsight->insertNewDomain($hidden_url);
     }
 
+    // insert new assessment with current time and date
     $date = date("Y-m-d H:i:s");
     $id_assessment = $this->PageInsight->insertNewAssessment($domain_id, $date);
 
+    // loop through post value
     $post_input = $this->input->post();
     foreach ($post_input as $key => $value) {
 
         $id_point = $key;
         $result = array();
 
+        // if the submitted value is on or off, set the result variable
         if($value == "on"){
           $result["point_what_need_fixing"] = $post_input["explanation-" . $key];
           $result["point_who_can_fix"] = $post_input["who-fix-" . $key];
@@ -102,6 +108,7 @@ class PageInsightController extends CI_Controller
           $result["description"] = $post_input["description-" . $key];
         }
 
+        //if result is not empty, insert data to table result and assessment_detail
         if(!empty($result)){
           $id_source = $post_input["source-" . $key];
           $data = array(
