@@ -1,7 +1,10 @@
 html{
-  margin: 68px 96px;
+  margin: 62.4px 81.6px 74.9px 72.3px;
   font-family: calibri-full;
-  font-size: 12;
+}
+
+body{
+  //margin: 62.4px 81.6px 74.9px 72.3px;
 }
 
 .container{
@@ -13,14 +16,6 @@ section{
   page-break-after: always;
 }
 
-*{
-  font-size: 11;
-}
-
-a{
-  color: #0F59B3;
-}
-
 span.icon{
   font-family: FontAwesome;
   margin-right: 5px;
@@ -28,7 +23,38 @@ span.icon{
 
 section p{
   line-height: 105%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+.detail-list td{
+  text-align: justify;
+}
+
+/*Font Size*/
+*{
+  font-size: 10.5;
+}
+
+/*Text Color*/
+.text-red{
+  color: #FF0000;
+}
+
+.text-green{
+  color: #387026;
+}
+
+.text-yellow{
+
+}
+
+.text-blue{
+  color: #07376C;
+}
+
+a{
+  color: #0F59B3;
 }
 
 /*Header & Footer*/
@@ -51,7 +77,7 @@ section p{
 #footer p{
   position: absolute;
   right: 0;
-  font-size: 9.5;
+  font-size: 10;
 }
 /*-------------------*/
 
@@ -74,7 +100,6 @@ section p{
 }
 
 .heading{
-  font-size: 16;
   font-weight: normal;
   color: #0F59B3;
   padding-bottom: 10px;
@@ -82,13 +107,14 @@ section p{
   border-bottom: 2px solid #A9A57C;
 }
 
+.heading,
 .heading a,
 .heading span{
-  font-size: 16;
+  font-size: 18;
 }
 
 .heading-section{
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .heading-section span{
@@ -97,7 +123,7 @@ section p{
 
 .sub-heading{
   font-style: italic;
-  font-size: 13;
+  font-size: 12;
   font-weight: 600;
   border-bottom: none;
 }
@@ -126,17 +152,20 @@ section p{
 }
 
 /*Table*/
+table .number{
+  text-align: center;
+}
 
 .result-table td{
   vertical-align: middle;
-  padding: 2px 2px 2px 10px;
+  padding: 3px;
   border: 1px solid #333;
 }
 
 .result-table table td,
 .result-table table span,
 .result-table table strong{
-  font-size: 11;
+  font-size: 10.5;
 }
 
 .table-score-wrapper{
@@ -144,8 +173,7 @@ section p{
 }
 
 .table-score{
-  font-size:40 !important;
-  color: #387026;
+  font-size:36 !important;
 }
 
 .result-table{
@@ -171,4 +199,23 @@ section p{
   display: inline-block;
   width: 150px;
   font-weight: 800;
+}
+
+/*Priority Table*/
+.priority-table{
+    margin-bottom: 10px;
+}
+
+.priority-table td:first-child{
+  width: 125px;
+}
+
+.text-priority{
+  font-size: 16 !important;
+  font-weight: 800;
+}
+
+.priority-link a{
+  font-size: 8;
+  color: #000;
 }
