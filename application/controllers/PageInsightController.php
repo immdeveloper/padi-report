@@ -83,14 +83,21 @@ class PageInsightController extends CI_Controller
     $hidden_url = $this->input->post('hidden-url');
 
     //get domain id from the url or insert new domain if doesn't exist
-    $domain_id = $this->PageInsight->getDomainId($hidden_url);
-    if($domain_id == "null"){
-      $domain_id = $this->PageInsight->insertNewDomain($hidden_url);
+    $id_domain = $this->PageInsight->getDomainId($hidden_url);
+    if($id_domain == "null"){
+      $data_url = array(
+          'url' => $hidden_url
+        );
+      $id_domain = $this->PageInsight->insertNewDomain($data_url);
     }
 
     // insert new assessment with current time and date
     $date = date("Y-m-d H:i:s");
-    $id_assessment = $this->PageInsight->insertNewAssessment($domain_id, $date);
+    $data_assessment = array(
+        'id_domain' => $id_domain,
+        'date'      => $date
+      );
+    $id_assessment = $this->PageInsight->insertNewAssessment($data_assessment);
 
     // loop through post value
     $post_input = $this->input->post();

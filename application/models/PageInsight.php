@@ -27,23 +27,14 @@ class PageInsight extends CI_Model {
   }
 
   //insert new domain url
-  public function insertNewDomain($url){
-    $data = array(
-        'url' => $url
-      );
-
-    $this->db->insert('domain', $data);
+  public function insertNewDomain($data_url){
+    $this->db->insert('domain', $data_url);
     return $this->db->insert_id();
   }
 
   //insert new assessment
-  public function insertNewAssessment($id_domain, $date){
-    $data = array(
-        'id_domain' => $id_domain,
-        'date'      => $date
-      );
-
-    $this->db->insert('assessment', $data);
+  public function insertNewAssessment($data_assessment){
+        $this->db->insert('assessment', $data_assessment);
     return $this->db->insert_id();
   }
 
