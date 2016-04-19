@@ -26,6 +26,7 @@ function dataTable()
 /*Getting Google Page Insights Results*/
 $('#btn-analyze').click(function(){
   var url = $('#web-url').val();
+  $('#hidden-url').val(url);
   $.ajax({
     url: 'run',
     type: 'POST',

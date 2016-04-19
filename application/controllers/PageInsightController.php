@@ -5,6 +5,7 @@ class PageInsightController extends CI_Controller
   {
     parent::__construct();
     $this->load->model('PointCheckMaster','',TRUE);
+    $this->load->model('PageInsight','',TRUE);
   }
 
   public function index()
@@ -31,6 +32,9 @@ class PageInsightController extends CI_Controller
       }
 
       /*Insert point check to an array*/
+      $point[$i]['id_point'][$i] = $query[$i]['id_point'];
+      $point[$i]['id_source'][$i] = $query[$i]['id_source'];
+      $point[$i]['point_desc'][$i] = $query[$i]['point_desc'];
       $point[$i]['point_name'][$i] = $query[$i]['point_name'];
       $point[$i]['point_what_need_fixing'][$i] = $query[$i]['point_what_need_fixing'];
       $point[$i]['point_how_to_fix'][$i] = $query[$i]['point_how_to_fix'];
@@ -75,25 +79,61 @@ class PageInsightController extends CI_Controller
 
   public function save()
   {
-    $data['check-user-experience0'] = $this->input->post('check-user-experience0');
-    $data['check-user-experience1'] = $this->input->post('check-user-experience1');
-    $data['check-user-experience2'] = $this->input->post('check-user-experience2');
-    $data['check-user-experience3'] = $this->input->post('check-user-experience3');
-    $data['check-user-experience4'] = $this->input->post('check-user-experience4');
-    $data['check-navigation5'] = $this->input->post('check-navigation5');
-    $data['check-navigation6'] = $this->input->post('check-navigation6');
-    $data['check-navigation7'] = $this->input->post('check-navigation7');
-    $data['check-navigation8'] = $this->input->post('check-navigation8');
-    $data['web-url'] = $this->input->post('web-url');
-    $data['hidden-url'] = $this->input->post('hidden-url');
-$data['post-data'] = $this->input->post();
+    //get url that being assess
+    $hidden_url = $this->input->post('hidden-url');
 
-    $data['checked'] = "null!";
-    if($data['check-user-experience4'] != null){
-      $data['checked'] = "checked!";
+    //get domain id from the url or insert new domain if doesn't exist
+    $id_domain = $this->PageInsight->getDomainId($hidden_url);
+    if($id_domain == "null"){
+      $data_url = array(
+          'url' => $hidden_url
+        );
+      $id_domain = $this->PageInsight->insertNewDomain($data_url);
     }
-    $data['save'] = "savee";
-    echo json_encode( $data );
+
+    // insert new assessment with current time and date
+    $date = date("Y-m-d H:i:s");
+    $data_assessment = array(
+        'id_domain' => $id_domain,
+        'date'      => $date
+      );
+    $id_assessment = $this->PageInsight->insertNewAssessment($data_assessment);
+
+    // loop through post value
+    $post_input = $this->input->post();
+    $result = array();
+    foreach ($post_input as $key => $value) {
+        // if the submitted value is on or off, set the result variable
+        if($value == "on"){
+          $result["point_what_need_fixing"] = $post_input["explanation-" . $key];
+          $result["point_who_can_fix"] = $post_input["who-fix-" . $key];
+          $result["point_how_to_fix"] = $post_input["how-fix-" . $key];
+        }else if ($value == "off"){
+          $result["description"] = $post_input["description-" . $key];
+        }
+
+        //if result is not empty, insert data to result table and assessment_detail table
+        if(!empty($result)){
+          $id_point = $key;
+          $id_source = $post_input["source-" . $key];
+          $data = array(
+              'id_source' => $id_source,
+              'result'    => json_encode($result)
+            );
+          $id_result = $this->PageInsight->insertNewResult($data);
+          $data = array(
+              'id_assessment' => $id_assessment,
+              'id_point'      => $id_point,
+              'id_result'     => $id_result
+            );
+          $id_assessment_detail = $this->PageInsight->insertNewAssessmentDetail($data);
+          $result = array();
+        }
+    }
+
+    echo json_encode( $hidden_url );
+    // echo json_encode( $result );
   }
 }
+//$formatted_url = str_ireplace('www.', '', parse_url($url_to_format, PHP_URL_HOST));
 ?>
