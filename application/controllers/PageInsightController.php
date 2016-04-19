@@ -94,11 +94,8 @@ class PageInsightController extends CI_Controller
 
     // loop through post value
     $post_input = $this->input->post();
+    $result = array();
     foreach ($post_input as $key => $value) {
-
-        $id_point = $key;
-        $result = array();
-
         // if the submitted value is on or off, set the result variable
         if($value == "on"){
           $result["point_what_need_fixing"] = $post_input["explanation-" . $key];
@@ -108,8 +105,9 @@ class PageInsightController extends CI_Controller
           $result["description"] = $post_input["description-" . $key];
         }
 
-        //if result is not empty, insert data to table result and assessment_detail
+        //if result is not empty, insert data to result table and assessment_detail table
         if(!empty($result)){
+          $id_point = $key;
           $id_source = $post_input["source-" . $key];
           $data = array(
               'id_source' => $id_source,
@@ -122,6 +120,7 @@ class PageInsightController extends CI_Controller
               'id_result'     => $id_result
             );
           $id_assessment_detail = $this->PageInsight->insertNewAssessmentDetail($data);
+          $result = array();
         }
     }
 
