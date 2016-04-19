@@ -33,18 +33,31 @@ class PageInsight extends CI_Model {
       );
 
     $this->db->insert('domain', $data);
+    return $this->db->insert_id();
   }
 
   //insert new assessment
-  public function insertNewAssessment($domain_id, $date){
+  public function insertNewAssessment($id_domain, $date){
     $data = array(
-        'id_domain' => $domain_id,
+        'id_domain' => $id_domain,
         'date'      => $date
       );
 
     $this->db->insert('assessment', $data);
+    return $this->db->insert_id();
   }
 
+  //insert new result
+  public function insertNewResult($data){
+    $this->db->insert('result', $data);
+    return $this->db->insert_id();
+  }
+
+  //insert new assessment detail
+  public function insertNewAssessmentDetail($data){
+    $this->db->insert('assessment_detail', $data);
+    return $this->db->insert_id();
+  }
 }
 
 // foreach ($query->result() as $row)
