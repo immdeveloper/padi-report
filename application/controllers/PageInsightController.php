@@ -95,24 +95,15 @@ class PageInsightController extends CI_Controller
         $result = array();
 
         if($value == "on"){
-          $id_source = $post_input["source-" . $key];
           $result["point_what_need_fixing"] = $post_input["explanation-" . $key];
           $result["point_who_can_fix"] = $post_input["who-fix-" . $key];
           $result["point_how_to_fix"] = $post_input["how-fix-" . $key];
-          $data = array(
-              'id_source' => $id_source,
-              'result'    => json_encode($result)
-            );
-          $id_result = $this->PageInsight->insertNewResult($data);
-          $data = array(
-              'id_assessment' => $id_assessment,
-              'id_point'      => $id_point,
-              'id_result'     => $id_result
-            );
-          $id_assessment_detail = $this->PageInsight->insertNewAssessmentDetail($data);
         }else if ($value == "off"){
-          $id_source = $post_input["source-" . $key];
           $result["description"] = $post_input["description-" . $key];
+        }
+
+        if(!empty($result)){
+          $id_source = $post_input["source-" . $key];
           $data = array(
               'id_source' => $id_source,
               'result'    => json_encode($result)
