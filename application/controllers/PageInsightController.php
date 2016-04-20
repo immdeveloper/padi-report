@@ -19,6 +19,86 @@ class PageInsightController extends CI_Controller
     $final = array();
     $query = $this->PointCheckMaster->getByCategory();
 
+$section_category = $this->PageInsight->getSectionCategory();
+$section = $this->PageInsight->getAllSection();
+$point_check = $this->PageInsight->getAllPointCheck();
+
+echo $section_category[0]['section_cat'];
+echo "\n";
+
+foreach ($point_check as $row){
+  if ($row['id_section'] == 2) {
+    array_push($section[0], $row);
+  }elseif($row['id_section'] == 3){
+    array_push($section[1], $row);
+  }elseif($row['id_section'] == 4){
+    array_push($section[2], $row);
+  }elseif($row['id_section'] == 5){
+    array_push($section[3], $row);
+  }elseif($row['id_section'] == 6){
+    array_push($section[4], $row);
+  }elseif($row['id_section'] == 7){
+    array_push($section[5], $row);
+  }elseif($row['id_section'] == 8){
+    array_push($section[6], $row);
+  }elseif($row['id_section'] == 9){
+    array_push($section[7], $row);
+  }elseif($row['id_section'] == 10){
+    array_push($section[8], $row);
+  }elseif($row['id_section'] == 11){
+    array_push($section[9], $row);
+  }elseif($row['id_section'] == 12){
+    array_push($section[10], $row);
+  }elseif($row['id_section'] == 13){
+    array_push($section[11], $row);
+  }elseif($row['id_section'] == 14){
+    array_push($section[12], $row);
+  }elseif($row['id_section'] == 15){
+    array_push($section[13], $row);
+  }elseif($row['id_section'] == 16){
+    array_push($section[14], $row);
+  }elseif($row['id_section'] == 17){
+    array_push($section[15], $row);
+  }elseif($row['id_section'] == 18){
+    array_push($section[16], $row);
+  }elseif($row['id_section'] == 19){
+    array_push($section[17], $row);
+  }elseif($row['id_section'] == 20){
+    array_push($section[18], $row);
+  }elseif($row['id_section'] == 21){
+    array_push($section[19], $row);
+  }elseif($row['id_section'] == 22){
+    array_push($section[20], $row);
+  }elseif($row['id_section'] == 23){
+    array_push($section[21], $row);
+  }elseif($row['id_section'] == 24){
+    array_push($section[22], $row);
+  }
+}
+
+foreach ($section as $row){
+  if ($row['section_cat'] == 'site structure') {
+    array_push($section_category[0], $row);
+  }elseif($row['section_cat'] == 'seo'){
+    array_push($section_category[1], $row);
+  }elseif($row['section_cat'] == 'ranking'){
+    array_push($section_category[2], $row);
+  }elseif($row['section_cat'] == 'content management'){
+    array_push($section_category[3], $row);
+  }elseif($row['section_cat'] == 'social integration'){
+    array_push($section_category[4], $row);
+  }elseif($row['section_cat'] == 'quality/retention/convertion'){
+    array_push($section_category[5], $row);
+  }
+}
+
+echo "\n";
+// echo $section_category[0][1]['section_name'] . "\n";
+echo "\n";
+print_r($section_category);
+// print_r($section);
+// print_r($point_check);
+
     /*Loop data from model and move each row from same column to different array*/
     for ($i=0; $i < count($query); $i++) {
       /*Prevent duplicate array value*/
@@ -54,8 +134,9 @@ class PageInsightController extends CI_Controller
     $raw['section'] = $final;
     $raw['point'] = array_reverse($point, true);
     $raw['test'] = $final;
+    $raw2['raw'] = $section_category;
     $data['title'] = "Analyze Testing";
-    $data['content'] = $this->load->view('backend/content-templates/content-analyze-result', $raw, TRUE);
+    $data['content'] = $this->load->view('backend/content-templates/content-analyze-result', $raw2, TRUE);
     $this->load->view('backend/page', $data);
   }
 

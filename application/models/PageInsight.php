@@ -49,6 +49,31 @@ class PageInsight extends CI_Model {
     $this->db->insert('assessment_detail', $data);
     return $this->db->insert_id();
   }
+
+  //Get distinct section category
+  public function getSectionCategory(){
+    $this->db->distinct();
+    $this->db->select('section_cat');
+    $this->db->from('section');
+
+    return $this->db->get()->result_array();
+  }
+
+  //Get all section
+  public function getAllSection(){
+    $this->db->select('*');
+    $this->db->from('section');
+
+    return $this->db->get()->result_array();
+  }
+
+  public function getAllPointCheck(){
+    $this->db->select('*');
+    $this->db->from('point_check');
+
+    return $this->db->get()->result_array();
+  }
+
 }
 
 // foreach ($query->result() as $row)

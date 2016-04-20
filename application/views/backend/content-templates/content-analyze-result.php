@@ -93,6 +93,39 @@
   <div class="tab-content">
     <a href="#" class="btn btn-default save-all" id="save-all">Save All</a>
 
+    <?php
+        $category_length = count($raw);
+        // category loop
+        for($i = 0; $i< $category_length; $i++){ ?>
+            <div role="tabpanel" class="tab-pane fade<?php if ($i == 1)echo " in active" ?>" id="tab<?php echo $i;?>">
+          <?php echo "***" . $raw[$i]['section_cat'];?>
+
+          <?php $section_length = count($raw[$i])-1;
+                echo " count" . $section_length; ?>
+
+          <?php
+              //section loop
+              for($j = 0; $j< $section_length; $j++){ ?>
+                <?php echo "\n"; ?>
+                <?php echo "*****" . $raw[$i][$j]['section_name'];?>
+
+                <?php $point_length = count($raw[$i][$j])-5;
+                      echo " count" . $point_length; ?>
+
+                <?php
+                    //point loop
+                    for($k = 0; $k< $point_length; $k++){ ?>
+                    <?php echo "\n"; ?>
+                    <?php echo "*******" . $raw[$i][$j][$k]['point_name'];?>
+                <?php /*point loop*/ } ?>
+            <?php /*Section loop*/ } ?>
+
+            </div>
+    <?php /*category loop*/ } ?>
+
+    ?>
+
+
     <!-- tab panel SITE STRUCTURE -->
     <div role="tabpanel" class="tab-pane fade in active" id="tab1">
 
