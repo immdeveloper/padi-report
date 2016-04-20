@@ -91,10 +91,11 @@
   </div>
   <!-- Tab content -->
   <div class="tab-content">
+    <a href="#" class="btn btn-default save-all" id="save-all">Save All</a>
 
     <!-- tab panel SITE STRUCTURE -->
     <div role="tabpanel" class="tab-pane fade in active" id="tab1">
-  <a href="#" class="btn btn-default save-all" id="save-all">Save All</a>
+
       <?php
       //var_dump($test);
       foreach ($section as $value) {
