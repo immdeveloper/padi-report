@@ -23,7 +23,7 @@ $section_category = $this->PageInsight->getSectionCategory();
 $section = $this->PageInsight->getAllSection();
 $point_check = $this->PageInsight->getAllPointCheck();
 
-echo $section_category[0]['section_cat'];
+// echo $section_category[0]['section_cat'];
 echo "\n";
 
 foreach ($point_check as $row){
@@ -95,7 +95,7 @@ foreach ($section as $row){
 echo "\n";
 // echo $section_category[0][1]['section_name'] . "\n";
 echo "\n";
-print_r($section_category);
+// print_r($section_category);
 // print_r($section);
 // print_r($point_check);
 
