@@ -4,12 +4,12 @@
 
 <div class="form input-group">
   <form action="" method="post" id="form-web-url">
-  <input type="text" id="web-url" class="form-control" placeholder="Enter your website url (don't include http(s)://)">
-</form>
-<form action="" method="post" id="hidden-web-url">
-  <!-- Keep the url being analyze -->
-<input type="hidden" name="hidden-url" id="hidden-url" value="" />
-</form>
+    <input type="text" id="web-url" class="form-control" placeholder="Enter your website url (don't include http(s)://)">
+  </form>
+  <form action="" method="post" id="hidden-web-url">
+    <!-- Keep the url being analyze -->
+    <input type="hidden" name="hidden-url" id="hidden-url" value="" />
+  </form>
   <a href="javascript:void(0)" class="btn btn-default input-group-addon" id="btn-analyze">Analyze</a>
 </div>
 <div class="preload" style="display:none">
@@ -81,767 +81,148 @@
   </div><!-- Card summary -->
   <div class="result-navbar">
     <ul class="list-unstyled">
-      <li class="active"><a href="#tab1" role="tab" data-toggle="tab"><i class="fa fa-sitemap fa-fw"></i> Site Structure</a></li>
-      <li><a href="#tab2" role="tab" data-toggle="tab"><i class="fa fa-globe fa-fw"></i> SEO</a></li>
-      <li><a href="#tab3" role="tab" data-toggle="tab"><i class="fa fa-bar-chart fa-fw"></i> Ranking</a></li>
-      <li><a href="#tab4" role="tab" data-toggle="tab"><i class="fa fa-file-o fa-fw"></i> Content Management</a></li>
-      <li><a href="#tab5" role="tab" data-toggle="tab"><i class="fa fa-hashtag fa-fw"></i> Social Integration</a></li>
-      <li><a href="#tab6" role="tab" data-toggle="tab"><i class="fa fa-diamond fa-fw"></i> Quality/Retention/Convertion</a></li>
+      <li class="active"><a href="#tab0" role="tab" data-toggle="tab"><i class="fa fa-sitemap fa-fw"></i> Site Structure</a></li>
+      <li><a href="#tab1" role="tab" data-toggle="tab"><i class="fa fa-globe fa-fw"></i> SEO</a></li>
+      <li><a href="#tab2" role="tab" data-toggle="tab"><i class="fa fa-bar-chart fa-fw"></i> Ranking</a></li>
+      <li><a href="#tab3" role="tab" data-toggle="tab"><i class="fa fa-file-o fa-fw"></i> Content Management</a></li>
+      <li><a href="#tab4" role="tab" data-toggle="tab"><i class="fa fa-hashtag fa-fw"></i> Social Integration</a></li>
+      <li><a href="#tab5" role="tab" data-toggle="tab"><i class="fa fa-diamond fa-fw"></i> Quality/Retention/Convertion</a></li>
     </ul>
   </div>
   <!-- Tab content -->
   <div class="tab-content">
     <a href="#" class="btn btn-default save-all" id="save-all">Save All</a>
 
-    <!-- tab panel SITE STRUCTURE -->
-    <div role="tabpanel" class="tab-pane fade in active" id="tab1">
+    <?php
+    $category_length = count($raw);
+    // category loop
+    for($i = 0; $i< $category_length; $i++){ ?>
+      <div role="tabpanel" class="tab-pane fade<?php if ($i == 0)echo " in active" ?>" id="tab<?php echo $i;?>">
+        <?php //echo "***" . $raw[$i]['section_cat'];?>
 
-      <?php
-      //var_dump($test);
-      foreach ($section as $value) {
-        if($value['section_cat'] == 'site structure')
-        {
-      ?>
-      <div class="card">
-        <a class="pull-right" data-toggle="collapse" href="#<?php echo $value['section_slug']?>">
-          <i class="fa fa-chevron-down fa-fw"></i>
-        </a>
-        <h4 class="card-title"><?php echo strtoupper($value['section_name']); ?></h4>
-        <span class="card-subtitle"><?php echo $value['section_desc']; ?></span>
-        <hr>
-        <div class="collapse in res" id="<?php echo $value['section_slug']?>">
-        <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $value['section_slug']?>">
-          <div class="result-table">
-            <table>
-              <tr>
-                <td rowspan="4" style="vertical-align:middle" class="table-score-wrapper">
-                  <span class="table-score">100</span>
-                  <span>score %</span>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>8/10</strong></td>
-                <td>Importance</td>
-                <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $value['section_desc']; ?></em></strong></td>
-              </tr>
-              <tr>
-                <td>5/10</td>
-                <td>Difficulty level</td>
-              </tr>
-              <tr>
-                <td>na</td>
-                <td>Last review score</td>
-                <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
-              </tr>
-            </table>
-          </div>
-          <a href="#" class="btn btn-default edit-field" id="edit-<?php echo $value['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
-        </div><!-- Result table wrapper -->
-        <div class="report-form" id="report-<?php echo $value['section_slug']?>">
-          <p><strong>What needs fixing?</strong></p>
-          <form class="uxew" action="" method="post" id="form-<?php echo $value['section_slug']?>">
-          <?php
-          foreach ($point as $i => $point_val)
-          {
-            $target[$i] = $value['section_slug'].$i;
-            if($value['id_section'] == $point_val['id_section'])
-            {
-          ?>
-          <div class="checkbox">
-            <label>
-              <input type="hidden" value="off" name="<?php echo $point_val['id_point'][$i]; ?>">
-              <input id="check-<?php echo $target[$i];?>"
-                name="<?php echo $point_val['id_point'][$i]; ?>"
-                type="checkbox" data-toggle="collapse"
-                data-target="#<?php echo $target[$i];?>">
-              <input type="hidden" name="source-<?php echo $point_val['id_point'][$i]; ?>"
-                value="<?php echo $point_val['id_source'][$i];?>" class="form-control">
-              <?php echo $point_val['point_name'][$i]; ?>
-            </label>
-            <div class="collapse" id="<?php echo $target[$i];?>">
-              <div class="well">
-                <div class="form-group">
-                  <span><strong>Description</strong></span>
-                  <input type="text" name="description-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_desc'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Explanation</strong></span>
-                  <input type="text" name="explanation-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_what_need_fixing'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Who can fix it?</strong></span>
-                  <select class="form-control" name="who-fix-<?php echo $point_val['id_point'][$i]; ?>">
-                    <?php
-                      if($point_val['point_who_can_fix'][$i] == 'Webmaster')
-                      {
-                        echo '<option value="Webmaster" selected>Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                      elseif ($point_val['point_who_can_fix'][$i] == 'Basic user')
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user" selected>Basic user</option>';
-                      }
-                      else
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                    ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <span><strong>How do you fix it?</strong></span>
-                  <input type="text" name="how-fix-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_how_to_fix'][$i];?>" class="form-control">
-                </div>
-              </div>
-            </div><!-- collapse -->
-          </div><!-- checkbox -->
-          <?php
-            }
-          }
-          ?>
+        <?php $section_length = count($raw[$i])-1;
+        //echo " count" . $section_length; ?>
 
-          <hr />
-          <div class="personal-wrapper" id="wrapper-<?php echo $target[$i];?>">
+        <?php
+        //section loop
+        for($j = 0; $j< $section_length; $j++){ ?>
+          <?php //echo "\n"; ?>
+          <?php //echo "*****" . $raw[$i][$j]['section_name'];?>
 
-          </div>
-          </form>
-          <a href="#" class="btn btn-default add-field" id="add-<?php echo $target[$i];?>">Add personal judgement</a>
-          <a href="#" class="btn btn-default save-field" id="save-<?php echo $target[$i];?>">Save</a>
-      </div>
-      <?php
-        echo '</div>';
-        echo '</div><!-- card -->';
-        }
-      }
-      ?>
-    </div><!-- tab panel -->
-    <!-- tab panel SEO ASSESSMENT -->
-    <div role="tabpanel" class="tab-pane fade" id="tab2">
+          <div class="card">
+            <a class="pull-right" data-toggle="collapse" href="#<?php echo $raw[$i][$j]['section_slug']?>">
+              <i class="fa fa-chevron-down fa-fw"></i>
+            </a>
+            <h4 class="card-title"><?php echo strtoupper($raw[$i][$j]['section_name']); ?></h4>
+            <span class="card-subtitle"><?php echo $raw[$i][$j]['section_desc']; ?></span>
+            <hr>
+            <div class="collapse in res" id="<?php echo $raw[$i][$j]['section_slug']?>">
+              <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $raw[$i][$j]['section_slug']?>">
+                <div class="result-table">
+                  <table>
+                    <tr>
+                      <td rowspan="4" style="vertical-align:middle" class="table-score-wrapper">
+                        <span class="table-score">100</span>
+                        <span>score %</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>8/10</strong></td>
+                      <td>Importance</td>
+                      <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $raw[$i][$j]['section_desc']; ?></em></strong></td>
+                    </tr>
+                    <tr>
+                      <td>5/10</td>
+                      <td>Difficulty level</td>
+                    </tr>
+                    <tr>
+                      <td>na</td>
+                      <td>Last review score</td>
+                      <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
+                    </tr>
+                  </table>
+                </div>
+                <a href="#" class="btn btn-default edit-field" id="edit-<?php echo $raw[$i][$j]['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
+              </div><!-- Result table wrapper -->
+              <div class="report-form" id="report-<?php echo $raw[$i][$j]['section_slug']?>">
+                <p><strong>What needs fixing?</strong></p>
+                <form class="uxew" action="" method="post" id="form-<?php echo $raw[$i][$j]['section_slug']?>">
 
-      <?php
-      foreach ($section as $value) {
-        if($value['section_cat'] == 'seo')
-        {
-      ?>
-      <div class="card">
-        <a class="pull-right" data-toggle="collapse" href="#<?php echo $value['section_slug']?>">
-          <i class="fa fa-chevron-down fa-fw"></i>
-        </a>
-        <h4 class="card-title"><?php echo strtoupper($value['section_name']); ?></h4>
-        <span class="card-subtitle"><?php echo $value['section_desc']; ?></span>
-        <hr>
-        <div class="collapse in res" id="<?php echo $value['section_slug']?>">
-        <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $value['section_slug']?>">
-          <div class="result-table">
-            <table>
-              <tr>
-                <td rowspan="4" style="vertical-align:middle" class="table-score-wrapper">
-                  <span class="table-score">100</span>
-                  <span>score %</span>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>8/10</strong></td>
-                <td>Importance</td>
-                <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $value['section_desc']; ?></em></strong></td>
-              </tr>
-              <tr>
-                <td>5/10</td>
-                <td>Difficulty level</td>
-              </tr>
-              <tr>
-                <td>na</td>
-                <td>Last review score</td>
-                <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
-              </tr>
-            </table>
-          </div>
-          <a href="#" class="btn btn-default edit-field" id="edit-<?php echo $value['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
-        </div><!-- Result table wrapper -->
-        <div class="report-form" id="report-<?php echo $value['section_slug']?>">
-          <p><strong>What needs fixing?</strong></p>
-          <form class="uxew" action="" method="post" id="form-<?php echo $value['section_slug']?>">
-          <?php
-          foreach ($point as $i => $point_val)
-          {
-            $target[$i] = $value['section_slug'].$i;
-            if($value['id_section'] == $point_val['id_section'])
-            {
-          ?>
-          <div class="checkbox">
-            <label>
-              <input type="hidden" value="off" name="<?php echo $point_val['id_point'][$i]; ?>">
-              <input id="check-<?php echo $target[$i];?>"
-                name="<?php echo $point_val['id_point'][$i]; ?>"
-                type="checkbox" data-toggle="collapse"
-                data-target="#<?php echo $target[$i];?>">
-              <input type="hidden" name="source-<?php echo $point_val['id_point'][$i]; ?>"
-                value="<?php echo $point_val['id_source'][$i];?>" class="form-control">
-              <?php echo $point_val['point_name'][$i]; ?>
-            </label>
-            <div class="collapse" id="<?php echo $target[$i];?>">
-              <div class="well">
-                <div class="form-group">
-                  <span><strong>Description</strong></span>
-                  <input type="text" name="description-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_desc'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Explanation</strong></span>
-                  <input type="text" name="explanation-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_what_need_fixing'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Who can fix it?</strong></span>
-                  <select class="form-control" name="who-fix-<?php echo $point_val['id_point'][$i]; ?>">
-                    <?php
-                      if($point_val['point_who_can_fix'][$i] == 'Webmaster')
-                      {
-                        echo '<option value="Webmaster" selected>Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                      elseif ($point_val['point_who_can_fix'][$i] == 'Basic user')
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user" selected>Basic user</option>';
-                      }
-                      else
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                    ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <span><strong>How do you fix it?</strong></span>
-                  <input type="text" name="how-fix-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_how_to_fix'][$i];?>" class="form-control">
+                  <?php $point_length = count($raw[$i][$j])-5;
+                  //echo " count" . $point_length; ?>
+
+                  <?php
+                  //point loop
+                  for($k = 0; $k< $point_length; $k++){ ?>
+                    <?php //echo "\n"; ?>
+                    <?php //echo "*******" . $raw[$i][$j][$k]['point_name'];?>
+                    <div class="checkbox">
+                      <label>
+                        <input type="hidden" value="off" name="<?php echo $raw[$i][$j][$k]['id_point']; ?>">
+                        <input id="check-<?php echo $raw[$i][$j][$k]['id_point'];?>"
+                        name="<?php echo $raw[$i][$j][$k]['id_point']; ?>"
+                        type="checkbox" data-toggle="collapse"
+                        data-target="#<?php echo $raw[$i][$j][$k]['id_point'];?>">
+                        <input type="hidden" name="source-<?php echo $raw[$i][$j][$k]['id_point']; ?>"
+                        value="<?php echo $raw[$i][$j][$k]['id_source'];?>" class="form-control">
+                        <?php echo $raw[$i][$j][$k]['point_name']; ?>
+                      </label>
+                      <div class="collapse" id="<?php echo $raw[$i][$j][$k]['id_point'];?>">
+                        <div class="well">
+                          <div class="form-group">
+                            <span><strong>Description</strong></span>
+                            <input type="text" name="description-<?php echo $raw[$i][$j][$k]['id_point']; ?>" value="<?php echo $raw[$i][$j][$k]['point_desc'];?>" class="form-control">
+                          </div>
+                          <div class="form-group">
+                            <span><strong>Explanation</strong></span>
+                            <input type="text" name="explanation-<?php echo $raw[$i][$j][$k]['id_point']; ?>" value="<?php echo $raw[$i][$j][$k]['point_what_need_fixing'];?>" class="form-control">
+                          </div>
+                          <div class="form-group">
+                            <span><strong>Who can fix it?</strong></span>
+                            <select class="form-control" name="who-fix-<?php echo $raw[$i][$j][$k]['id_point']; ?>">
+                              <?php
+                              if($raw[$i][$j][$k]['point_who_can_fix'] == 'Webmaster')
+                              {
+                                echo '<option value="Webmaster" selected>Webmaster</option>';
+                                echo '<option value="Basic user">Basic user</option>';
+                              }
+                              elseif ($raw[$i][$j][$k]['point_who_can_fix'] == 'Basic user')
+                              {
+                                echo '<option value="Webmaster">Webmaster</option>';
+                                echo '<option value="Basic user" selected>Basic user</option>';
+                              }
+                              else
+                              {
+                                echo '<option value="Webmaster">Webmaster</option>';
+                                echo '<option value="Basic user">Basic user</option>';
+                              }
+                              ?>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <span><strong>How do you fix it?</strong></span>
+                            <input type="text" name="how-fix-<?php echo $raw[$i][$j][$k]['id_point']; ?>" value="<?php echo $raw[$i][$j][$k]['point_how_to_fix'];?>" class="form-control">
+                          </div>
+                        </div>
+                      </div><!-- collapse -->
+                    </div><!-- checkbox -->
+                    <?php /*point loop*/ } ?>
+                    <hr />
+                    <div class="personal-wrapper" id="wrapper-<?php echo $raw[$i][$j]['id_section']?>">
+
+                    </div>
+                  </form>
+                  <a href="#" class="btn btn-default add-field" id="add-<?php echo $raw[$i][$j]['id_section']; ?>">Add personal judgement</a>
+                  <a href="#" class="btn btn-default save-field" id="save-<?php echo $raw[$i][$j]['id_section']; ?>">Save</a>
                 </div>
               </div>
-            </div><!-- collapse -->
-          </div><!-- checkbox -->
-          <?php
-            }
-          }
-          ?>
+            </div><!-- card -->
+            <?php /*Section loop*/ } ?>
 
-          <hr />
-          <div class="personal-wrapper" id="wrapper-<?php echo $target[$i];?>">
+          </div><!-- tab-pane -->
+          <?php /*category loop*/ } ?>
 
-          </div>
-          </form>
-          <a href="#" class="btn btn-default add-field" id="add-<?php echo $target[$i];?>">Add personal judgement</a>
-          <a href="#" class="btn btn-default save-field" id="save-<?php echo $target[$i];?>">Save</a>
-      </div>
-      <?php
-      echo '</div>';
-        echo '</div><!-- card -->';
-        }
-      }
-      ?>
-    </div>
 
-    <!-- tab panel RANKING SUMMARY OVERVIEW -->
-    <div role="tabpanel" class="tab-pane fade" id="tab3">
+        </div><!-- tab content -->
 
-      <?php
-
-      foreach ($section as $value) {
-        if($value['section_cat'] == 'ranking')
-        {
-      ?>
-      <div class="card">
-        <a class="pull-right" data-toggle="collapse" href="#<?php echo $value['section_slug']?>">
-          <i class="fa fa-chevron-down fa-fw"></i>
-        </a>
-        <h4 class="card-title"><?php echo strtoupper($value['section_name']); ?></h4>
-        <span class="card-subtitle"><?php echo $value['section_desc']; ?></span>
-        <hr>
-        <div class="collapse in res" id="<?php echo $value['section_slug']?>">
-        <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $value['section_slug']?>">
-          <div class="result-table">
-            <table>
-              <tr>
-                <td rowspan="4" style="vertical-align:middle" class="table-score-wrapper">
-                  <span class="table-score">100</span>
-                  <span>score %</span>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>8/10</strong></td>
-                <td>Importance</td>
-                <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $value['section_desc']; ?></em></strong></td>
-              </tr>
-              <tr>
-                <td>5/10</td>
-                <td>Difficulty level</td>
-              </tr>
-              <tr>
-                <td>na</td>
-                <td>Last review score</td>
-                <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
-              </tr>
-            </table>
-          </div>
-          <a href="#" class="btn btn-default edit-field" id="edit-<?php echo $value['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
-        </div><!-- Result table wrapper -->
-        <div class="report-form" id="report-<?php echo $value['section_slug']?>">
-          <p><strong>What needs fixing?</strong></p>
-          <form class="uxew" action="" method="post" id="form-<?php echo $value['section_slug']?>">
-          <?php
-          foreach ($point as $i => $point_val)
-          {
-            $target[$i] = $value['section_slug'].$i;
-            if($value['id_section'] == $point_val['id_section'])
-            {
-          ?>
-          <div class="checkbox">
-            <label>
-              <input type="hidden" value="off" name="<?php echo $point_val['id_point'][$i]; ?>">
-              <input id="check-<?php echo $target[$i];?>"
-                name="<?php echo $point_val['id_point'][$i]; ?>"
-                type="checkbox" data-toggle="collapse"
-                data-target="#<?php echo $target[$i];?>">
-              <input type="hidden" name="source-<?php echo $point_val['id_point'][$i]; ?>"
-                value="<?php echo $point_val['id_source'][$i];?>" class="form-control">
-              <?php echo $point_val['point_name'][$i]; ?>
-            </label>
-            <div class="collapse" id="<?php echo $target[$i];?>">
-              <div class="well">
-                <div class="form-group">
-                  <span><strong>Description</strong></span>
-                  <input type="text" name="description-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_desc'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Explanation</strong></span>
-                  <input type="text" name="explanation-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_what_need_fixing'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Who can fix it?</strong></span>
-                  <select class="form-control" name="who-fix-<?php echo $point_val['id_point'][$i]; ?>">
-                    <?php
-                      if($point_val['point_who_can_fix'][$i] == 'Webmaster')
-                      {
-                        echo '<option value="Webmaster" selected>Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                      elseif ($point_val['point_who_can_fix'][$i] == 'Basic user')
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user" selected>Basic user</option>';
-                      }
-                      else
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                    ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <span><strong>How do you fix it?</strong></span>
-                  <input type="text" name="how-fix-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_how_to_fix'][$i];?>" class="form-control">
-                </div>
-              </div>
-            </div><!-- collapse -->
-          </div><!-- checkbox -->
-          <?php
-            }
-          }
-          ?>
-
-          <hr />
-          <div class="personal-wrapper" id="wrapper-<?php echo $target[$i];?>">
-
-          </div>
-          </form>
-          <a href="#" class="btn btn-default add-field" id="add-<?php echo $target[$i];?>">Add personal judgement</a>
-          <a href="#" class="btn btn-default save-field" id="save-<?php echo $target[$i];?>">Save</a>
-      </div>
-      <?php
-        echo '</div>';
-        echo '</div><!-- card -->';
-        }
-      }
-      ?>
-
-    </div>
-
-    <!-- tab panel CONTENT MANAGEMENT -->
-    <div role="tabpanel" class="tab-pane fade" id="tab4">
-
-      <?php
-      foreach ($section as $value) {
-        if($value['section_cat'] == 'content management')
-        {
-      ?>
-      <div class="card">
-        <a class="pull-right" data-toggle="collapse" href="#<?php echo $value['section_slug']?>">
-          <i class="fa fa-chevron-down fa-fw"></i>
-        </a>
-        <h4 class="card-title"><?php echo strtoupper($value['section_name']); ?></h4>
-        <span class="card-subtitle"><?php echo $value['section_desc']; ?></span>
-        <hr>
-        <div class="collapse in res" id="<?php echo $value['section_slug']?>">
-        <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $value['section_slug']?>">
-          <div class="result-table">
-            <table>
-              <tr>
-                <td rowspan="4" style="vertical-align:middle" class="table-score-wrapper">
-                  <span class="table-score">100</span>
-                  <span>score %</span>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>8/10</strong></td>
-                <td>Importance</td>
-                <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $value['section_desc']; ?></em></strong></td>
-              </tr>
-              <tr>
-                <td>5/10</td>
-                <td>Difficulty level</td>
-              </tr>
-              <tr>
-                <td>na</td>
-                <td>Last review score</td>
-                <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
-              </tr>
-            </table>
-          </div>
-          <a href="#" class="btn btn-default edit-field" id="edit-<?php echo $value['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
-        </div><!-- Result table wrapper -->
-        <div class="report-form" id="report-<?php echo $value['section_slug']?>">
-          <p><strong>What needs fixing?</strong></p>
-          <form class="uxew" action="" method="post" id="form-<?php echo $value['section_slug']?>">
-          <?php
-          foreach ($point as $i => $point_val)
-          {
-            $target[$i] = $value['section_slug'].$i;
-            if($value['id_section'] == $point_val['id_section'])
-            {
-          ?>
-          <div class="checkbox">
-            <label>
-              <input type="hidden" value="off" name="<?php echo $point_val['id_point'][$i]; ?>">
-              <input id="check-<?php echo $target[$i];?>"
-                name="<?php echo $point_val['id_point'][$i]; ?>"
-                type="checkbox" data-toggle="collapse"
-                data-target="#<?php echo $target[$i];?>">
-              <input type="hidden" name="source-<?php echo $point_val['id_point'][$i]; ?>"
-                value="<?php echo $point_val['id_source'][$i];?>" class="form-control">
-              <?php echo $point_val['point_name'][$i]; ?>
-            </label>
-            <div class="collapse" id="<?php echo $target[$i];?>">
-              <div class="well">
-                <div class="form-group">
-                  <span><strong>Description</strong></span>
-                  <input type="text" name="description-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_desc'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Explanation</strong></span>
-                  <input type="text" name="explanation-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_what_need_fixing'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Who can fix it?</strong></span>
-                  <select class="form-control" name="who-fix-<?php echo $point_val['id_point'][$i]; ?>">
-                    <?php
-                      if($point_val['point_who_can_fix'][$i] == 'Webmaster')
-                      {
-                        echo '<option value="Webmaster" selected>Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                      elseif ($point_val['point_who_can_fix'][$i] == 'Basic user')
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user" selected>Basic user</option>';
-                      }
-                      else
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                    ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <span><strong>How do you fix it?</strong></span>
-                  <input type="text" name="how-fix-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_how_to_fix'][$i];?>" class="form-control">
-                </div>
-              </div>
-            </div><!-- collapse -->
-          </div><!-- checkbox -->
-          <?php
-            }
-          }
-          ?>
-
-          <hr />
-          <div class="personal-wrapper" id="wrapper-<?php echo $target[$i];?>">
-
-          </div>
-          </form>
-          <a href="#" class="btn btn-default add-field" id="add-<?php echo $target[$i];?>">Add personal judgement</a>
-          <a href="#" class="btn btn-default save-field" id="save-<?php echo $target[$i];?>">Save</a>
-      </div>
-      <?php
-        echo '</div>';
-        echo '</div><!-- card -->';
-        }
-      }
-      ?>
-
-    </div>
-
-    <!-- tab panel SOCIAL INTEGRATION -->
-    <div role="tabpanel" class="tab-pane fade" id="tab5">
-
-      <?php
-      foreach ($section as $value) {
-        if($value['section_cat'] == 'social integration')
-        {
-      ?>
-      <div class="card">
-        <a class="pull-right" data-toggle="collapse" href="#<?php echo $value['section_slug']?>">
-          <i class="fa fa-chevron-down fa-fw"></i>
-        </a>
-        <h4 class="card-title"><?php echo strtoupper($value['section_name']); ?></h4>
-        <span class="card-subtitle"><?php echo $value['section_desc']; ?></span>
-        <hr>
-        <div class="collapse in res" id="<?php echo $value['section_slug']?>">
-        <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $value['section_slug']?>">
-          <div class="result-table">
-            <table>
-              <tr>
-                <td rowspan="4" style="vertical-align:middle" class="table-score-wrapper">
-                  <span class="table-score">100</span>
-                  <span>score %</span>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>8/10</strong></td>
-                <td>Importance</td>
-                <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $value['section_desc']; ?></em></strong></td>
-              </tr>
-              <tr>
-                <td>5/10</td>
-                <td>Difficulty level</td>
-              </tr>
-              <tr>
-                <td>na</td>
-                <td>Last review score</td>
-                <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
-              </tr>
-            </table>
-          </div>
-          <a href="#" class="btn btn-default edit-field" id="edit-<?php echo $value['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
-        </div><!-- Result table wrapper -->
-        <div class="report-form" id="report-<?php echo $value['section_slug']?>">
-          <p><strong>What needs fixing?</strong></p>
-          <form class="uxew" action="" method="post" id="form-<?php echo $value['section_slug']?>">
-          <?php
-          foreach ($point as $i => $point_val)
-          {
-            $target[$i] = $value['section_slug'].$i;
-            if($value['id_section'] == $point_val['id_section'])
-            {
-          ?>
-          <div class="checkbox">
-            <label>
-              <input type="hidden" value="off" name="<?php echo $point_val['id_point'][$i]; ?>">
-              <input id="check-<?php echo $target[$i];?>"
-                name="<?php echo $point_val['id_point'][$i]; ?>"
-                type="checkbox" data-toggle="collapse"
-                data-target="#<?php echo $target[$i];?>">
-              <input type="hidden" name="source-<?php echo $point_val['id_point'][$i]; ?>"
-                value="<?php echo $point_val['id_source'][$i];?>" class="form-control">
-              <?php echo $point_val['point_name'][$i]; ?>
-            </label>
-            <div class="collapse" id="<?php echo $target[$i];?>">
-              <div class="well">
-                <div class="form-group">
-                  <span><strong>Description</strong></span>
-                  <input type="text" name="description-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_desc'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Explanation</strong></span>
-                  <input type="text" name="explanation-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_what_need_fixing'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Who can fix it?</strong></span>
-                  <select class="form-control" name="who-fix-<?php echo $point_val['id_point'][$i]; ?>">
-                    <?php
-                      if($point_val['point_who_can_fix'][$i] == 'Webmaster')
-                      {
-                        echo '<option value="Webmaster" selected>Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                      elseif ($point_val['point_who_can_fix'][$i] == 'Basic user')
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user" selected>Basic user</option>';
-                      }
-                      else
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                    ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <span><strong>How do you fix it?</strong></span>
-                  <input type="text" name="how-fix-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_how_to_fix'][$i];?>" class="form-control">
-                </div>
-              </div>
-            </div><!-- collapse -->
-          </div><!-- checkbox -->
-          <?php
-            }
-          }
-          ?>
-
-          <hr />
-          <div class="personal-wrapper" id="wrapper-<?php echo $target[$i];?>">
-
-          </div>
-          </form>
-          <a href="#" class="btn btn-default add-field" id="add-<?php echo $target[$i];?>">Add personal judgement</a>
-          <a href="#" class="btn btn-default save-field" id="save-<?php echo $target[$i];?>">Save</a>
-      </div>
-      <?php
-        echo '</div>';
-        echo '</div><!-- card -->';
-        }
-      }
-      ?>
-
-    </div>
-
-    <!-- tab panel QUALITY/RETENTION/CONVERSION -->
-    <div role="tabpanel" class="tab-pane fade" id="tab6">
-
-      <?php
-      foreach ($section as $value) {
-        if($value['section_cat'] == 'quality/retention/convertion')
-        {
-      ?>
-      <div class="card">
-        <a class="pull-right" data-toggle="collapse" href="#<?php echo $value['section_slug']?>">
-          <i class="fa fa-chevron-down fa-fw"></i>
-        </a>
-        <h4 class="card-title"><?php echo strtoupper($value['section_name']); ?></h4>
-        <span class="card-subtitle"><?php echo $value['section_desc']; ?></span>
-        <hr>
-        <div class="collapse in res" id="<?php echo $value['section_slug']?>">
-        <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $value['section_slug']?>">
-          <div class="result-table">
-            <table>
-              <tr>
-                <td rowspan="4" style="vertical-align:middle" class="table-score-wrapper">
-                  <span class="table-score">100</span>
-                  <span>score %</span>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>8/10</strong></td>
-                <td>Importance</td>
-                <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $value['section_desc']; ?></em></strong></td>
-              </tr>
-              <tr>
-                <td>5/10</td>
-                <td>Difficulty level</td>
-              </tr>
-              <tr>
-                <td>na</td>
-                <td>Last review score</td>
-                <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
-              </tr>
-            </table>
-          </div>
-          <a href="#" class="btn btn-default edit-field" id="edit-<?php echo $value['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
-        </div><!-- Result table wrapper -->
-        <div class="report-form" id="report-<?php echo $value['section_slug']?>">
-          <p><strong>What needs fixing?</strong></p>
-          <form class="uxew" action="" method="post" id="form-<?php echo $value['section_slug']?>">
-          <?php
-          foreach ($point as $i => $point_val)
-          {
-            $target[$i] = $value['section_slug'].$i;
-            if($value['id_section'] == $point_val['id_section'])
-            {
-          ?>
-          <div class="checkbox">
-            <label>
-              <input type="hidden" value="off" name="<?php echo $point_val['id_point'][$i]; ?>">
-              <input id="check-<?php echo $target[$i];?>"
-                name="<?php echo $point_val['id_point'][$i]; ?>"
-                type="checkbox" data-toggle="collapse"
-                data-target="#<?php echo $target[$i];?>">
-              <input type="hidden" name="source-<?php echo $point_val['id_point'][$i]; ?>"
-                value="<?php echo $point_val['id_source'][$i];?>" class="form-control">
-              <?php echo $point_val['point_name'][$i]; ?>
-            </label>
-            <div class="collapse" id="<?php echo $target[$i];?>">
-              <div class="well">
-                <div class="form-group">
-                  <span><strong>Description</strong></span>
-                  <input type="text" name="description-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_desc'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Explanation</strong></span>
-                  <input type="text" name="explanation-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_what_need_fixing'][$i];?>" class="form-control">
-                </div>
-                <div class="form-group">
-                  <span><strong>Who can fix it?</strong></span>
-                  <select class="form-control" name="who-fix-<?php echo $point_val['id_point'][$i]; ?>">
-                    <?php
-                      if($point_val['point_who_can_fix'][$i] == 'Webmaster')
-                      {
-                        echo '<option value="Webmaster" selected>Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                      elseif ($point_val['point_who_can_fix'][$i] == 'Basic user')
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user" selected>Basic user</option>';
-                      }
-                      else
-                      {
-                        echo '<option value="Webmaster">Webmaster</option>';
-                        echo '<option value="Basic user">Basic user</option>';
-                      }
-                    ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <span><strong>How do you fix it?</strong></span>
-                  <input type="text" name="how-fix-<?php echo $point_val['id_point'][$i]; ?>" value="<?php echo $point_val['point_how_to_fix'][$i];?>" class="form-control">
-                </div>
-              </div>
-            </div><!-- collapse -->
-          </div><!-- checkbox -->
-          <?php
-            }
-          }
-          ?>
-
-          <hr />
-          <div class="personal-wrapper" id="wrapper-<?php echo $target[$i];?>">
-
-          </div>
-          </form>
-          <a href="#" class="btn btn-default add-field" id="add-<?php echo $target[$i];?>">Add personal judgement</a>
-          <a href="#" class="btn btn-default save-field" id="save-<?php echo $target[$i];?>">Save</a>
-      </div>
-      <?php
-        echo '</div>';
-        echo '</div><!-- card -->';
-        }
-      }
-      ?>
-
-    </div>
-
-</div>
-
-</div>
+      </div><!-- Result -->

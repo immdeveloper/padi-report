@@ -10,50 +10,78 @@ class PageInsightController extends CI_Controller
 
   public function index()
   {
-    $name = array();
-    $desc = array();
-    $slug = array();
-    $cat = array();
-    $point = array();
-    $id = array();
-    $final = array();
-    $query = $this->PointCheckMaster->getByCategory();
 
-    /*Loop data from model and move each row from same column to different array*/
-    for ($i=0; $i < count($query); $i++) {
-      /*Prevent duplicate array value*/
-      if(!in_array($query[$i]['section_name'], $name, true))
-      {
-        array_push($name, $query[$i]['section_name']);
-        array_push($desc, $query[$i]['section_desc']);
-        array_push($slug, $query[$i]['section_slug']);
-        array_push($cat, $query[$i]['section_cat']);
-        array_push($id, $query[$i]['id_section']);
+    $section_category = $this->PageInsight->getSectionCategory();
+    $section = $this->PageInsight->getAllSection();
+    $point_check = $this->PageInsight->getAllPointCheck();
+
+    foreach ($point_check as $row){
+      if ($row['id_section'] == 2) {
+        array_push($section[0], $row);
+      }elseif($row['id_section'] == 3){
+        array_push($section[1], $row);
+      }elseif($row['id_section'] == 4){
+        array_push($section[2], $row);
+      }elseif($row['id_section'] == 5){
+        array_push($section[3], $row);
+      }elseif($row['id_section'] == 6){
+        array_push($section[4], $row);
+      }elseif($row['id_section'] == 7){
+        array_push($section[5], $row);
+      }elseif($row['id_section'] == 8){
+        array_push($section[6], $row);
+      }elseif($row['id_section'] == 9){
+        array_push($section[7], $row);
+      }elseif($row['id_section'] == 10){
+        array_push($section[8], $row);
+      }elseif($row['id_section'] == 11){
+        array_push($section[9], $row);
+      }elseif($row['id_section'] == 12){
+        array_push($section[10], $row);
+      }elseif($row['id_section'] == 13){
+        array_push($section[11], $row);
+      }elseif($row['id_section'] == 14){
+        array_push($section[12], $row);
+      }elseif($row['id_section'] == 15){
+        array_push($section[13], $row);
+      }elseif($row['id_section'] == 16){
+        array_push($section[14], $row);
+      }elseif($row['id_section'] == 17){
+        array_push($section[15], $row);
+      }elseif($row['id_section'] == 18){
+        array_push($section[16], $row);
+      }elseif($row['id_section'] == 19){
+        array_push($section[17], $row);
+      }elseif($row['id_section'] == 20){
+        array_push($section[18], $row);
+      }elseif($row['id_section'] == 21){
+        array_push($section[19], $row);
+      }elseif($row['id_section'] == 22){
+        array_push($section[20], $row);
+      }elseif($row['id_section'] == 23){
+        array_push($section[21], $row);
+      }elseif($row['id_section'] == 24){
+        array_push($section[22], $row);
       }
-
-      /*Insert point check to an array*/
-      $point[$i]['id_point'][$i] = $query[$i]['id_point'];
-      $point[$i]['id_source'][$i] = $query[$i]['id_source'];
-      $point[$i]['point_desc'][$i] = $query[$i]['point_desc'];
-      $point[$i]['point_name'][$i] = $query[$i]['point_name'];
-      $point[$i]['point_what_need_fixing'][$i] = $query[$i]['point_what_need_fixing'];
-      $point[$i]['point_how_to_fix'][$i] = $query[$i]['point_how_to_fix'];
-      $point[$i]['point_who_can_fix'][$i] = $query[$i]['point_who_can_fix'];
-      $point[$i]['id_section'] = $query[$i]['id_section'];
     }
 
-    /*Basically this is data mapping to restructure data for better structure*/
-    for ($i=0; $i < count($name); $i++) {
-        $final[$i]['section_name'] = $name[$i];
-        $final[$i]['section_desc'] = $desc[$i];
-        $final[$i]['section_slug'] = $slug[$i];
-        $final[$i]['section_cat'] = $cat[$i];
-        $final[$i]['id_section'] = $id[$i];
+    foreach ($section as $row){
+      if ($row['section_cat'] == 'site structure') {
+        array_push($section_category[0], $row);
+      }elseif($row['section_cat'] == 'seo'){
+        array_push($section_category[1], $row);
+      }elseif($row['section_cat'] == 'ranking'){
+        array_push($section_category[2], $row);
+      }elseif($row['section_cat'] == 'content management'){
+        array_push($section_category[3], $row);
+      }elseif($row['section_cat'] == 'social integration'){
+        array_push($section_category[4], $row);
+      }elseif($row['section_cat'] == 'quality/retention/convertion'){
+        array_push($section_category[5], $row);
+      }
     }
 
-    $raw['section'] = $final;
-    $raw['point'] = array_reverse($point, true);
-    $raw['test'] = $final;
+    $raw['raw'] = $section_category;
     $data['title'] = "Analyze Testing";
     $data['content'] = $this->load->view('backend/content-templates/content-analyze-result', $raw, TRUE);
     $this->load->view('backend/page', $data);
