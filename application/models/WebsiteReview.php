@@ -1,6 +1,6 @@
 <?php
 //@author kevindebugging
-class PageInsight extends CI_Model {
+class WebsiteReview extends CI_Model {
 
   public function __construct()
   {
