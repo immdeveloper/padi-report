@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 nbproject
 ._*
 .~lock.*
@@ -11,3 +12,6 @@ build
 vendor/
 composer.phar
 application/logs/
+=======
+pdf/dompdf/lib/fonts/log.htm
+>>>>>>> master
