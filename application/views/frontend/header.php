@@ -7,6 +7,6 @@
     <title>PADI Report</title>
     <link href="<?php echo base_url().'assets/css/bootstrap.min.css'?>" rel="stylesheet">
         <link href="<?php echo base_url().'assets/css/font-awesome.min.css'?>" rel="stylesheet">
-    <link href="<?php echo base_url().'assets/css/frontend-style.css'?>" rel="stylesheet">
+    <link href="<?php echo base_url().'assets/css/backend-style.css'?>" rel="stylesheet">
   </head>
   <body>

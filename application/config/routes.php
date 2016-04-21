@@ -54,13 +54,13 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 /*Frontend Routes*/
+$route['website-review-form'] = 'WebsiteReviewController/index';
 
 /*Backend Routes*/
 $route['admin'] = 'BackendController/index';
-$route['testing'] = 'PageInsightController/index';
-$route['run'] = 'PageInsightController/run';
-$route['scrape'] = 'PageInsightController/scrape';
-$route['save'] = 'PageInsightController/save';
+$route['run'] = 'WebsiteReviewController/run';
+$route['scrape'] = 'WebsiteReviewController/scrape';
+$route['save'] = 'WebsiteReviewController/save';
 
 /*Point Check Master*/
 $route['admin/point-check-master'] = 'PointCheckMasterController/index';

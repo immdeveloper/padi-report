@@ -1,19 +1,19 @@
 <?php
-class PageInsightController extends CI_Controller
+class WebsiteReviewController extends CI_Controller
 {
   public function __construct()
   {
     parent::__construct();
     $this->load->model('PointCheckMaster','',TRUE);
-    $this->load->model('PageInsight','',TRUE);
+    $this->load->model('WebsiteReview','',TRUE);
   }
 
   public function index()
   {
 
-    $section_category = $this->PageInsight->getSectionCategory();
-    $section = $this->PageInsight->getAllSection();
-    $point_check = $this->PageInsight->getAllPointCheck();
+    $section_category = $this->WebsiteReview->getSectionCategory();
+    $section = $this->WebsiteReview->getAllSection();
+    $point_check = $this->WebsiteReview->getAllPointCheck();
 
     foreach ($point_check as $row){
       if ($row['id_section'] == 2) {
@@ -83,8 +83,8 @@ class PageInsightController extends CI_Controller
 
     $raw['raw'] = $section_category;
     $data['title'] = "Analyze Testing";
-    $data['content'] = $this->load->view('backend/content-templates/content-analyze-result', $raw, TRUE);
-    $this->load->view('backend/page', $data);
+    $data['content'] = $this->load->view('frontend/content-templates/content-analyze-result', $raw, TRUE);
+    $this->load->view('frontend/page', $data);
   }
 
   public function run()
@@ -111,12 +111,12 @@ class PageInsightController extends CI_Controller
     $hidden_url = $this->input->post('hidden-url');
 
     //get domain id from the url or insert new domain if doesn't exist
-    $id_domain = $this->PageInsight->getDomainId($hidden_url);
+    $id_domain = $this->WebsiteReview->getDomainId($hidden_url);
     if($id_domain == "null"){
       $data_url = array(
           'url' => $hidden_url
         );
-      $id_domain = $this->PageInsight->insertNewDomain($data_url);
+      $id_domain = $this->WebsiteReview->insertNewDomain($data_url);
     }
 
     // insert new assessment with current time and date
@@ -125,7 +125,7 @@ class PageInsightController extends CI_Controller
         'id_domain' => $id_domain,
         'date'      => $date
       );
-    $id_assessment = $this->PageInsight->insertNewAssessment($data_assessment);
+    $id_assessment = $this->WebsiteReview->insertNewAssessment($data_assessment);
 
     // loop through post value
     $post_input = $this->input->post();
@@ -148,13 +148,13 @@ class PageInsightController extends CI_Controller
               'id_source' => $id_source,
               'result'    => json_encode($result)
             );
-          $id_result = $this->PageInsight->insertNewResult($data);
+          $id_result = $this->WebsiteReview->insertNewResult($data);
           $data = array(
               'id_assessment' => $id_assessment,
               'id_point'      => $id_point,
               'id_result'     => $id_result
             );
-          $id_assessment_detail = $this->PageInsight->insertNewAssessmentDetail($data);
+          $id_assessment_detail = $this->WebsiteReview->insertNewAssessmentDetail($data);
           $result = array();
         }
     }
