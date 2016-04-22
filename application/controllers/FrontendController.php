@@ -8,9 +8,9 @@ class FrontendController extends CI_Controller {
 
   public function index()
   {
-    $data['title'] = "PADI Report Frontend Page";
+    $data['title'] = "Website Review";
     $data['content'] = $this->load->view('frontend/content-templates/content-home', NULL, TRUE);
-    $this->load->view('frontend/page', $data);
+    $this->load->view('frontend/page-home', $data);
   }
 }
 ?>
