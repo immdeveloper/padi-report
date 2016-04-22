@@ -55,6 +55,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 /*Frontend Routes*/
 $route['website-review-form'] = 'WebsiteReviewController/index';
+$route['generate-report'] = 'WebsiteReviewController/generate_report';
 
 /*Backend Routes*/
 $route['admin'] = 'BackendController/index';

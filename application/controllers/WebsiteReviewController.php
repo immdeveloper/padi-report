@@ -87,6 +87,29 @@ class WebsiteReviewController extends CI_Controller
     $this->load->view('frontend/page', $data);
   }
 
+  public function generate_report()
+  {
+    $raw = $this->WebsiteReview->getReportData();
+
+    for ($i=0; $i < count($raw); $i++)
+    {
+       $point_name[$i] = array(
+           'url'              => $raw[$i]->url,
+           'date'             => $raw[$i]->date,
+           'section_category' => $raw[$i]->section_cat,
+           'section_name'     => $raw[$i]->section_name,
+           'point'            => array(
+             'point_name' => $raw[$i]->point_name,
+             'result'     => $raw[$i]->result
+           )
+         );
+    }
+
+    $data['point'] = $point_name;
+    $data['title'] = "Generate Report";
+    $this->load->view('pdf/index', $data);
+  }
+
   public function run()
   {
     $url = $this->input->post('url');

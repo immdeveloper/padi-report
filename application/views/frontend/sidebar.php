@@ -22,6 +22,7 @@
           <li><a href="#">View all</a></li>
         </ul>
       </li>
+      <li><a href="#"><i class="fa fa-bar-chart fa-fw"></i> Fetch data</a></li>
     </ul>
   </div>
 </aside>

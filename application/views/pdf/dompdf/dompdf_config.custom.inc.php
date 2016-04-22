@@ -38,4 +38,4 @@ define("DOMPDF_ADMIN_PASSWORD", "thunder49");
  */
 //define("DOMPDF_CHROOT", DOMPDF_DIR);
 //define("DOMPDF_ENABLE_PHP", false);
-//define("DOMPDF_ENABLE_REMOTE", false);
+define("DOMPDF_ENABLE_REMOTE", true);

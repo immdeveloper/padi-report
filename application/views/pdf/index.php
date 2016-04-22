@@ -1,6 +1,8 @@
 <?php
-require_once("dompdf/dompdf_config.inc.php");
-ob_start();
+//ini_set('max_execution_time', 300);
+//ini_set('memory_limit', '-1');
+//require_once("dompdf/dompdf_config.inc.php");
+//ob_start();
 ?>
 
 <!DOCTYPE html>
@@ -8,9 +10,9 @@ ob_start();
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="reset.css" type="text/css" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
-    <link rel="stylesheet" href="../assets/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="<?php echo base_url().'assets/css/reset.css'?>" type="text/css" />
+    <link rel="stylesheet" href="<?php echo base_url().'assets/css/pdf-style.css'?>" type="text/css" />
+    <link rel="stylesheet" href="<?php echo base_url().'assets/css/font-awesome.min.css'?>" type="text/css" />
   </head>
   <body>
     <!-- Header & Footer -->
@@ -19,9 +21,9 @@ ob_start();
     </div>
     <div class="container">
       <section id="page-1">
-        <img src="logo.png" alt="" width="230" height="138" class="logo" />
+        <img src="<?php echo base_url().'assets/images/logo.png'?>" alt="" width="230" height="138" class="logo" />
         <p class="first-page-imm">Island Media Management</p>
-        <p class="first-page-title">Website review for <em>www.sample.com</em>, 14 <sup>th</sup> January 2015</p>
+        <p class="first-page-title">Website review for <em>www.<?php echo $point[0]['url'] ?></em>, <?php echo date('j<\s\up>S</\s\up> F Y', strtotime($point[0]['date']));?></p>
         <div style="height:400px;"></div>
         <h2 class="heading">List of Contents</h2>
         <ul class="section-list">
@@ -39,7 +41,7 @@ ob_start();
       <section>
         <h2 class="heading heading-section"><a name="intro">Section 1 – An Introduction to Island Media Management</a></h2>
         <p>
-          This is an independent review of your website, <u>www.sample.com</u>, performed by Island Media Management. IMM a marketing consulting firm based in Bali, Indonesia which is managed by experienced dive industry marketers who have also taught at all levels from Discover Scuba Diving up to Trimix Instructor. This review is meant to serve as a tool to help you see how your online marketing efforts can be improved in order to deliver sustainable results for your dive business.
+          This is an independent review of your website, <u>www.<?php echo $point[0]['url'] ?></u>, performed by Island Media Management. IMM a marketing consulting firm based in Bali, Indonesia which is managed by experienced dive industry marketers who have also taught at all levels from Discover Scuba Diving up to Trimix Instructor. This review is meant to serve as a tool to help you see how your online marketing efforts can be improved in order to deliver sustainable results for your dive business.
         </p>
         <p>
           If you have any questions about the report you are welcome to contact us direct at
@@ -250,71 +252,48 @@ ob_start();
       <p>Whilst the site is visually appealing it has many areas that require work in order to get it in line with the best SEO practices for Google. Currently the site is struggling for Google rankings and most probably conversion also.</p>
       <p>We would suggest that the SEO work, both on and off page, be put forward as a priority followed by a strong content generation program in order to make your site more content rich. This will benefit both the end user, and will help to increase rankings to the site which is key to increased customers coming through your door.</p>
       </section>
-      <section>
-        <h2 class="heading heading-section"><a name="page-2"><span>Section 3:</span> Site Structure</a></h2>
-        <h2 class="heading sub-heading">USER EXPERIENCE</h2>
-        <div class="result-table">
-          <table>
 
-            <tr>
-              <td rowspan="3" style="vertical-align:middle" class="table-score-wrapper">
-                <span class="table-score text-red">36</span>
-                <span>score %</span>
-              </td>
-              <td style="text-align:center"><strong>8/10</strong></td>
-              <td>Importance</td>
-              <td rowspan="2" style="vertical-align:middle"><strong><em>What: The user experience is the general impression a user has when interacting with your website.</em></strong></td>
-            </tr>
-            <tr>
-              <td style="text-align:center">5/10</td>
-              <td>Difficulty level</td>
-            </tr>
-            <tr>
-              <td style="text-align:center">na</td>
-              <td>Last review score</td>
-              <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
-            </tr>
-          </table>
-        </div>
-        <table class="detail-list">
-          <tr>
-            <td><span>What’s working?</span></td>
-            <td><span class="icon">&#xf00c;</span> <strong class="text-blue">Cross browser compatibility</strong> – no issues across multiple browsers.</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><span class="icon">&#xf00c;</span> <strong class="text-blue">The Footer</strong> provides full Name, Address and Phone number (NAP)</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><span class="icon">&#xf00c;</span> <strong class="text-blue">Multilingual site</strong></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><span class="icon">&#xf00c;</span> <strong class="text-blue">Mobile friendly site</strong> allows mobile users to access information clearly.</td>
-          </tr>
-          <tr>
-            <td><span>What needs fixing?</span></td>
-            <td><span class="icon">&#xf096;</span> - <strong class="text-blue">Visual Layout and Clarity:</strong> the main page of the site tends to be confusing for the user given the large number of images across this page. It is hard to identity sections within the page, aside from the main menu. </td>
-          </tr>
-          <tr>
-            <td><span>Who can fix it?</span></td>
-            <td><span class="icon">&#xf183;</span> - Web programmer</td>
-          </tr>
-          <tr>
-            <td><span>How do you fix it?</span></td>
-            <td><span class="icon">&#xf046;</span> - We would suggest that you look to add some more text onto the page, with headings and sub headings in order to break up the images. Another option would to try and make the individual images more clear with better headings.</td>
-          </tr>
-        </table>
-      </section>
+      <?php
+      echo '<section>';
+        $prev_section_name = NULL;
+        $prev_section_category = NULL;
+        $section_number = 3;
+        for ($i=0; $i < count($point); $i++) {
+          if($point[$i]['section_category'] != $prev_section_category)
+          {
+        ?>
+              <h2 class="heading heading-section"><a name="page-2"><span>Section <?php echo $section_number; ?>:</span> <?php echo ucwords($point[$i]['section_category']); ?></a></h2>
+        <?php
+          }
+
+          if($point[$i]['section_name'] != $prev_section_name)
+          {
+        ?>
+              <h2 class="heading sub-heading"><?php echo strtoupper($point[$i]['section_name']); ?></h2>
+        <?php
+          }
+        ?>
+        <?php
+          echo 'test';
+          foreach ($point[$i]['point'] as $key => $value) {
+            echo '<p>a</p><hr>';
+            echo '<p>b</p><hr>';
+          }
+
+          $prev_section_name = $point[$i]['section_name'];
+          $prev_section_category = $point[$i]['section_category'];
+          $section_number++;
+        }
+          echo '</section>';
+      ?>
     </div>
   </body>
 </html>
 <?php
- $html = ob_get_clean();
+ /*/$html = ob_get_clean();
  $dompdf = new DOMPDF();
  $dompdf->load_html($html);
  $dompdf->set_paper("A4", "portrait");
  $dompdf->render();
- $dompdf->stream("dompdf_out.pdf", array("Attachment" => false)); exit(0);
+ $dompdf->stream("dompdf_out.pdf", array("Attachment" => false)); exit(0);*/
 ?>
