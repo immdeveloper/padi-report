@@ -13,6 +13,7 @@ $(function () {
 var typingTimer;                //timer identifier
 var doneTypingInterval = 1000;  //time in ms, 5 second for example
 var url = $('#web-url');
+var btn_submit = $('#btn-submit');
 
 //on keyup, start the countdown
 url.on('keyup', function () {
@@ -37,10 +38,12 @@ function doneTyping () {
   if(regex.test(url_text) == false)
   {
     $(url).popover('show');
+    btn_submit.prop('disabled', true);
   }
   else
   {
     $(url).popover('hide');
+    btn_submit.prop('disabled', false);
   }
 }
 

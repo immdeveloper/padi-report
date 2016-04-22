@@ -5,7 +5,7 @@
   <div class="input-group input-group-lg">
     <input type="text" class="form-control" placeholder="Website URL..." id="web-url">
     <span class="input-group-btn">
-        <button class="btn btn-primary" type="button">Go!</button>
+        <button class="btn btn-primary" type="submit" id="btn-submit">Go!</button>
     </span>
   </div>
 </form>
