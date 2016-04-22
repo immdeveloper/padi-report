@@ -5,6 +5,45 @@ $(document).ready(function(){
   dynamic_point_check();
 });
 
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+//setup before functions
+var typingTimer;                //timer identifier
+var doneTypingInterval = 1000;  //time in ms, 5 second for example
+var url = $('#web-url');
+
+//on keyup, start the countdown
+url.on('keyup', function () {
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(doneTyping, doneTypingInterval);
+});
+
+//on keydown, clear the countdown
+url.on('keydown', function () {
+  clearTimeout(typingTimer);
+});
+
+//user is "finished typing," do something
+function doneTyping () {
+  var url_text = $(url).val();
+  var regex = /^(http|https)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
+  $(url).popover({
+    content:'url is not valid',
+    trigger:'manual',
+    placement:'bottom'
+  });
+  if(regex.test(url_text) == false)
+  {
+    $(url).popover('show');
+  }
+  else
+  {
+    $(url).popover('hide');
+  }
+}
+
 /*Change arrow on sidebar icon when collapse*/
 function changeIconOnCollapse()
 {
@@ -84,6 +123,7 @@ function dynamic_form()
   var x = 1; //initlal text box count
   $(add_button).click(function(e){ //on add input button click
       e.preventDefault();
+      var section_id = $(this).data('section-id');
       var id = $(this).attr('id');
       var id_wrapper = $('#'+id).closest('div').find(wrapper).attr('id');
 

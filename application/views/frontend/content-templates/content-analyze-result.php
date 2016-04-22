@@ -157,7 +157,7 @@
                     <?php //echo "\n"; ?>
                     <?php //echo "*******" . $raw[$i][$j][$k]['point_name'];?>
                     <div class="checkbox">
-                      <label>
+                      <label data-toggle="tooltip" data-placement="right" title="<?php echo $raw[$i][$j][$k]['point_desc'];?>">
                         <input type="hidden" value="off" name="<?php echo $raw[$i][$j][$k]['id_point']; ?>">
                         <input id="check-<?php echo $raw[$i][$j][$k]['id_point'];?>"
                         name="<?php echo $raw[$i][$j][$k]['id_point']; ?>"
@@ -169,10 +169,7 @@
                       </label>
                       <div class="collapse" id="<?php echo $raw[$i][$j][$k]['id_point'];?>">
                         <div class="well">
-                          <div class="form-group">
-                            <span><strong>Description</strong></span>
-                            <input type="text" name="description-<?php echo $raw[$i][$j][$k]['id_point']; ?>" value="<?php echo $raw[$i][$j][$k]['point_desc'];?>" class="form-control">
-                          </div>
+                          <input type="hidden" name="description-<?php echo $raw[$i][$j][$k]['id_point']; ?>" value="<?php echo $raw[$i][$j][$k]['point_desc'];?>" class="form-control">
                           <div class="form-group">
                             <span><strong>Explanation</strong></span>
                             <input type="text" name="explanation-<?php echo $raw[$i][$j][$k]['id_point']; ?>" value="<?php echo $raw[$i][$j][$k]['point_what_need_fixing'];?>" class="form-control">
@@ -212,7 +209,7 @@
 
                     </div>
                   </form>
-                  <a href="#" class="btn btn-default add-field" id="add-<?php echo $raw[$i][$j]['id_section']; ?>">Add personal judgement</a>
+                  <a href="#" class="btn btn-default add-field" id="add-<?php echo $raw[$i][$j]['id_section']; ?>" data-section-id=<?php echo $raw[$i][$j]['id_section']; ?>>Add personal judgement</a>
                   <a href="#" class="btn btn-default save-field" id="save-<?php echo $raw[$i][$j]['id_section']; ?>">Save</a>
                 </div>
               </div>
