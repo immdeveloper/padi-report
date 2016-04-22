@@ -147,7 +147,8 @@
               <div class="report-form" id="report-<?php echo $raw[$i][$j]['section_slug']?>">
                 <p><strong>What needs fixing?</strong></p>
                 <form class="" action="" method="post" id="form-<?php echo $raw[$i][$j]['section_slug']?>">
-
+                  <input id="" name="section-score-<?php echo $raw[$i][$j]['id_section']?>" type="checkbox" value="section-score" checked>
+                  <input type="hidden" value="" name="score-section-score-<?php echo $raw[$i][$j]['id_section']?>" class="score-<?php echo $raw[$i][$j]['section_slug']?>">
                   <?php $point_length = count($raw[$i][$j])-8;
                   //echo " count" . $point_length; ?>
 
@@ -210,7 +211,7 @@
                     </div>
                   </form>
                   <a href="#" class="btn btn-default add-field" id="add-<?php echo $raw[$i][$j]['id_section']; ?>" data-section-id=<?php echo $raw[$i][$j]['id_section']; ?>>Add personal judgement</a>
-                  <a href="#" class="btn btn-default save-field" id="save-<?php echo $raw[$i][$j]['id_section']; ?>">Save</a>
+                  <a href="#" class="btn btn-default save-field" id="save-<?php echo $raw[$i][$j]['id_section'];  ?>" data-section-name="<?php echo $raw[$i][$j]['section_slug']?>">Save</a>
                 </div>
               </div>
             </div><!-- card -->

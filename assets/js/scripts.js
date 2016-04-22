@@ -236,6 +236,19 @@ function dynamic_point_check()
 $('.save-field').click(function(e){
   e.preventDefault();
   var save_id = $(this).attr('id');
+  var section_name = $(this).data('section-name');
+//calculate section score
+var selected = [];
+$('#form-'+ section_name + ' input:checked').each(function() {
+    selected.push($(this).attr('name'));
+});
+var totalSelected = selected.length;
+var totalCheckbox = $('#form-' + section_name ).find('input:checkbox').length;
+var totalNotSelected = totalCheckbox - totalSelected;
+var sectionScore = Math.round(totalNotSelected * 100 / totalCheckbox);//alert(sectionScore);
+$('#result-' + section_name ).find('.table-score').html(sectionScore);
+$('#form-'+ section_name ).find('.score-'+ section_name).val(sectionScore);
+//calculate section score
   var wrapper_id = $('#'+save_id).closest('div').attr('id');
   var collapse_id = $('#'+wrapper_id).parents('.res').attr('id');
   var result_id = $('#'+collapse_id).children('.result-table-wrapper').attr('id');
