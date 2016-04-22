@@ -126,30 +126,32 @@ function dynamic_form()
       var section_id = $(this).data('section-id');
       var id = $(this).attr('id');
       var id_wrapper = $('#'+id).closest('div').find(wrapper).attr('id');
-
+      // alert(section_id);
       if(x < max_fields){ //max input box allowed
           x++; //text box increment
           $('#'+id_wrapper).append(
             '<div class="well">' +
                 '<a href="#" class="pull-right remove-field"><i class="fa fa-times fa-fw"></i></a>' +
               '<div class="clearfix"></div>' +
+              '<input id="check-'+section_id+'" name="personal-'+section_id + x +'" type="checkbox" value="personal" checked>' +
               '<div class="row">' +
                 '<div class="col-md-4 col-lg-4" style="padding-right:0">' +
                   '<div class="form-group">' +
                     '<span><strong>What needs fixing?</strong></span>' +
-                    '<input type="text" name="name" value="" class="form-control">' +
+                    '<input type="hidden" value="'+section_id+'" name="id-section-personal-'+section_id + x +'">' +
+                    '<input type="text" name="name-personal-'+section_id + x +'" value="" class="form-control">' +
                   '</div>' +
                 '</div>' +
                 '<div class="col-md-8">' +
                   '<div class="form-group">' +
                     '<span><strong>Explanation</strong></span>' +
-                    '<input type="text" name="name" value="" class="form-control">' +
+                    '<input type="text" name="explanation-personal-'+section_id + x +'" value="" class="form-control">' +
                   '</div>' +
                 '</div>' +
               '</div>' +
               '<div class="form-group">' +
                 '<span><strong>Who can fix it?</strong></span>' +
-                '<select class="form-control" name="">' +
+                '<select class="form-control" name="who-fix-personal-'+section_id + x +'">' +
                   '<option value="">-- select user --</option>' +
                   '<option value="1">Webmaster</option>' +
                   '<option value="2">End user</option>' +
@@ -157,7 +159,7 @@ function dynamic_form()
               '</div>' +
               '<div class="form-group">' +
                 '<span><strong>How do you fix it?</strong></span>' +
-                '<input type="text" name="name" value="" class="form-control">' +
+                '<input type="text" name="how-fix-personal-'+section_id + x +'" value="" class="form-control">' +
               '</div>' +
             '</div>'
           ); //add input box
@@ -260,12 +262,12 @@ $('.save-all').click(function(){
       alert('error');
     },
     success: function(res) {
-      console.log(desktop_score);
-      console.log($('#hidden-url').val());
+      // console.log(desktop_score);
+      // console.log($('#hidden-url').val());
       console.log(res);
-      if($('#check-user-experience4').is(":checked")){
-        console.log("checked");
-      }
+      // if($('#check-user-experience4').is(":checked")){
+      //   console.log("checked");
+      // }
 
    },
    complete: function() {

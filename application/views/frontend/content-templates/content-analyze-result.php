@@ -146,7 +146,7 @@
               </div><!-- Result table wrapper -->
               <div class="report-form" id="report-<?php echo $raw[$i][$j]['section_slug']?>">
                 <p><strong>What needs fixing?</strong></p>
-                <form class="uxew" action="" method="post" id="form-<?php echo $raw[$i][$j]['section_slug']?>">
+                <form class="" action="" method="post" id="form-<?php echo $raw[$i][$j]['section_slug']?>">
 
                   <?php $point_length = count($raw[$i][$j])-8;
                   //echo " count" . $point_length; ?>

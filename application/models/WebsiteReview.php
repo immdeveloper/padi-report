@@ -50,6 +50,13 @@ class WebsiteReview extends CI_Model {
     return $this->db->insert_id();
   }
 
+  //insert new personal judgement
+  public function insertNewPersonalPoint($data)
+  {
+    $this->db->insert('point_check', $data);
+    return $this->db->insert_id();
+  }
+
   //Get distinct section category
   public function getSectionCategory(){
     $this->db->distinct();
