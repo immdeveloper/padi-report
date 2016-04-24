@@ -12,7 +12,7 @@ body{
 }
 
 /*Page break*/
-section{
+.detail-list-loop{
   page-break-after: always;
 }
 

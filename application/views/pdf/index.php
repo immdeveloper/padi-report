@@ -1,8 +1,8 @@
 <?php
 //ini_set('max_execution_time', 300);
 //ini_set('memory_limit', '-1');
-//require_once("dompdf/dompdf_config.inc.php");
-//ob_start();
+require_once("dompdf/dompdf_config.inc.php");
+ob_start();
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +23,7 @@
       <section id="page-1">
         <img src="<?php echo base_url().'assets/images/logo.png'?>" alt="" width="230" height="138" class="logo" />
         <p class="first-page-imm">Island Media Management</p>
-        <p class="first-page-title">Website review for <em>www.<?php echo $point[0]['url'] ?></em>, <?php echo date('j<\s\up>S</\s\up> F Y', strtotime($point[0]['date']));?></p>
+        <p class="first-page-title">Website review for <em>www.<?php echo $status['url'] ?></em>, <?php echo date('j<\s\up>S</\s\up> F Y', strtotime($status['date']));?></p>
         <div style="height:400px;"></div>
         <h2 class="heading">List of Contents</h2>
         <ul class="section-list">
@@ -41,7 +41,7 @@
       <section>
         <h2 class="heading heading-section"><a name="intro">Section 1 – An Introduction to Island Media Management</a></h2>
         <p>
-          This is an independent review of your website, <u>www.<?php echo $point[0]['url'] ?></u>, performed by Island Media Management. IMM a marketing consulting firm based in Bali, Indonesia which is managed by experienced dive industry marketers who have also taught at all levels from Discover Scuba Diving up to Trimix Instructor. This review is meant to serve as a tool to help you see how your online marketing efforts can be improved in order to deliver sustainable results for your dive business.
+          This is an independent review of your website, <u>www.<?php echo $status['url'] ?></u>, performed by Island Media Management. IMM a marketing consulting firm based in Bali, Indonesia which is managed by experienced dive industry marketers who have also taught at all levels from Discover Scuba Diving up to Trimix Instructor. This review is meant to serve as a tool to help you see how your online marketing efforts can be improved in order to deliver sustainable results for your dive business.
         </p>
         <p>
           If you have any questions about the report you are welcome to contact us direct at
@@ -254,46 +254,88 @@
       </section>
 
       <?php
-      echo '<section>';
-        $prev_section_name = NULL;
-        $prev_section_category = NULL;
         $section_number = 3;
-        for ($i=0; $i < count($point); $i++) {
-          if($point[$i]['section_category'] != $prev_section_category)
-          {
+          foreach ($point as $category => $value) {
+            echo '<section>';
         ?>
-              <h2 class="heading heading-section"><a name="page-2"><span>Section <?php echo $section_number; ?>:</span> <?php echo ucwords($point[$i]['section_category']); ?></a></h2>
+              <h2 class="heading heading-section"><a name="page-2"><span>Section <?php echo $section_number; ?>:</span> <?php echo ucwords($category); ?></a></h2>
         <?php
-          }
+          foreach ($value as $section => $result) {
+        ?>
+              <h2 class="heading sub-heading"><?php echo strtoupper($section); ?></h2>
+        <?php
 
-          if($point[$i]['section_name'] != $prev_section_name)
-          {
         ?>
-              <h2 class="heading sub-heading"><?php echo strtoupper($point[$i]['section_name']); ?></h2>
-        <?php
-          }
-        ?>
-        <?php
-          echo 'test';
-          foreach ($point[$i]['point'] as $key => $value) {
-            echo '<p>a</p><hr>';
-            echo '<p>b</p><hr>';
-          }
+        <div class="result-table">
+          <table>
 
-          $prev_section_name = $point[$i]['section_name'];
-          $prev_section_category = $point[$i]['section_category'];
-          $section_number++;
+            <tr>
+              <td rowspan="3" style="vertical-align:middle" class="table-score-wrapper">
+                <span class="table-score text-red">36</span>
+                <span>score %</span>
+              </td>
+              <td style="text-align:center"><strong>8/10</strong></td>
+              <td>Importance</td>
+              <td rowspan="2" style="vertical-align:middle"><strong><em>What: The user experience is the general impression a user has when interacting with your website.</em></strong></td>
+            </tr>
+            <tr>
+              <td style="text-align:center">5/10</td>
+              <td>Difficulty level</td>
+            </tr>
+            <tr>
+              <td style="text-align:center">na</td>
+              <td>Last review score</td>
+              <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
+            </tr>
+          </table>
+        </div>
+        <table class="detail-list detail-list-loop">
+            <?php
+              $index = 0;
+              foreach ($result as $point_name => $detail) {
+                foreach (json_decode($detail[0]) as $res) {
+                if($index == 0)
+                {
+                  $title = '<span>What’s working?</span>';
+                }else{
+                  $title = '';
+                }
+                if(!isset($res->description))
+                {
+            ?>
+            <tr>
+            <td><?php echo $title;?></td>
+            <td><span class="icon">&#xf00c;</span> <strong class="text-blue"><?php echo $point_name; ?></strong><?php echo ' - '.$res ?></td>
+            </tr>
+            <?php }else{ ?>
+          <tr>
+            <td><span>What needs fixing?</span></td>
+            <td><span class="icon">&#xf096;</span> - <strong class="text-blue">Visual Layout and Clarity:</strong> the main page of the site tends to be confusing for the user given the large number of images across this page. It is hard to identity sections within the page, aside from the main menu. </td>
+          </tr>
+          <tr>
+            <td><span>Who can fix it?</span></td>
+            <td><span class="icon">&#xf183;</span> - Web programmer</td>
+          </tr>
+          <tr>
+            <td><span>How do you fix it?</span></td>
+            <td><span class="icon">&#xf046;</span> - We would suggest that you look to add some more text onto the page, with headings and sub headings in order to break up the images. Another option would to try and make the individual images more clear with better headings.</td>
+          </tr>
+          <?php } $index++; } }?>
+        </table>
+        <?php
         }
-          echo '</section>';
+        $section_number++;
+        echo '</section>';
+      }
       ?>
     </div>
   </body>
 </html>
 <?php
- /*/$html = ob_get_clean();
+ $html = ob_get_clean();
  $dompdf = new DOMPDF();
  $dompdf->load_html($html);
  $dompdf->set_paper("A4", "portrait");
  $dompdf->render();
- $dompdf->stream("dompdf_out.pdf", array("Attachment" => false)); exit(0);*/
+ $dompdf->stream("dompdf_out.pdf", array("Attachment" => false)); exit(0);
 ?>

@@ -75,7 +75,7 @@ class WebsiteReview extends CI_Model {
   }
 
   public function getReportData(){
-    $this->db->select('*');
+    $this->db->select('section_name, section_cat, date, url, point_name, result');
     $this->db->from('assessment_detail');
     $this->db->join('assessment', 'assessment_detail.id_assessment = assessment.id_assessment');
     $this->db->join('point_check', 'assessment_detail.id_point = point_check.id_point');
