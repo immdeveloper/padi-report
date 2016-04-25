@@ -121,24 +121,24 @@
                 <div class="result-table">
                   <table>
                     <tr>
-                      <td rowspan="4" style="vertical-align:middle" class="table-score-wrapper">
+                      <td rowspan="4" style="vertical-align:middle" id="section-score-<?php echo $raw[$i][$j]['section_slug']?>" class="table-score-wrapper">
                         <span class="table-score">100</span>
                         <span>score %</span>
                       </td>
                     </tr>
                     <tr>
-                      <td><strong>8/10</strong></td>
+                      <td><strong><?php echo $raw[$i][$j]['section_importance']?>/10</strong></td>
                       <td>Importance</td>
                       <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $raw[$i][$j]['section_desc']; ?></em></strong></td>
                     </tr>
                     <tr>
-                      <td>5/10</td>
+                      <td><?php echo $raw[$i][$j]['section_difficulty']?>/10</td>
                       <td>Difficulty level</td>
                     </tr>
                     <tr>
                       <td>na</td>
                       <td>Last review score</td>
-                      <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
+                      <td><strong><em>Why: <?php echo $raw[$i][$j]['section_why']; ?></em></strong></td>
                     </tr>
                   </table>
                 </div>
@@ -147,7 +147,7 @@
               <div class="report-form" id="report-<?php echo $raw[$i][$j]['section_slug']?>">
                 <p><strong>What needs fixing?</strong></p>
                 <form class="" action="" method="post" id="form-<?php echo $raw[$i][$j]['section_slug']?>">
-                  <input id="" name="section-score-<?php echo $raw[$i][$j]['id_section']?>" type="checkbox" value="section-score" checked>
+                  <input id="" name="section-score-<?php echo $raw[$i][$j]['id_section']?>" type="hidden" value="section-score" checked>
                   <input type="hidden" value="" name="score-section-score-<?php echo $raw[$i][$j]['id_section']?>" class="score-<?php echo $raw[$i][$j]['section_slug']?>">
                   <?php $point_length = count($raw[$i][$j])-8;
                   //echo " count" . $point_length; ?>

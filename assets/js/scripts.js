@@ -248,6 +248,14 @@ var totalNotSelected = totalCheckbox - totalSelected;
 var sectionScore = Math.round(totalNotSelected * 100 / totalCheckbox);//alert(sectionScore);
 $('#result-' + section_name ).find('.table-score').html(sectionScore);
 $('#form-'+ section_name ).find('.score-'+ section_name).val(sectionScore);
+$('#section-score-' + section_name ).removeClass('red');
+$('#section-score-' + section_name ).removeClass('orange');
+if (sectionScore < 50) {
+  $('#section-score-' + section_name ).addClass('red');
+}else if (sectionScore < 80) {
+  $('#section-score-' + section_name ).addClass('orange');
+}
+
 //calculate section score
   var wrapper_id = $('#'+save_id).closest('div').attr('id');
   var collapse_id = $('#'+wrapper_id).parents('.res').attr('id');
