@@ -151,20 +151,41 @@ class WebsiteReviewController extends CI_Controller
     // loop through post value
     $post_input = $this->input->post();
     $result = array();
-    foreach ($post_input as $key => $value) {
+    $personal = array();
+    $i = 0;
+    foreach ($post_input as $name => $value) {//$name is the field name //$value is the field value
+        $id_point = $name;
         // if the submitted value is on or off, set the result variable
-        if($value == "on"){
-          $result["point_what_need_fixing"] = $post_input["explanation-" . $key];
-          $result["point_who_can_fix"] = $post_input["who-fix-" . $key];
-          $result["point_how_to_fix"] = $post_input["how-fix-" . $key];
-        }else if ($value == "off"){
-          $result["description"] = $post_input["description-" . $key];
+        if($value == "on"){//if point is checked = need to fix
+          $result["point_what_need_fixing"] = $post_input["explanation-" . $name];
+          $result["point_who_can_fix"] = $post_input["who-fix-" . $name];
+          $result["point_how_to_fix"] = $post_input["how-fix-" . $name];
+
+          $id_source = $post_input["source-" . $name];
+        }else if ($value == "off"){//if point is not checked = no need to fix
+          $result["description"] = $post_input["description-" . $name];
+
+          $id_source = $post_input["source-" . $name];
+        }else if ($value == "personal"){ //personal judgement
+          $result["id_source"] = $GLOBALS['MANUAL_SOURCE'];
+          $result["id_section"] = $post_input["id-section-" . $name];
+          $result["point_name"] = $post_input["name-" . $name];
+          $result["point_what_need_fixing"] = $post_input["explanation-" . $name];
+          $result["point_who_can_fix"] = $post_input["who-fix-" . $name];
+          $result["point_how_to_fix"] = $post_input["how-fix-" . $name];
+          $result["status"] = $GLOBALS['PERSONAL_JUDGEMENT_POINT'];
+
+          $id_point = $this->WebsiteReview->insertNewPersonalPoint($result);
+          $id_source = $result["id_source"];
+        }else if ($value == "section-score"){
+          $section_result["id_section"] = $post_input["section-id-" . $name];
+          $section_result["id_assessment"] = $id_assessment;
+          $section_result["result"] = $post_input["score-" . $name];
+          $this->WebsiteReview->insertNewSectionResult($section_result);
         }
 
         //if result is not empty, insert data to result table and assessment_detail table
         if(!empty($result)){
-          $id_point = $key;
-          $id_source = $post_input["source-" . $key];
           $data = array(
               'id_source' => $id_source,
               'result'    => json_encode($result)
@@ -179,9 +200,10 @@ class WebsiteReviewController extends CI_Controller
           $result = array();
         }
     }
-
-    echo json_encode( $hidden_url );
-    // echo json_encode( $result );
+// $personal["key"] = 3;
+    // echo json_encode( $id_point );
+    // echo json_encode($score);
+    echo json_encode( $result );
   }
 }
 //$formatted_url = str_ireplace('www.', '', parse_url($url_to_format, PHP_URL_HOST));
