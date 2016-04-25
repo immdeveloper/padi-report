@@ -57,6 +57,13 @@ class WebsiteReview extends CI_Model {
     return $this->db->insert_id();
   }
 
+  //insert new section score
+  public function insertNewSectionResult($data)
+  {
+    $this->db->insert('section_result', $data);
+    return $this->db->insert_id();
+  }
+
   //Get distinct section category
   public function getSectionCategory(){
     $this->db->distinct();
@@ -77,7 +84,7 @@ class WebsiteReview extends CI_Model {
   public function getAllPointCheck(){
     $this->db->select('*');
     $this->db->from('point_check');
-    $this->db->where('status', 0); 
+    $this->db->where('status', 0);
 
     return $this->db->get()->result_array();
   }

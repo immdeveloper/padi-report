@@ -148,8 +148,9 @@
                 <p><strong>What needs fixing?</strong></p>
                 <form class="" action="" method="post" id="form-<?php echo $raw[$i][$j]['section_slug']?>">
                   <input id="" name="section-score-<?php echo $raw[$i][$j]['id_section']?>" type="hidden" value="section-score" checked>
-                  <input type="hidden" value="" name="score-section-score-<?php echo $raw[$i][$j]['id_section']?>" class="score-<?php echo $raw[$i][$j]['section_slug']?>">
-                  <?php $point_length = count($raw[$i][$j])-8;
+                  <input type="hidden" value="0" name="score-section-score-<?php echo $raw[$i][$j]['id_section']?>" class="score-<?php echo $raw[$i][$j]['section_slug']?>">
+                  <input type="hidden" value="<?php echo $raw[$i][$j]['id_section']?>" name="section-id-section-score-<?php echo $raw[$i][$j]['id_section']?>">
+                  <?php $point_length = count($raw[$i][$j])-8;//eight is how many section column
                   //echo " count" . $point_length; ?>
 
                   <?php
