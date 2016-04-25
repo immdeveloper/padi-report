@@ -77,6 +77,7 @@ class WebsiteReview extends CI_Model {
   public function getAllPointCheck(){
     $this->db->select('*');
     $this->db->from('point_check');
+    $this->db->where('status', 0); 
 
     return $this->db->get()->result_array();
   }
