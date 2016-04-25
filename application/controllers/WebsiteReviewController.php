@@ -6,6 +6,7 @@ class WebsiteReviewController extends CI_Controller
     parent::__construct();
     $this->load->model('PointCheckMaster','',TRUE);
     $this->load->model('WebsiteReview','',TRUE);
+    $this->load->helper('padi');
   }
 
   public function index()
@@ -81,13 +82,25 @@ class WebsiteReviewController extends CI_Controller
       }
     }
 
+    $test = $this->WebsiteReview->getTest();
+    $final = array();
+    foreach ($test as $value) {
+      $final[$value->section_cat][$value->section_name][$value->point_name][] = array(
+        'what_need_fixing'  => $value->point_what_need_fixing,
+        'description'       => $value->point_desc,
+        'how_to_fix'        => $value->point_how_to_fix,
+        'who_can_fix'       => $value->point_who_can_fix
+      );
+    }
+
     $raw['raw'] = $section_category;
+    $raw['final'] = $final;
     $data['title'] = "Analyze Testing";
     $data['content'] = $this->load->view('frontend/content-templates/content-analyze-result', $raw, TRUE);
     $this->load->view('frontend/page', $data);
   }
 
-  public function generate_report()
+  public function report($action)
   {
     $raw = $this->WebsiteReview->getReportData();
     $tmp = array();
@@ -99,13 +112,24 @@ class WebsiteReviewController extends CI_Controller
 
     foreach($raw as $arg)
     {
-        $tmp[$arg->section_cat][$arg->section_name][$arg->point_name][] = $arg->result;
+        //$tmp[$arg->section_cat][$arg->section_name][$arg->point_name][] = $arg->result;
+        $tmp[$arg->section_cat][$arg->section_name][] = $arg->point_name;
     }
 
     $data['point'] = $tmp;
     $data['status'] = $status;
-    $data['title'] = "Generate Report";
-    $this->load->view('pdf/index', $data);
+    $data['action'] = $action;
+    $data['title'] = "Report Preview";
+
+    if($action == 'preview')
+    {
+      $this->load->view('pdf/index', $data);
+    }
+    elseif($action == 'generate')
+    {
+      generate_pdf($this->load->view('pdf/index', $data, true), 'pdf-report');
+    }
+
   }
 
   public function run()
