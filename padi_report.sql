@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 25, 2016 at 02:05 PM
+-- Generation Time: Apr 25, 2016 at 04:34 PM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -316,12 +316,12 @@ ALTER TABLE `source`
 -- AUTO_INCREMENT for table `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `id_assessment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
+  MODIFY `id_assessment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
 --
 -- AUTO_INCREMENT for table `assessment_detail`
 --
 ALTER TABLE `assessment_detail`
-  MODIFY `id_assessment_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=952;
+  MODIFY `id_assessment_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1524;
 --
 -- AUTO_INCREMENT for table `domain`
 --
@@ -331,12 +331,12 @@ ALTER TABLE `domain`
 -- AUTO_INCREMENT for table `point_check`
 --
 ALTER TABLE `point_check`
-  MODIFY `id_point` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id_point` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 --
 -- AUTO_INCREMENT for table `result`
 --
 ALTER TABLE `result`
-  MODIFY `id_result` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1075;
+  MODIFY `id_result` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1647;
 --
 -- AUTO_INCREMENT for table `section`
 --
@@ -346,7 +346,7 @@ ALTER TABLE `section`
 -- AUTO_INCREMENT for table `section_result`
 --
 ALTER TABLE `section_result`
-  MODIFY `id_section_result` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_section_result` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 --
 -- AUTO_INCREMENT for table `source`
 --
