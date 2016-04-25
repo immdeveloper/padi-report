@@ -74,6 +74,14 @@ class WebsiteReview extends CI_Model {
     return $this->db->get()->result_array();
   }
 
+  public function getTest(){
+    $this->db->select('*');
+    $this->db->from('section');
+    $this->db->join('point_check', 'section.id_section = point_check.id_section');
+    $query = $this->db->get();
+    return $query->result();
+  }
+
   public function getReportData(){
     $this->db->select('section_name, section_cat, date, url, point_name, result');
     $this->db->from('assessment_detail');

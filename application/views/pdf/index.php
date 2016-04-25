@@ -1,8 +1,6 @@
 <?php
 //ini_set('max_execution_time', 300);
 //ini_set('memory_limit', '-1');
-require_once("dompdf/dompdf_config.inc.php");
-ob_start();
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +13,13 @@ ob_start();
     <link rel="stylesheet" href="<?php echo base_url().'assets/css/font-awesome.min.css'?>" type="text/css" />
   </head>
   <body>
+    <?php
+      if($action == 'preview')
+      {
+        require_once('pdf-top-bar.php');
+      }
+    ?>
+
     <!-- Header & Footer -->
     <div id="footer">
         <p>www.islandmediamanagement.com</p>
@@ -332,10 +337,13 @@ ob_start();
   </body>
 </html>
 <?php
- $html = ob_get_clean();
- $dompdf = new DOMPDF();
- $dompdf->load_html($html);
- $dompdf->set_paper("A4", "portrait");
- $dompdf->render();
- $dompdf->stream("dompdf_out.pdf", array("Attachment" => false)); exit(0);
+/*if($action == "generate")
+{
+  $html = ob_get_clean();
+  $dompdf = new DOMPDF();
+  $dompdf->load_html($html);
+  $dompdf->set_paper("A4", "portrait");
+  $dompdf->render();
+  $dompdf->stream("dompdf_out.pdf", array("Attachment" => false)); exit(0);
+}*/
 ?>
