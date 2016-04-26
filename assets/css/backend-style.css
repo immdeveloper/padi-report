@@ -408,6 +408,12 @@ footer a{
   background-color: #008800;
   color: #FFF;
 }
+.table-score-wrapper.red{
+  background-color: #C70000;
+}
+.table-score-wrapper.orange{
+  background-color: #E48000;
+}
 
 .table-score{
   font-size: 60px;

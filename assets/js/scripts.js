@@ -129,30 +129,32 @@ function dynamic_form()
       var section_id = $(this).data('section-id');
       var id = $(this).attr('id');
       var id_wrapper = $('#'+id).closest('div').find(wrapper).attr('id');
-
+      // alert(section_id);
       if(x < max_fields){ //max input box allowed
           x++; //text box increment
           $('#'+id_wrapper).append(
             '<div class="well">' +
                 '<a href="#" class="pull-right remove-field"><i class="fa fa-times fa-fw"></i></a>' +
               '<div class="clearfix"></div>' +
+              '<input id="check-'+section_id+'" name="personal-'+section_id + x +'" type="checkbox" value="personal" checked>' +
               '<div class="row">' +
                 '<div class="col-md-4 col-lg-4" style="padding-right:0">' +
                   '<div class="form-group">' +
                     '<span><strong>What needs fixing?</strong></span>' +
-                    '<input type="text" name="name" value="" class="form-control">' +
+                    '<input type="hidden" value="'+section_id+'" name="id-section-personal-'+section_id + x +'">' +
+                    '<input type="text" name="name-personal-'+section_id + x +'" value="" class="form-control">' +
                   '</div>' +
                 '</div>' +
                 '<div class="col-md-8">' +
                   '<div class="form-group">' +
                     '<span><strong>Explanation</strong></span>' +
-                    '<input type="text" name="name" value="" class="form-control">' +
+                    '<input type="text" name="explanation-personal-'+section_id + x +'" value="" class="form-control">' +
                   '</div>' +
                 '</div>' +
               '</div>' +
               '<div class="form-group">' +
                 '<span><strong>Who can fix it?</strong></span>' +
-                '<select class="form-control" name="">' +
+                '<select class="form-control" name="who-fix-personal-'+section_id + x +'">' +
                   '<option value="">-- select user --</option>' +
                   '<option value="1">Webmaster</option>' +
                   '<option value="2">End user</option>' +
@@ -160,7 +162,7 @@ function dynamic_form()
               '</div>' +
               '<div class="form-group">' +
                 '<span><strong>How do you fix it?</strong></span>' +
-                '<input type="text" name="name" value="" class="form-control">' +
+                '<input type="text" name="how-fix-personal-'+section_id + x +'" value="" class="form-control">' +
               '</div>' +
             '</div>'
           ); //add input box
@@ -237,6 +239,27 @@ function dynamic_point_check()
 $('.save-field').click(function(e){
   e.preventDefault();
   var save_id = $(this).attr('id');
+  var section_name = $(this).data('section-name');
+//calculate section score
+var selected = [];
+$('#form-'+ section_name + ' input:checked').each(function() {
+    selected.push($(this).attr('name'));
+});
+var totalSelected = selected.length;
+var totalCheckbox = $('#form-' + section_name ).find('input:checkbox').length;
+var totalNotSelected = totalCheckbox - totalSelected;
+var sectionScore = Math.round(totalNotSelected * 100 / totalCheckbox);//alert(sectionScore);
+$('#result-' + section_name ).find('.table-score').html(sectionScore);
+$('#form-'+ section_name ).find('.score-'+ section_name).val(sectionScore);
+$('#section-score-' + section_name ).removeClass('red');
+$('#section-score-' + section_name ).removeClass('orange');
+if (sectionScore < 50) {
+  $('#section-score-' + section_name ).addClass('red');
+}else if (sectionScore < 80) {
+  $('#section-score-' + section_name ).addClass('orange');
+}
+
+//calculate section score
   var wrapper_id = $('#'+save_id).closest('div').attr('id');
   var collapse_id = $('#'+wrapper_id).parents('.res').attr('id');
   var result_id = $('#'+collapse_id).children('.result-table-wrapper').attr('id');
@@ -263,12 +286,12 @@ $('.save-all').click(function(){
       alert('error');
     },
     success: function(res) {
-      console.log(desktop_score);
-      console.log($('#hidden-url').val());
+      // console.log(desktop_score);
+      // console.log($('#hidden-url').val());
       console.log(res);
-      if($('#check-user-experience4').is(":checked")){
-        console.log("checked");
-      }
+      // if($('#check-user-experience4').is(":checked")){
+      //   console.log("checked");
+      // }
 
    },
    complete: function() {
