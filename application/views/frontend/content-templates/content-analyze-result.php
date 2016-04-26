@@ -218,9 +218,10 @@
         </div><!-- tab content -->
 
       </div><!-- Result -->
+<!-- Modal -->
 
-      <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<!-- Save Section Modal -->
+<div id="save-section" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -230,7 +231,7 @@
         <h4 class="modal-title">Please Save All Section</h4>
       </div>
       <div class="modal-body">
-        <p>Some sections is not saved. Please double check your work and save each section.</p>
+        <p>Some sections are not saved. Please double check your work and save each section.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -239,3 +240,27 @@
 
   </div>
 </div>
+<!-- Save Section Modal -->
+
+<!-- Loading Save to DB Modal -->
+<div id="loading-save" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Please Wait</h4>
+      </div>
+      <div class="modal-body">
+        <p>Saving submitted data to database. You will be redirected soon.</p>
+        <div class="preload">
+          <i class="fa fa-circle-o-notch fa-spin"></i> <span>Saving...<span id="load-status"></span></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Loading Save to DB Modal -->
+
+<!-- Modal -->

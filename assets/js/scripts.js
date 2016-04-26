@@ -280,7 +280,7 @@ $('.save-all').click(function(){
     var totalSection = $('#total-section').html();
     var savedSection = parseInt($('#saved-section').html());
     if (totalSection != savedSection) {
-      $('#myModal').modal('toggle');
+      $('#save-section').modal('show');
     }else{
   $.ajax({
     url: 'save',
@@ -288,8 +288,12 @@ $('.save-all').click(function(){
     dataType: 'json',
     data: forms,
     beforeSend: function() {
-      $('.preload').fadeIn();
-      $('#load-status').html('Preparing fetching data');
+      $('#loading-save').modal({
+          backdrop: 'static'
+      });
+      $('#loading-save').modal('show');
+      //$('.preload').fadeIn();
+      // $('#load-status').html('Preparing fetching data');
     },
     error: function() {
       alert('error');
@@ -298,6 +302,7 @@ $('.save-all').click(function(){
       // console.log(desktop_score);
       // console.log($('#hidden-url').val());
       console.log(res);
+      // window.location.href=""
       // if($('#check-user-experience4').is(":checked")){
       //   console.log("checked");
       // }
