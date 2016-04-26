@@ -11,9 +11,9 @@ class WebsiteReviewController extends CI_Controller
 
   public function index()
   {
-    $test = $this->WebsiteReview->getTest();
+    $join_result = $this->WebsiteReview->getSectionJoinPointCheck();
     $data = array();
-    foreach ($test as $value) {
+    foreach ($join_result as $value) {
       $data[$value->section_cat][$value->section_name] = array(
         'id_section'          => $value->id_section,
         'section_slug'        => $value->section_slug,
@@ -24,15 +24,15 @@ class WebsiteReviewController extends CI_Controller
       );
     }
 
-    foreach ($test as $value) {
+    foreach ($join_result as $value) {
       $data[$value->section_cat][$value->section_name]['point'][] = array(
         'id_point'                => $value->id_point,
         'id_source'               => $value->id_source,
         'point_name'              => $value->point_name,
         'point_desc'              => $value->point_desc,
         'point_what_need_fixing'  => $value->point_what_need_fixing,
+        'point_who_can_fix'       => $value->point_who_can_fix,
         'point_how_to_fix'        => $value->point_how_to_fix,
-        'point_who_can_fix'       => $value->point_who_can_fix
       );
     }
 
