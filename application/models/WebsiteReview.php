@@ -84,15 +84,16 @@ class WebsiteReview extends CI_Model {
   public function getAllPointCheck(){
     $this->db->select('*');
     $this->db->from('point_check');
-    $this->db->where('status', 0);
+    $this->db->where('status', $GLOBALS['DEFAULT_POINT']);
 
     return $this->db->get()->result_array();
   }
 
-  public function getTest(){
+  public function getSectionJoinPointCheck(){
     $this->db->select('*');
     $this->db->from('section');
     $this->db->join('point_check', 'section.id_section = point_check.id_section');
+    $this->db->where('point_check.status', $GLOBALS['DEFAULT_POINT']);
     $query = $this->db->get();
     return $query->result();
   }
