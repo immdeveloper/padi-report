@@ -97,10 +97,11 @@
     // echo var_dump($data);
     // category loop
     $i = 0;
+    $section_count = 0;
     foreach ($data as $category => $section) { ?>
       <div role="tabpanel" class="tab-pane fade<?php if ($i == 0)echo " in active" ?>" id="tab<?php echo $i;?>">
 
-        <?php
+        <?php $section_count += count($section);
         //section loop
         foreach ($section as $section_name => $section_value) { ?>
           <div class="card">
@@ -212,7 +213,29 @@
           <?php $i++;?>
           <?php /*category loop*/ } ?>
 
-
+          <div id="total-section" style="display:none;"><?= $section_count ?></div>
+          <div id="saved-section" style="display:none;">0</div>
         </div><!-- tab content -->
 
       </div><!-- Result -->
+
+      <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Please Save All Section</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some section is not saved. Please double check your work and save each section.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

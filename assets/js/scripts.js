@@ -240,26 +240,30 @@ $('.save-field').click(function(e){
   e.preventDefault();
   var save_id = $(this).attr('id');
   var section_name = $(this).data('section-name');
-//calculate section score
-var selected = [];
-$('#form-'+ section_name + ' input:checked').each(function() {
-    selected.push($(this).attr('name'));
-});
-var totalSelected = selected.length;
-var totalCheckbox = $('#form-' + section_name ).find('input:checkbox').length;
-var totalNotSelected = totalCheckbox - totalSelected;
-var sectionScore = Math.round(totalNotSelected * 100 / totalCheckbox);//alert(sectionScore);
-$('#result-' + section_name ).find('.table-score').html(sectionScore);
-$('#form-'+ section_name ).find('.score-'+ section_name).val(sectionScore);
-$('#section-score-' + section_name ).removeClass('red');
-$('#section-score-' + section_name ).removeClass('orange');
-if (sectionScore < 50) {
-  $('#section-score-' + section_name ).addClass('red');
-}else if (sectionScore < 80) {
-  $('#section-score-' + section_name ).addClass('orange');
-}
-
-//calculate section score
+  //calculate saved section
+  var savedSection = parseInt($('#saved-section').html());
+  $('#saved-section').html(savedSection+1);
+  // alert(totalSection + savedSection);
+  //calculate saved section
+  //calculate section score
+  var selected = [];
+  $('#form-'+ section_name + ' input:checked').each(function() {
+      selected.push($(this).attr('name'));
+  });
+  var totalSelected = selected.length;
+  var totalCheckbox = $('#form-' + section_name ).find('input:checkbox').length;
+  var totalNotSelected = totalCheckbox - totalSelected;
+  var sectionScore = Math.round(totalNotSelected * 100 / totalCheckbox);//alert(sectionScore);
+  $('#result-' + section_name ).find('.table-score').html(sectionScore);
+  $('#form-'+ section_name ).find('.score-'+ section_name).val(sectionScore);
+  $('#section-score-' + section_name ).removeClass('red');
+  $('#section-score-' + section_name ).removeClass('orange');
+  if (sectionScore < 50) {
+    $('#section-score-' + section_name ).addClass('red');
+  }else if (sectionScore < 80) {
+    $('#section-score-' + section_name ).addClass('orange');
+  }
+  //calculate section score
   var wrapper_id = $('#'+save_id).closest('div').attr('id');
   var collapse_id = $('#'+wrapper_id).parents('.res').attr('id');
   var result_id = $('#'+collapse_id).children('.result-table-wrapper').attr('id');
@@ -273,6 +277,11 @@ $('.save-all').click(function(){
   var desktop_score = $('#desktop-score').html();
   var forms = $('form').serialize();
   //var forms[1] = $('#form-user-navigation').serialize();
+    var totalSection = $('#total-section').html();
+    var savedSection = parseInt($('#saved-section').html());
+    if (totalSection != savedSection) {
+      $('#myModal').modal('toggle');
+    }else{
   $.ajax({
     url: 'save',
     type: 'POST',
@@ -299,10 +308,15 @@ $('.preload').fadeOut();
    }
   });
 
+}
 })
 
 $('.edit-field').click(function(e){
   e.preventDefault();
+  //calculate saved section
+  var savedSection = parseInt($('#saved-section').html());
+  $('#saved-section').html(savedSection-1);
+  //calculate saved section
   var edit_id = $(this).attr('id');
   var wrapper_id = $('#'+edit_id).closest('div').attr('id');
   var collapse_id = $('#'+wrapper_id).parents('.res').attr('id');
