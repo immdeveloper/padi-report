@@ -41,7 +41,6 @@
     background-color:#333;
     position: fixed;
     top:0;
-    display: none;
   }
 
   .generate-btn{

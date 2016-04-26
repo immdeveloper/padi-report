@@ -112,8 +112,7 @@ class WebsiteReviewController extends CI_Controller
 
     foreach($raw as $arg)
     {
-        //$tmp[$arg->section_cat][$arg->section_name][$arg->point_name][] = $arg->result;
-        $tmp[$arg->section_cat][$arg->section_name][] = $arg->point_name;
+        $tmp[$arg->section_cat][$arg->section_name][$arg->point_name][] = $arg->result;
     }
 
     $data['point'] = $tmp;
