@@ -1,6 +1,10 @@
 <?php
 //ini_set('max_execution_time', 300);
 //ini_set('memory_limit', '-1');
+/*echo '<pre>';
+print_r($point);
+echo '</pre>';*/
+
 ?>
 
 <!DOCTYPE html>
@@ -28,25 +32,30 @@
       <section id="page-1">
         <img src="<?php echo base_url().'assets/images/logo.png'?>" alt="" width="230" height="138" class="logo" />
         <p class="first-page-imm">Island Media Management</p>
-        <p class="first-page-title">Website review for <em>www.<?php echo $status['url'] ?></em>, <?php echo date('j<\s\up>S</\s\up> F Y', strtotime($status['date']));?></p>
+        <p class="first-page-title">Website review for <em><?php echo $status['url'] ?></em>, <?php echo date('j<\s\up>S</\s\up> F Y', strtotime($status['date']));?></p>
         <div style="height:400px;"></div>
         <h2 class="heading">List of Contents</h2>
         <ul class="section-list">
           <li><span>Section 1:</span> <a href="#intro">Introduction</a></li>
           <li><span>Section 2:</span> <a href="#summary">Executive Summary</a></li>
-          <li><span>Section 3:</span> <a href="#">Site Structure</a></li>
-          <li><span>Section 4:</span> <a href="#">SEO Assessment</a></li>
-          <li><span>Section 5:</span> <a href="#">Ranking Summary Overview</a></li>
-          <li><span>Section 6:</span> <a href="#">Content Management</a></li>
-          <li><span>Section 7:</span> <a href="#">Social Integration</a></li>
-          <li><span>Section 8:</span> <a href="#">Quality / Retention / Conversion</a></li>
-        </ul>
+          <?php
+          $num = 3;
+          foreach ($point as $category => $value) {
+            if($category == 'seo')
+            {
+              $category = 'SEO Assessment';
+            }
+            echo '<li><span>Section '.$num.':</span> <a href="#category-'.$num.'">'.ucwords($category).'</a></li>';
+            $num++;
+          }
+          ?>
+
       </section>
 
       <section>
         <h2 class="heading heading-section"><a name="intro">Section 1 – An Introduction to Island Media Management</a></h2>
         <p>
-          This is an independent review of your website, <u>www.<?php echo $status['url'] ?></u>, performed by Island Media Management. IMM a marketing consulting firm based in Bali, Indonesia which is managed by experienced dive industry marketers who have also taught at all levels from Discover Scuba Diving up to Trimix Instructor. This review is meant to serve as a tool to help you see how your online marketing efforts can be improved in order to deliver sustainable results for your dive business.
+          This is an independent review of your website, <u><?php echo $status['url'] ?></u>, performed by Island Media Management. IMM a marketing consulting firm based in Bali, Indonesia which is managed by experienced dive industry marketers who have also taught at all levels from Discover Scuba Diving up to Trimix Instructor. This review is meant to serve as a tool to help you see how your online marketing efforts can be improved in order to deliver sustainable results for your dive business.
         </p>
         <p>
           If you have any questions about the report you are welcome to contact us direct at
@@ -112,6 +121,14 @@
         </p>
       </section>
       <section>
+        <?php
+        $score = array();
+          foreach ($point as $key => $value) {
+            foreach ($value as $section => $result) {
+              $score[$section] = $result['section_score'];
+            }
+          }
+        ?>
         <h2 class="heading heading-section"><a name="summary"><span>Section 2:</span> Executive Summary</a></h2>
         <h2 class="heading sub-heading" style="margin-bottom:3px; padding-bottom:0">OVERALL SCORING SUMMARY:</h2>
         <div class="result-table" style="margin-bottom:5px">
@@ -123,49 +140,49 @@
             </td>
             <td class="number">NA</td>
             <td>Last Report Score</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Meta Tags & Headings'] ?></td>
             <td>Meta Tags</td>
             <td class="number">xx</td>
             <td>Overall Content</td>
           </tr>
           <tr>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['User Experience'] ?></td>
             <td>User Experience</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Images'] ?></td>
             <td>Images</td>
             <td class="number">xx</td>
             <td>Social Integration</td>
           </tr>
           <tr>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Navigation'] ?></td>
             <td>Navigation</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Text'] ?></td>
             <td>Text</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Quality Signals'] ?></td>
             <td>Quality Signals</td>
           </tr>
           <tr>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Search Engine Accessibility'] ?></td>
             <td>Search Assessibility</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Link Profile'] ?></td>
             <td>Link Profile</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Retention'] ?></td>
             <td>Retention</td>
           </tr>
           <tr>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Internal Link Structure'] ?></td>
             <td>Link Structure</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Hosting & Registration'] ?></td>
             <td>Hosting & Registration</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Conversion'] ?></td>
             <td>Conversion</td>
           </tr>
           <tr>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Page Speed'] ?></td>
             <td>Page Speed</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $score['Search Rankings'] ?></td>
             <td>Search Rankings</td>
-            <td class="number">xx</td>
+            <td class="number"></td>
             <td></td>
           </tr>
         </table>
@@ -263,7 +280,7 @@
           foreach ($point as $category => $value) {
             echo '<section>';
         ?>
-              <h2 class="heading heading-section"><a name="page-2"><span>Section <?php echo $section_number; ?>:</span> <?php echo ucwords($category); ?></a></h2>
+              <h2 class="heading heading-section"><a name="<?php echo 'category-'.$section_number ?>"><span>Section <?php echo $section_number; ?>:</span> <?php echo ucwords($category); ?></a></h2>
         <?php
           foreach ($value as $section => $result) {
         ?>
@@ -276,60 +293,110 @@
 
             <tr>
               <td rowspan="3" style="vertical-align:middle" class="table-score-wrapper">
-                <span class="table-score text-red">36</span>
+                <span class="table-score text-red"><?php echo $result['section_score'] ?></span>
                 <span>score %</span>
               </td>
-              <td style="text-align:center"><strong>8/10</strong></td>
+              <td style="text-align:center"><strong><?php echo $result['section_importance']?>/10</strong></td>
               <td>Importance</td>
-              <td rowspan="2" style="vertical-align:middle"><strong><em>What: The user experience is the general impression a user has when interacting with your website.</em></strong></td>
+              <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $result['section_desc']?></em></strong></td>
             </tr>
             <tr>
-              <td style="text-align:center">5/10</td>
+              <td style="text-align:center"><?php echo $result['section_difficulty']?>/10</td>
               <td>Difficulty level</td>
             </tr>
             <tr>
               <td style="text-align:center">na</td>
               <td>Last review score</td>
-              <td><strong><em>Why: In 2015, Internet users only have prolonged interactions with websites that are easy to use.</em></strong></td>
+              <td><strong><em>Why: <?php echo $result['section_why']?></em></strong></td>
             </tr>
           </table>
         </div>
         <table class="detail-list detail-list-loop">
             <?php
               $index = 0;
-              foreach ($result as $point_name => $detail) {
-                foreach (json_decode($detail[0]) as $res) {
+              for ($i=0; $i < count($result['point']); $i++) {
+                if($result['point'][$i]['result'][2] == 'p')
+                {
+                  //echo $i;
+                  $item = $result['point'][$i];
+                  unset($result['point'][$i]);
+                  array_push($result['point'], $item);
+                  break;
+                }
+              }
+
+              echo '<pre>';
+            //  print_r($result['point']);
+              echo '</pre>';
+
+              foreach ($result['point'] as $i => $detail) {
+
+                $report_result = json_decode('['.$detail['result'].']',true);
+
                 if($index == 0)
                 {
                   $title = '<span>What’s working?</span>';
                 }else{
                   $title = '';
                 }
-                if(!isset($res->description))
+
+                if(isset($report_result[0]['description']) && !isset($report_result[0]['point_what_need_fixing']))
                 {
-            ?>
-            <tr>
-            <td><?php echo $title;?></td>
-            <td><span class="icon">&#xf00c;</span> <strong class="text-blue"><?php echo $point_name; ?></strong><?php echo ' - '.$res ?></td>
-            </tr>
-            <?php }else{ ?>
-          <tr>
-            <td><span>What needs fixing?</span></td>
-            <td><span class="icon">&#xf096;</span> - <strong class="text-blue">Visual Layout and Clarity:</strong> the main page of the site tends to be confusing for the user given the large number of images across this page. It is hard to identity sections within the page, aside from the main menu. </td>
-          </tr>
-          <tr>
-            <td><span>Who can fix it?</span></td>
-            <td><span class="icon">&#xf183;</span> - Web programmer</td>
-          </tr>
-          <tr>
-            <td><span>How do you fix it?</span></td>
-            <td><span class="icon">&#xf046;</span> - We would suggest that you look to add some more text onto the page, with headings and sub headings in order to break up the images. Another option would to try and make the individual images more clear with better headings.</td>
-          </tr>
-          <?php } $index++; } }?>
+                ?>
+                  <tr>
+                  <td><?php echo $title;?></td>
+                  <td><span class="icon">&#xf00c;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></td>
+                  </tr>
+                <?php
+                }
+
+                if(!isset($report_result[0]['description']) && isset($report_result[0]['point_what_need_fixing']))
+                {
+                ?>
+                  <tr>
+                    <td><span>What needs fixing?</span></td>
+                    <td><span class="icon">&#xf096;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?> </td>
+                  </tr>
+                  <tr>
+                    <td><span>Who can fix it?</span></td>
+                    <td><span class="icon">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></td>
+                  </tr>
+                  <tr>
+                    <td><span>How do you fix it?</span></td>
+                    <td><span class="icon">&#xf046;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></td>
+                  </tr>
+                <?php
+                }
+
+                if (isset($report_result[0]['description']) && isset($report_result[0]['point_what_need_fixing']))
+                {
+                ?>
+                  <tr>
+                  <td><?php echo $title;?></td>
+                  <td><span class="icon">&#xf00c;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></td>
+                  </tr>
+                  <tr>
+                    <td><span>What needs fixing?</span></td>
+                    <td><span class="icon">&#xf096;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?> </td>
+                  </tr>
+                  <tr>
+                    <td><span>Who can fix it?</span></td>
+                    <td><span class="icon">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></td>
+                  </tr>
+                  <tr>
+                    <td><span>How do you fix it?</span></td>
+                    <td><span class="icon">&#xf046;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></td>
+                  </tr>
+                <?php
+                }
+                  $index++;
+                }
+                ?>
         </table>
         <?php
-        }
-        $section_number++;
+
+      }
+      $section_number++;
         echo '</section>';
       }
       ?>

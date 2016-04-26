@@ -5,7 +5,7 @@
 
   body{
     font-family: 'arial';
-    background-color: #999;
+    background-color: #333;
   }
 
   section p{
@@ -38,9 +38,10 @@
     -webkit-box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.75);
     box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.75);
-    background-color:#333;
+    background-color:#222;
     position: fixed;
     top:0;
+    //display: none;
   }
 
   .generate-btn{
