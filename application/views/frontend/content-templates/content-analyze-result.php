@@ -97,10 +97,11 @@
     // echo var_dump($data);
     // category loop
     $i = 0;
+    $section_count = 0;
     foreach ($data as $category => $section) { ?>
       <div role="tabpanel" class="tab-pane fade<?php if ($i == 0)echo " in active" ?>" id="tab<?php echo $i;?>">
 
-        <?php
+        <?php $section_count += count($section);
         //section loop
         foreach ($section as $section_name => $section_value) { ?>
           <div class="card">
@@ -212,7 +213,54 @@
           <?php $i++;?>
           <?php /*category loop*/ } ?>
 
-
+          <div id="total-section" style="display:none;"><?= $section_count ?></div>
+          <div id="saved-section" style="display:none;">0</div>
         </div><!-- tab content -->
 
       </div><!-- Result -->
+<!-- Modal -->
+
+<!-- Save Section Modal -->
+<div id="save-section" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Please Save All Section</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some sections are not saved. Please double check your work and save each section.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Save Section Modal -->
+
+<!-- Loading Save to DB Modal -->
+<div id="loading-save" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Please Wait</h4>
+      </div>
+      <div class="modal-body">
+        <p>Saving submitted data to database. You will be redirected soon.</p>
+        <div class="preload">
+          <i class="fa fa-circle-o-notch fa-spin"></i> <span>Saving...<span id="load-status"></span></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Loading Save to DB Modal -->
+
+<!-- Modal -->
