@@ -11,90 +11,32 @@ class WebsiteReviewController extends CI_Controller
 
   public function index()
   {
-
-    $section_category = $this->WebsiteReview->getSectionCategory();
-    $section = $this->WebsiteReview->getAllSection();
-    $point_check = $this->WebsiteReview->getAllPointCheck();
-
-    foreach ($point_check as $row){
-      if ($row['id_section'] == 2) {
-        array_push($section[0], $row);
-      }elseif($row['id_section'] == 3){
-        array_push($section[1], $row);
-      }elseif($row['id_section'] == 4){
-        array_push($section[2], $row);
-      }elseif($row['id_section'] == 5){
-        array_push($section[3], $row);
-      }elseif($row['id_section'] == 6){
-        array_push($section[4], $row);
-      }elseif($row['id_section'] == 7){
-        array_push($section[5], $row);
-      }elseif($row['id_section'] == 8){
-        array_push($section[6], $row);
-      }elseif($row['id_section'] == 9){
-        array_push($section[7], $row);
-      }elseif($row['id_section'] == 10){
-        array_push($section[8], $row);
-      }elseif($row['id_section'] == 11){
-        array_push($section[9], $row);
-      }elseif($row['id_section'] == 12){
-        array_push($section[10], $row);
-      }elseif($row['id_section'] == 13){
-        array_push($section[11], $row);
-      }elseif($row['id_section'] == 14){
-        array_push($section[12], $row);
-      }elseif($row['id_section'] == 15){
-        array_push($section[13], $row);
-      }elseif($row['id_section'] == 16){
-        array_push($section[14], $row);
-      }elseif($row['id_section'] == 17){
-        array_push($section[15], $row);
-      }elseif($row['id_section'] == 18){
-        array_push($section[16], $row);
-      }elseif($row['id_section'] == 19){
-        array_push($section[17], $row);
-      }elseif($row['id_section'] == 20){
-        array_push($section[18], $row);
-      }elseif($row['id_section'] == 21){
-        array_push($section[19], $row);
-      }elseif($row['id_section'] == 22){
-        array_push($section[20], $row);
-      }elseif($row['id_section'] == 23){
-        array_push($section[21], $row);
-      }elseif($row['id_section'] == 24){
-        array_push($section[22], $row);
-      }
-    }
-
-    foreach ($section as $row){
-      if ($row['section_cat'] == 'site structure') {
-        array_push($section_category[0], $row);
-      }elseif($row['section_cat'] == 'seo'){
-        array_push($section_category[1], $row);
-      }elseif($row['section_cat'] == 'ranking'){
-        array_push($section_category[2], $row);
-      }elseif($row['section_cat'] == 'content management'){
-        array_push($section_category[3], $row);
-      }elseif($row['section_cat'] == 'social integration'){
-        array_push($section_category[4], $row);
-      }elseif($row['section_cat'] == 'quality/retention/convertion'){
-        array_push($section_category[5], $row);
-      }
-    }
-
     $test = $this->WebsiteReview->getTest();
-    $final = array();
+    $data = array();
     foreach ($test as $value) {
-      $final[$value->section_cat][$value->section_name][$value->point_name][] = array(
-        'what_need_fixing'  => $value->point_what_need_fixing,
-        'description'       => $value->point_desc,
-        'how_to_fix'        => $value->point_how_to_fix,
-        'who_can_fix'       => $value->point_who_can_fix
+      $data[$value->section_cat][$value->section_name] = array(
+        'id_section'          => $value->id_section,
+        'section_slug'        => $value->section_slug,
+        'section_desc'        => $value->section_desc,
+        'section_why'         => $value->section_why,
+        'section_importance'  => $value->section_importance,
+        'section_difficulty'  => $value->section_difficulty,
       );
     }
 
-    $raw['raw'] = $section_category;
-    $raw['final'] = $final;
+    foreach ($test as $value) {
+      $data[$value->section_cat][$value->section_name]['point'][] = array(
+        'id_point'                => $value->id_point,
+        'id_source'               => $value->id_source,
+        'point_name'              => $value->point_name,
+        'point_desc'              => $value->point_desc,
+        'point_what_need_fixing'  => $value->point_what_need_fixing,
+        'point_how_to_fix'        => $value->point_how_to_fix,
+        'point_who_can_fix'       => $value->point_who_can_fix
+      );
+    }
+
+    $raw['data'] = $data;
     $data['title'] = "Analyze Testing";
     $data['content'] = $this->load->view('frontend/content-templates/content-analyze-result', $raw, TRUE);
     $this->load->view('frontend/page', $data);

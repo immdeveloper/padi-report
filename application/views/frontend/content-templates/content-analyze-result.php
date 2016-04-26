@@ -94,98 +94,88 @@
     <a href="#" class="btn btn-default save-all" id="save-all">Save All</a>
 
     <?php
-    $category_length = count($raw);
+    // echo var_dump($data);
     // category loop
-    for($i = 0; $i< $category_length; $i++){ ?>
+    $i = 0;
+    foreach ($data as $category => $section) { ?>
       <div role="tabpanel" class="tab-pane fade<?php if ($i == 0)echo " in active" ?>" id="tab<?php echo $i;?>">
-        <?php //echo "***" . $raw[$i]['section_cat'];?>
-
-        <?php $section_length = count($raw[$i])-1;
-        //echo " count" . $section_length; ?>
 
         <?php
         //section loop
-        for($j = 0; $j< $section_length; $j++){ ?>
-          <?php //echo "\n"; ?>
-          <?php //echo "*****" . $raw[$i][$j]['section_name'];?>
-
+        foreach ($section as $section_name => $section_value) { ?>
           <div class="card">
-            <a class="pull-right" data-toggle="collapse" href="#<?php echo $raw[$i][$j]['section_slug']?>">
+            <a class="pull-right" data-toggle="collapse" href="#<?php echo $section_value['section_slug']?>">
               <i class="fa fa-chevron-down fa-fw"></i>
             </a>
-            <h4 class="card-title"><?php echo strtoupper($raw[$i][$j]['section_name']); ?></h4>
-            <span class="card-subtitle"><?php echo $raw[$i][$j]['section_desc']; ?></span>
+            <h4 class="card-title"><?php echo strtoupper($section_name); ?></h4>
+            <span class="card-subtitle"><?php echo $section_value['section_desc']; ?></span>
             <hr>
-            <div class="collapse in res" id="<?php echo $raw[$i][$j]['section_slug']?>">
-              <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $raw[$i][$j]['section_slug']?>">
+            <div class="collapse in res" id="<?php echo $section_value['section_slug']?>">
+              <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $section_value['section_slug']?>">
                 <div class="result-table">
                   <table>
                     <tr>
-                      <td rowspan="4" style="vertical-align:middle" id="section-score-<?php echo $raw[$i][$j]['section_slug']?>" class="table-score-wrapper">
+                      <td rowspan="4" style="vertical-align:middle" id="section-score-<?php echo $section_value['section_slug']?>" class="table-score-wrapper">
                         <span class="table-score">100</span>
                         <span>score %</span>
                       </td>
                     </tr>
                     <tr>
-                      <td><strong><?php echo $raw[$i][$j]['section_importance']?>/10</strong></td>
+                      <td><strong><?php echo $section_value['section_importance']?>/10</strong></td>
                       <td>Importance</td>
-                      <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $raw[$i][$j]['section_desc']; ?></em></strong></td>
+                      <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $section_value['section_desc']; ?></em></strong></td>
                     </tr>
                     <tr>
-                      <td><?php echo $raw[$i][$j]['section_difficulty']?>/10</td>
+                      <td><?php echo $section_value['section_difficulty']?>/10</td>
                       <td>Difficulty level</td>
                     </tr>
                     <tr>
                       <td>na</td>
                       <td>Last review score</td>
-                      <td><strong><em>Why: <?php echo $raw[$i][$j]['section_why']; ?></em></strong></td>
+                      <td><strong><em>Why: <?php echo $section_value['section_why']; ?> </em></strong></td>
                     </tr>
                   </table>
                 </div>
-                <a href="#" class="btn btn-default edit-field" id="edit-<?php echo $raw[$i][$j]['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="#" class="btn btn-default edit-field" id="edit-<?php echo $section_value['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
               </div><!-- Result table wrapper -->
-              <div class="report-form" id="report-<?php echo $raw[$i][$j]['section_slug']?>">
+              <div class="report-form" id="report-<?php echo $section_value['section_slug']?>">
                 <p><strong>What needs fixing?</strong></p>
-                <form class="" action="" method="post" id="form-<?php echo $raw[$i][$j]['section_slug']?>">
-                  <input id="" name="section-score-<?php echo $raw[$i][$j]['id_section']?>" type="hidden" value="section-score" checked>
-                  <input type="hidden" value="0" name="score-section-score-<?php echo $raw[$i][$j]['id_section']?>" class="score-<?php echo $raw[$i][$j]['section_slug']?>">
-                  <input type="hidden" value="<?php echo $raw[$i][$j]['id_section']?>" name="section-id-section-score-<?php echo $raw[$i][$j]['id_section']?>">
-                  <?php $point_length = count($raw[$i][$j])-8;//eight is how many section column
-                  //echo " count" . $point_length; ?>
+                <form class="" action="" method="post" id="form-<?php echo $section_value['section_slug']?>">
+                  <input id="" name="section-score-<?php echo $section_value['id_section']?>" type="hidden" value="section-score" checked>
+                  <input type="hidden" value="0" name="score-section-score-<?php echo $section_value['id_section']?>" class="score-<?php echo $section_value['section_slug']?>">
+                  <input type="hidden" value="<?php echo $section_value['id_section']?>" name="section-id-section-score-<?php echo $section_value['id_section']?>">
 
                   <?php
                   //point loop
-                  for($k = 0; $k< $point_length; $k++){ ?>
-                    <?php //echo "\n"; ?>
-                    <?php //echo "*******" . $raw[$i][$j][$k]['point_name'];?>
+                  foreach ($section_value['point'] as $point_value) { ?>
                     <div class="checkbox">
-                      <label data-toggle="tooltip" data-placement="right" title="<?php echo $raw[$i][$j][$k]['point_desc'];?>">
-                        <input type="hidden" value="off" name="<?php echo $raw[$i][$j][$k]['id_point']; ?>">
-                        <input id="check-<?php echo $raw[$i][$j][$k]['id_point'];?>"
-                        name="<?php echo $raw[$i][$j][$k]['id_point']; ?>"
+                      <label data-toggle="tooltip" data-placement="right" title="<?php echo $point_value['point_desc'];?>">
+                        <input type="hidden" value="off" name="<?php echo $point_value['id_point']; ?>">
+                        <input id="check-<?php echo $point_value['id_point'];?>"
+                        name="<?php echo $point_value['id_point']; ?>"
                         type="checkbox" data-toggle="collapse"
-                        data-target="#<?php echo $raw[$i][$j][$k]['id_point'];?>">
-                        <input type="hidden" name="source-<?php echo $raw[$i][$j][$k]['id_point']; ?>"
-                        value="<?php echo $raw[$i][$j][$k]['id_source'];?>" class="form-control">
-                        <?php echo $raw[$i][$j][$k]['point_name']; ?>
+                        data-target="#<?php echo $point_value['id_point'];?>">
+                        <input type="hidden" name="source-<?php echo $point_value['id_point']; ?>"
+                        value="<?php echo $point_value['id_source'];?>" class="form-control">
+                        <?php echo $point_value['point_name']; ?>
                       </label>
-                      <div class="collapse" id="<?php echo $raw[$i][$j][$k]['id_point'];?>">
+                      <div class="collapse" id="<?php echo $point_value['id_point'];?>">
                         <div class="well">
-                          <input type="hidden" name="description-<?php echo $raw[$i][$j][$k]['id_point']; ?>" value="<?php echo $raw[$i][$j][$k]['point_desc'];?>" class="form-control">
+                          <input type="hidden" name="description-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_desc'];?>" class="form-control">
                           <div class="form-group">
                             <span><strong>Explanation</strong></span>
-                            <input type="text" name="explanation-<?php echo $raw[$i][$j][$k]['id_point']; ?>" value="<?php echo $raw[$i][$j][$k]['point_what_need_fixing'];?>" class="form-control">
+                            <input type="text" name="explanation-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_what_need_fixing'];?>" class="form-control">
                           </div>
                           <div class="form-group">
                             <span><strong>Who can fix it?</strong></span>
-                            <select class="form-control" name="who-fix-<?php echo $raw[$i][$j][$k]['id_point']; ?>">
+                            <select class="form-control" name="who-fix-<?php echo $point_value['id_point']; ?>">
                               <?php
-                              if($raw[$i][$j][$k]['point_who_can_fix'] == 'Webmaster')
+                              if($point_value['point_who_can_fix'] == 'Webmaster')
                               {
                                 echo '<option value="Webmaster" selected>Webmaster</option>';
                                 echo '<option value="Basic user">Basic user</option>';
                               }
-                              elseif ($raw[$i][$j][$k]['point_who_can_fix'] == 'Basic user')
+                              elseif ($point_value['point_who_can_fix'] == 'Basic user')
                               {
                                 echo '<option value="Webmaster">Webmaster</option>';
                                 echo '<option value="Basic user" selected>Basic user</option>';
@@ -200,25 +190,26 @@
                           </div>
                           <div class="form-group">
                             <span><strong>How do you fix it?</strong></span>
-                            <input type="text" name="how-fix-<?php echo $raw[$i][$j][$k]['id_point']; ?>" value="<?php echo $raw[$i][$j][$k]['point_how_to_fix'];?>" class="form-control">
+                            <input type="text" name="how-fix-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_how_to_fix'];?>" class="form-control">
                           </div>
                         </div>
                       </div><!-- collapse -->
                     </div><!-- checkbox -->
                     <?php /*point loop*/ } ?>
                     <hr />
-                    <div class="personal-wrapper" id="wrapper-<?php echo $raw[$i][$j]['id_section']?>">
+                    <div class="personal-wrapper" id="wrapper-<?php echo $section_value['id_section']?>">
 
                     </div>
                   </form>
-                  <a href="#" class="btn btn-default add-field" id="add-<?php echo $raw[$i][$j]['id_section']; ?>" data-section-id=<?php echo $raw[$i][$j]['id_section']; ?>>Add personal judgement</a>
-                  <a href="#" class="btn btn-default save-field" id="save-<?php echo $raw[$i][$j]['id_section'];  ?>" data-section-name="<?php echo $raw[$i][$j]['section_slug']?>">Save</a>
+                  <a href="#" class="btn btn-default add-field" id="add-<?php echo $section_value['id_section']; ?>" data-section-id=<?php echo $section_value['id_section']; ?>>Add personal judgement</a>
+                  <a href="#" class="btn btn-default save-field" id="save-<?php echo $section_value['id_section'];  ?>" data-section-name="<?php echo $section_value['section_slug']?>">Save</a>
                 </div>
               </div>
             </div><!-- card -->
             <?php /*Section loop*/ } ?>
 
           </div><!-- tab-pane -->
+          <?php $i++;?>
           <?php /*category loop*/ } ?>
 
 
