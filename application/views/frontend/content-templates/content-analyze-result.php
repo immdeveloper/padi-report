@@ -230,7 +230,7 @@
         <h4 class="modal-title">Please Save All Section</h4>
       </div>
       <div class="modal-body">
-        <p>Some section is not saved. Please double check your work and save each section.</p>
+        <p>Some sections is not saved. Please double check your work and save each section.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
