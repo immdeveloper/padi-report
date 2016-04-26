@@ -100,9 +100,10 @@ class WebsiteReviewController extends CI_Controller
     $this->load->view('frontend/page', $data);
   }
 
-  public function report($action)
+  public function report($id, $action)
   {
-    $raw = $this->WebsiteReview->getReportData();
+    $raw = $this->WebsiteReview->getReportData($id);
+    $s = $this->WebsiteReview->getSectionScore($id);
     $tmp = array();
 
     $status = array();
@@ -113,12 +114,12 @@ class WebsiteReviewController extends CI_Controller
     foreach($raw as $arg)
     {
         $tmp[$arg->section_cat][$arg->section_name] = array(
-          'section_score'       => $arg->section_score,
+          //'section_score'     => $value->section_score,
           'section_desc'        => $arg->section_desc,
           'section_slug'        => $arg->section_slug,
           'section_why'         => $arg->section_why,
           'section_importance'  => $arg->section_importance,
-          'section_difficulty'  => $arg->section_difficulty,
+          'section_difficulty'  => $arg->section_difficulty
         );
     }
 
@@ -240,7 +241,7 @@ class WebsiteReviewController extends CI_Controller
 // $personal["key"] = 3;
     // echo json_encode( $id_point );
     // echo json_encode($score);
-    echo json_encode( $result );
+    echo $id_assessment;
   }
 }
 //$formatted_url = str_ireplace('www.', '', parse_url($url_to_format, PHP_URL_HOST));

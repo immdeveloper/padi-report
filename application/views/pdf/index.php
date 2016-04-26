@@ -1,9 +1,9 @@
 <?php
 //ini_set('max_execution_time', 300);
 //ini_set('memory_limit', '-1');
-/*echo '<pre>';
-print_r($point);
-echo '</pre>';*/
+//echo '<pre>';
+//print_r($point);
+//echo '</pre>';
 
 ?>
 
@@ -48,6 +48,7 @@ echo '</pre>';*/
             echo '<li><span>Section '.$num.':</span> <a href="#category-'.$num.'">'.ucwords($category).'</a></li>';
             $num++;
           }
+
           ?>
 
       </section>
@@ -293,7 +294,7 @@ echo '</pre>';*/
 
             <tr>
               <td rowspan="3" style="vertical-align:middle" class="table-score-wrapper">
-                <span class="table-score text-red"><?php echo $result['section_score'] ?></span>
+                <span class="table-score text-red"><?php echo 'XX' ?></span>
                 <span>score %</span>
               </td>
               <td style="text-align:center"><strong><?php echo $result['section_importance']?>/10</strong></td>
@@ -325,9 +326,6 @@ echo '</pre>';*/
                 }
               }
 
-              echo '<pre>';
-            //  print_r($result['point']);
-              echo '</pre>';
 
               foreach ($result['point'] as $i => $detail) {
 
@@ -394,9 +392,9 @@ echo '</pre>';*/
                 ?>
         </table>
         <?php
-
       }
       $section_number++;
+
         echo '</section>';
       }
       ?>

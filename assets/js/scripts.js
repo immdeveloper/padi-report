@@ -1,3 +1,5 @@
+var base_url = $('#base_url').val();
+
 $(document).ready(function(){
   changeIconOnCollapse();
   dataTable();
@@ -289,6 +291,7 @@ $('.save-all').click(function(){
       // console.log(desktop_score);
       // console.log($('#hidden-url').val());
       console.log(res);
+      window.location.replace(base_url+'report/'+res+'/preview');
       // if($('#check-user-experience4').is(":checked")){
       //   console.log("checked");
       // }
