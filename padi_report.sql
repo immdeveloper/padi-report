@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
+-- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 25, 2016 at 04:34 PM
--- Server version: 10.1.9-MariaDB
--- PHP Version: 5.6.15
+-- Generation Time: Apr 27, 2016 at 03:51 PM
+-- Server version: 5.5.49-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `padi_report`
@@ -26,11 +26,13 @@ SET time_zone = "+00:00";
 -- Table structure for table `assessment`
 --
 
-CREATE TABLE `assessment` (
-  `id_assessment` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `assessment` (
+  `id_assessment` int(11) NOT NULL AUTO_INCREMENT,
   `id_domain` int(11) NOT NULL,
-  `date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `date` datetime NOT NULL,
+  PRIMARY KEY (`id_assessment`),
+  KEY `id_domain` (`id_domain`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=253 ;
 
 -- --------------------------------------------------------
 
@@ -38,12 +40,15 @@ CREATE TABLE `assessment` (
 -- Table structure for table `assessment_detail`
 --
 
-CREATE TABLE `assessment_detail` (
-  `id_assessment_detail` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `assessment_detail` (
+  `id_assessment_detail` int(11) NOT NULL AUTO_INCREMENT,
   `id_assessment` int(11) NOT NULL,
   `id_point` int(11) NOT NULL,
-  `id_result` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_result` int(11) NOT NULL,
+  PRIMARY KEY (`id_assessment_detail`),
+  KEY `id_assessment` (`id_assessment`),
+  KEY `id_point` (`id_point`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1524 ;
 
 -- --------------------------------------------------------
 
@@ -51,10 +56,11 @@ CREATE TABLE `assessment_detail` (
 -- Table structure for table `domain`
 --
 
-CREATE TABLE `domain` (
-  `id_domain` int(11) NOT NULL,
-  `url` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `domain` (
+  `id_domain` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(64) NOT NULL,
+  PRIMARY KEY (`id_domain`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `domain`
@@ -63,13 +69,7 @@ CREATE TABLE `domain` (
 INSERT INTO `domain` (`id_domain`, `url`) VALUES
 (1, 'google.com'),
 (2, 'yahoo.com'),
-(3, 'facebook.com'),
-(4, 'facebook2.com'),
-(5, 'twitter.com'),
-(6, ''),
-(7, 'google3.com'),
-(8, 'google4.com'),
-(9, 'google2.com');
+(3, 'facebook.com');
 
 -- --------------------------------------------------------
 
@@ -77,8 +77,8 @@ INSERT INTO `domain` (`id_domain`, `url`) VALUES
 -- Table structure for table `point_check`
 --
 
-CREATE TABLE `point_check` (
-  `id_point` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `point_check` (
+  `id_point` int(11) NOT NULL AUTO_INCREMENT,
   `id_source` int(11) NOT NULL,
   `id_section` int(11) DEFAULT NULL,
   `point_name` varchar(100) NOT NULL,
@@ -86,8 +86,9 @@ CREATE TABLE `point_check` (
   `point_what_need_fixing` text NOT NULL,
   `point_who_can_fix` varchar(128) NOT NULL,
   `point_how_to_fix` text NOT NULL,
-  `status` bit(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `status` bit(1) NOT NULL,
+  PRIMARY KEY (`id_point`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=101 ;
 
 --
 -- Dumping data for table `point_check`
@@ -169,11 +170,13 @@ INSERT INTO `point_check` (`id_point`, `id_source`, `id_section`, `point_name`, 
 -- Table structure for table `result`
 --
 
-CREATE TABLE `result` (
-  `id_result` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `result` (
+  `id_result` int(11) NOT NULL AUTO_INCREMENT,
   `id_source` int(11) NOT NULL,
-  `result` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `result` text NOT NULL,
+  PRIMARY KEY (`id_result`),
+  KEY `id_source` (`id_source`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1647 ;
 
 -- --------------------------------------------------------
 
@@ -181,16 +184,17 @@ CREATE TABLE `result` (
 -- Table structure for table `section`
 --
 
-CREATE TABLE `section` (
-  `id_section` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `section` (
+  `id_section` int(11) NOT NULL AUTO_INCREMENT,
   `section_name` varchar(50) NOT NULL,
   `section_slug` varchar(50) NOT NULL,
   `section_desc` varchar(200) NOT NULL,
   `section_why` text NOT NULL,
   `section_importance` int(11) NOT NULL,
   `section_difficulty` int(11) NOT NULL,
-  `section_cat` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `section_cat` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_section`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 --
 -- Dumping data for table `section`
@@ -217,7 +221,7 @@ INSERT INTO `section` (`id_section`, `section_name`, `section_slug`, `section_de
 (19, 'Homepage', 'homepage', 'This checks how integrated your home/main pages are with your social media efforts.', 'Sends verifiable signals to both human users and search engines that your company is active in engaging its audience. This affects your rankings.', 7, 4, 'social integration'),
 (20, 'Products Pages & Blog Pages', 'product-and-blog', 'An assessment of your site’s integration of social media shares.', 'It is good to encourage social sharing by featuring “share this” and/or “pin it” type functionality on your product, news, special offer and blog pages.', 7, 4, 'social integration'),
 (21, 'Quality Signals', 'quality-signal', 'Signals regarding the legitimacy, accountability and capability of your company.', 'Anyone can put up a website, so it is important to let users (and search engines) know that there is a strong organization behind the site.', 9, 4, 'quality/retention/convertion'),
-(22, 'Strong Company / ', 'strong-company-about-us-quality', 'Website users want to identify with brands and the individuals behind them', 'Sends users a good quality signal that there are real people driving the business and to offer customer support. Search engines can now recognize this and many count it in their ranking algorithms.', 5, 4, 'quality/retention/convertion'),
+(22, 'Strong Company / About Us Quality', 'strong-company-about-us-quality', 'Website users want to identify with brands and the individuals behind them', 'Sends users a good quality signal that there are real people driving the business and to offer customer support. Search engines can now recognize this and many count it in their ranking algorithms.', 5, 4, 'quality/retention/convertion'),
 (23, 'Retention', 'retention', 'Retention deals with your site’s ability to keep users engaged and consuming more content.', 'Users who stay on a website longer are more likely to participate in a conversion-oriented behavior (like subscribing to a newsletter, inquiring via contact form, or submitting a booking!)', 8, 3, 'quality/retention/convertion'),
 (24, 'Conversion', 'conversion', 'Conversion relates to the actions that lead to inquiries, customer interaction, and bookings.', 'Meeting these goals leads to increased revenue.', 10, 2, 'quality/retention/convertion');
 
@@ -227,12 +231,13 @@ INSERT INTO `section` (`id_section`, `section_name`, `section_slug`, `section_de
 -- Table structure for table `section_result`
 --
 
-CREATE TABLE `section_result` (
-  `id_section_result` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `section_result` (
+  `id_section_result` int(11) NOT NULL AUTO_INCREMENT,
   `id_section` int(11) NOT NULL,
   `id_assessment` int(11) NOT NULL,
-  `result` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `result` text NOT NULL,
+  PRIMARY KEY (`id_section_result`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
 -- --------------------------------------------------------
 
@@ -240,10 +245,11 @@ CREATE TABLE `section_result` (
 -- Table structure for table `source`
 --
 
-CREATE TABLE `source` (
-  `id_source` int(11) NOT NULL,
-  `source_name` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `source` (
+  `id_source` int(11) NOT NULL AUTO_INCREMENT,
+  `source_name` varchar(128) NOT NULL,
+  PRIMARY KEY (`id_source`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `source`
@@ -252,106 +258,6 @@ CREATE TABLE `source` (
 INSERT INTO `source` (`id_source`, `source_name`) VALUES
 (1, 'manual');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `assessment`
---
-ALTER TABLE `assessment`
-  ADD PRIMARY KEY (`id_assessment`),
-  ADD KEY `id_domain` (`id_domain`);
-
---
--- Indexes for table `assessment_detail`
---
-ALTER TABLE `assessment_detail`
-  ADD PRIMARY KEY (`id_assessment_detail`),
-  ADD KEY `id_assessment` (`id_assessment`),
-  ADD KEY `id_point` (`id_point`);
-
---
--- Indexes for table `domain`
---
-ALTER TABLE `domain`
-  ADD PRIMARY KEY (`id_domain`);
-
---
--- Indexes for table `point_check`
---
-ALTER TABLE `point_check`
-  ADD PRIMARY KEY (`id_point`);
-
---
--- Indexes for table `result`
---
-ALTER TABLE `result`
-  ADD PRIMARY KEY (`id_result`),
-  ADD KEY `id_source` (`id_source`);
-
---
--- Indexes for table `section`
---
-ALTER TABLE `section`
-  ADD PRIMARY KEY (`id_section`);
-
---
--- Indexes for table `section_result`
---
-ALTER TABLE `section_result`
-  ADD PRIMARY KEY (`id_section_result`);
-
---
--- Indexes for table `source`
---
-ALTER TABLE `source`
-  ADD PRIMARY KEY (`id_source`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `assessment`
---
-ALTER TABLE `assessment`
-  MODIFY `id_assessment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
---
--- AUTO_INCREMENT for table `assessment_detail`
---
-ALTER TABLE `assessment_detail`
-  MODIFY `id_assessment_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1524;
---
--- AUTO_INCREMENT for table `domain`
---
-ALTER TABLE `domain`
-  MODIFY `id_domain` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT for table `point_check`
---
-ALTER TABLE `point_check`
-  MODIFY `id_point` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
---
--- AUTO_INCREMENT for table `result`
---
-ALTER TABLE `result`
-  MODIFY `id_result` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1647;
---
--- AUTO_INCREMENT for table `section`
---
-ALTER TABLE `section`
-  MODIFY `id_section` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
---
--- AUTO_INCREMENT for table `section_result`
---
-ALTER TABLE `section_result`
-  MODIFY `id_section_result` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
---
--- AUTO_INCREMENT for table `source`
---
-ALTER TABLE `source`
-  MODIFY `id_source` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
