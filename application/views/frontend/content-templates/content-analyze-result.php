@@ -146,12 +146,12 @@
                         <input id="check-<?php echo $point_value['id_point'];?>"
                         name="<?php echo $point_value['id_point']; ?>"
                         type="checkbox" data-toggle="collapse"
-                        data-target="#<?php echo $point_value['id_point'];?>">
+                        data-target="#well-<?php echo $point_value['id_point'];?>">
                         <input type="hidden" name="source-<?php echo $point_value['id_point']; ?>"
                         value="<?php echo $point_value['id_source'];?>" class="form-control" id="source-<?php echo $point_value['id_point']; ?>">
                         <span id="text-<?php echo $point_value['id_point'];?>"><?php echo $point_value['point_name']; ?></span> <a href="#" class="exclude-point" data-active="1" data-id="<?php echo $point_value['id_point'];?>"><i class="fa fa-times-circle fa-fw" style="color:#f03"></i></a>
                       </label>
-                      <div class="collapse" id="<?php echo $point_value['id_point'];?>">
+                      <div class="collapse" id="well-<?php echo $point_value['id_point'];?>">
                         <div class="well">
                           <input type="hidden" name="description-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_desc'];?>" class="form-control">
                           <div class="form-group">

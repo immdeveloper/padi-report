@@ -109,6 +109,9 @@ $('.exclude-point').click(function(e){
     $(this).attr('data-active', 0);
     $(this).find('i').attr('class', 'fa fa-check-circle fa fw');
     $(this).find('i').css('color', '#7AA93C');
+    $('#check-'+id).attr('checked', false);
+    $('#well-' +id).collapse( "hide" );
+    $('#check-'+id).attr('aria-expanded', true);
     $('#check-'+id).prop('disabled', true);
     $('#check-status-'+id).prop('disabled', true);
     $('#source-'+id).prop('disabled', true);
@@ -198,7 +201,7 @@ function dynamic_form()
             '<div class="well">' +
                 '<a href="#" class="pull-right remove-field"><i class="fa fa-times fa-fw"></i></a>' +
               '<div class="clearfix"></div>' +
-              '<input id="check-'+section_id+'" name="personal-'+section_id + x +'" type="checkbox" value="personal" checked>' +
+              '<input id="check-'+section_id+'" name="personal-'+section_id + x +'" style="display:none" type="checkbox" value="personal" checked>' +
               '<div class="row">' +
                 '<div class="col-md-4 col-lg-4" style="padding-right:0">' +
                   '<div class="form-group">' +
@@ -314,6 +317,10 @@ $('.save-field').click(function(e){
   });
   var totalSelected = selected.length;
   var totalCheckbox = $('#form-' + section_name ).find('input:checkbox').length;
+  var totalDisabledCheckbox = $('#form-' + section_name                                 ).find('input[type="checkbox"]').filter(function() {
+    return this.disabled;
+  }).length;
+  totalCheckbox -= totalDisabledCheckbox;
   var totalNotSelected = totalCheckbox - totalSelected;
   var sectionScore = Math.round(totalNotSelected * 100 / totalCheckbox);//alert(sectionScore);
   $('#result-' + section_name ).find('.table-score').html(sectionScore);
@@ -345,7 +352,7 @@ $('.save-all').click(function(){
       $('#save-section').modal('show');
     }else{
   $.ajax({
-    url: 'save',
+    url: base_url + 'save',
     type: 'POST',
     dataType: 'json',
     data: forms,
