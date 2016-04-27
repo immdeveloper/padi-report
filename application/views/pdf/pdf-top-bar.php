@@ -5,7 +5,7 @@
 
   body{
     font-family: 'arial';
-    background-color: #999;
+    //background-color: #333;
   }
 
   section p{
@@ -38,7 +38,7 @@
     -webkit-box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.75);
     box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.75);
-    background-color:#333;
+    background-color:#222;
     position: fixed;
     top:0;
     display: none;
@@ -48,8 +48,10 @@
     padding: 5px 10px;
     background-color: #EEE;
     float:right;
+    color: #333;
+    text-decoration: none;
   }
 </style>
 <div class="top-bar">
-  <a href="<?php echo base_url().'report/generate'?>" target="_blank" class="generate-btn"><i class="fa fa-file-pdf-o"></i> Generate</a>
+  <a href="<?php echo base_url().'report/'.$this->uri->segment(2).'/generate'?>" target="_blank" class="generate-btn"><i class="fa fa-file-pdf-o"></i> Generate</a>
 </div>

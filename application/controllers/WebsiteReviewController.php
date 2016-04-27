@@ -42,9 +42,10 @@ class WebsiteReviewController extends CI_Controller
     $this->load->view('frontend/page', $data);
   }
 
-  public function report($action)
+  public function report($id, $action)
   {
-    $raw = $this->WebsiteReview->getReportData();
+    $raw = $this->WebsiteReview->getReportData($id);
+    $score = $this->WebsiteReview->getSectionScore($id);
     $tmp = array();
 
     $status = array();
@@ -52,10 +53,39 @@ class WebsiteReviewController extends CI_Controller
     $status['url'] = $raw[0]->url;
     $status['date'] = $raw[0]->date;
 
+    $sectionPrev = NULL;
+    $section = array();
+    $section_score = array();
+
+    foreach ($raw as $key => $value) {
+      if($value->section_name != $sectionPrev)
+      {
+        $section[] = $value->section_name;
+      }
+      $sectionPrev = $value->section_name;
+    }
+
+    foreach ($score as $key => $value) {
+      $section_score[$section[$key]] = $value->section_score;
+    }
+
     foreach($raw as $arg)
     {
-        //$tmp[$arg->section_cat][$arg->section_name][$arg->point_name][] = $arg->result;
-        $tmp[$arg->section_cat][$arg->section_name][] = $arg->point_name;
+        $tmp[$arg->section_cat][$arg->section_name] = array(
+          'section_score'       => $section_score[$arg->section_name],
+          'section_desc'        => $arg->section_desc,
+          'section_slug'        => $arg->section_slug,
+          'section_why'         => $arg->section_why,
+          'section_importance'  => $arg->section_importance,
+          'section_difficulty'  => $arg->section_difficulty
+        );
+    }
+
+    foreach ($raw as $arg) {
+      $tmp[$arg->section_cat][$arg->section_name]['point'][] = array(
+        'point_name' => $arg->point_name,
+        'result'     => $arg->point_result
+      );
     }
 
     $data['point'] = $tmp;
@@ -169,7 +199,7 @@ class WebsiteReviewController extends CI_Controller
 // $personal["key"] = 3;
     // echo json_encode( $id_point );
     // echo json_encode($score);
-    echo json_encode( $result );
+    echo $id_assessment;
   }
 }
 //$formatted_url = str_ireplace('www.', '', parse_url($url_to_format, PHP_URL_HOST));
