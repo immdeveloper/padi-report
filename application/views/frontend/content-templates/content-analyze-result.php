@@ -8,7 +8,8 @@
   </form>
   <form action="" method="post" id="hidden-web-url">
     <!-- Keep the url being analyze -->
-    <input type="hidden" name="hidden-url" id="hidden-url" value="" />
+    <?php $hidden_url = $_GET["url"]; $hidden_url = str_ireplace('www.', '', parse_url($hidden_url, PHP_URL_HOST)); ?>
+    <input type="hidden" name="hidden-url" id="hidden-url" value="<?= $hidden_url ?>" />
   </form>
   <a href="javascript:void(0)" class="btn btn-default input-group-addon" id="btn-analyze">Analyze</a>
 </div>
@@ -21,8 +22,8 @@
 
   </div>
   <div class="result-title">
-    <span>Analysis of <a href="#" id="test-url"></a></span>
-    <span class="result-date"><i class="fa fa-calendar"></i> March 22, 2016 &nbsp; &nbsp; <i class="fa fa-clock-o"></i> 08:00:12 AM</span>
+    <span>Analysis of <span style="color: #0D8FDB;">http://<?= $hidden_url ?></span>
+    <span class="result-date"><i class="fa fa-calendar"></i> <?= date("Y F d"); ?></span>
   </div>
   <div class="card summary hide">
     <h4 class="card-title">EXECUTIVE SUMMARY</h4>
