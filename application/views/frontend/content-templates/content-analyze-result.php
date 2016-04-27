@@ -1,3 +1,4 @@
+<a href="#" class="back-to-top"><i class="fa fa-chevron-circle-up fa-3x"></i></a>
 <p>
   This page is currently on testing mode...
 </p>
@@ -151,14 +152,14 @@
                   foreach ($section_value['point'] as $point_value) { ?>
                     <div class="checkbox">
                       <label data-toggle="tooltip" data-placement="right" title="<?php echo $point_value['point_desc'];?>">
-                        <input type="hidden" value="off" name="<?php echo $point_value['id_point']; ?>">
+                        <input type="hidden" value="off" name="<?php echo $point_value['id_point']; ?>" id="check-status-<?php echo $point_value['id_point']; ?>">
                         <input id="check-<?php echo $point_value['id_point'];?>"
                         name="<?php echo $point_value['id_point']; ?>"
                         type="checkbox" data-toggle="collapse"
                         data-target="#<?php echo $point_value['id_point'];?>">
                         <input type="hidden" name="source-<?php echo $point_value['id_point']; ?>"
-                        value="<?php echo $point_value['id_source'];?>" class="form-control">
-                        <?php echo $point_value['point_name']; ?>
+                        value="<?php echo $point_value['id_source'];?>" class="form-control" id="source-<?php echo $point_value['id_point']; ?>">
+                        <span id="text-<?php echo $point_value['id_point'];?>"><?php echo $point_value['point_name']; ?></span> <a href="#" class="exclude-point" data-active="1" data-id="<?php echo $point_value['id_point'];?>"><i class="fa fa-times-circle fa-fw" style="color:#f03"></i></a>
                       </label>
                       <div class="collapse" id="<?php echo $point_value['id_point'];?>">
                         <div class="well">
@@ -202,8 +203,8 @@
 
                     </div>
                   </form>
-                  <a href="#" class="btn btn-default add-field" id="add-<?php echo $section_value['id_section']; ?>" data-section-id=<?php echo $section_value['id_section']; ?>>Add personal judgement</a>
-                  <a href="#" class="btn btn-default save-field" id="save-<?php echo $section_value['id_section'];  ?>" data-section-name="<?php echo $section_value['section_slug']?>">Save</a>
+                  <a href="javascript:void(0)" class="btn btn-primary save-field" id="save-<?php echo $section_value['id_section'];  ?>" data-section-name="<?php echo $section_value['section_slug']?>">Save</a>
+                  <a href="javascript:void(0)" class="btn btn-default add-field" id="add-<?php echo $section_value['id_section']; ?>" data-section-id=<?php echo $section_value['id_section']; ?>><i class="fa fa-plus-circle fa-fw"></i> Personal judgement</a>
                 </div>
               </div>
             </div><!-- card -->
