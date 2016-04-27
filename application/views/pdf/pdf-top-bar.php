@@ -5,7 +5,7 @@
 
   body{
     font-family: 'arial';
-    //background-color: #333;
+    background-color: #333;
   }
 
   section p{
@@ -41,7 +41,7 @@
     background-color:#222;
     position: fixed;
     top:0;
-    display: none;
+    /*display: none;*/
   }
 
   .generate-btn{
