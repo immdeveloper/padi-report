@@ -21,6 +21,30 @@ a:focus{
 }
 
 /*
+* Preloader
+*/
+.preload2{
+  width: 82%;
+  height: 100%;
+  background-color: rgba(0,0,0,.7);
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: fixed;
+  z-index: 9999999999999999999999999999;
+  //opacity: .7;
+  margin-left: 18%;
+  text-align: center;
+}
+
+.preload2 span{
+  color: #FFF;
+  font-size: 40px;
+  font-weight: 800;
+  position: relative;
+  top: 35%;
+}
+
+/*
 * Top Bar
 */
 header{
