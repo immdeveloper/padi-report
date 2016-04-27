@@ -352,7 +352,7 @@ $('.save-all').click(function(){
       $('#save-section').modal('show');
     }else{
   $.ajax({
-    url: 'save',
+    url: base_url + 'save',
     type: 'POST',
     dataType: 'json',
     data: forms,
