@@ -12,7 +12,7 @@
       $hidden_url = parse_url('http://'.$hidden_url, PHP_URL_HOST);
     }
   ?>
-  <input type="hidden" name="hidden-url" id="hidden-url" value="<?php echo $hidden_url; ?>" />
+  <input type="hidden" name="hidden-url" id="hidden-url" value="<?php echo str_ireplace('www.', '', $hidden_url); ?>" />
 </form>
 <div class="preload" style="display:none">
   <i class="fa fa-circle-o-notch fa-spin"></i> <span>Getting results...<span id="load-status"></span></span>
