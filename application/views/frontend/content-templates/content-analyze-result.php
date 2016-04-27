@@ -1,8 +1,18 @@
 <a href="#" class="back-to-top"><i class="fa fa-chevron-circle-up fa-3x"></i></a>
 <form action="" method="post" id="hidden-web-url">
   <!-- Keep the url being analyze -->
-  <?php $hidden_url = $_GET["url"]; $hidden_url = str_ireplace('www.', '', parse_url($hidden_url, PHP_URL_HOST)); ?>
-  <input type="hidden" name="hidden-url" id="hidden-url" value="" />
+  <?php
+    $hidden_url = $_GET["url"];
+    if(strpos($hidden_url, 'http://') !== false || strpos($hidden_url, 'https://') !== false)
+    {
+      $hidden_url = parse_url($hidden_url, PHP_URL_HOST);
+    }
+    else
+    {
+      $hidden_url = parse_url('http://'.$hidden_url, PHP_URL_HOST);
+    }
+  ?>
+  <input type="hidden" name="hidden-url" id="hidden-url" value="<?php echo $hidden_url; ?>" />
 </form>
 <div class="preload" style="display:none">
   <i class="fa fa-circle-o-notch fa-spin"></i> <span>Getting results...<span id="load-status"></span></span>

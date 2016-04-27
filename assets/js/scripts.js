@@ -64,7 +64,8 @@ url.on('keydown', function () {
 //user is "finished typing," do something
 function doneTyping () {
   var url_text = $(url).val();
-  var regex = /^(http|https)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
+  //var regex = /^(http|https)?:\/\/[a-zA-Z0-9-\.]+\.[a-z]{2,4}/;
+  var regex = /^(http)?(s)?(:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
   $(url).popover({
     content:'url is not valid',
     trigger:'manual',
@@ -345,7 +346,7 @@ $('.save-all').click(function(){
       $('#save-section').modal('show');
     }else{
   $.ajax({
-    url: 'save',
+    url: base_url + 'save',
     type: 'POST',
     dataType: 'json',
     data: forms,
@@ -353,8 +354,8 @@ $('.save-all').click(function(){
       $('#loading-save').modal({
           backdrop: 'static'
       });
-      $('#loading-save').modal('show');
-      //$('.preload').fadeIn();
+      //$('#loading-save').modal('show');
+      $('.preload2').fadeIn();
       // $('#load-status').html('Preparing fetching data');
     },
     error: function() {
@@ -371,7 +372,7 @@ $('.save-all').click(function(){
 
    },
    complete: function() {
-$('.preload').fadeOut();
+$('.preload2').fadeOut();
    }
   });
 
