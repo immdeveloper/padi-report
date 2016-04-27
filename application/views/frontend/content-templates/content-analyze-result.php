@@ -1,26 +1,16 @@
 <a href="#" class="back-to-top"><i class="fa fa-chevron-circle-up fa-3x"></i></a>
-<p>
-  This page is currently on testing mode...
-</p>
-
-<div class="form input-group">
-  <form action="" method="post" id="form-web-url">
-    <input type="text" id="web-url" class="form-control" placeholder="Enter your website url (don't include http(s)://)">
-  </form>
-  <form action="" method="post" id="hidden-web-url">
-    <!-- Keep the url being analyze -->
-    <input type="hidden" name="hidden-url" id="hidden-url" value="" />
-  </form>
-  <a href="javascript:void(0)" class="btn btn-default input-group-addon" id="btn-analyze">Analyze</a>
-</div>
+<form action="" method="post" id="hidden-web-url">
+  <!-- Keep the url being analyze -->
+  <input type="hidden" name="hidden-url" id="hidden-url" value="" />
+</form>
 <div class="preload" style="display:none">
   <i class="fa fa-circle-o-notch fa-spin"></i> <span>Getting results...<span id="load-status"></span></span>
 </div>
-<hr />
 <div class="result">
   <div id="test-scraping">
 
   </div>
+  <a href="#" class="btn btn-default save-all pull-right" id="save-all" style="margin-right:5%; margin-top:30px">Save All</a>
   <div class="result-title">
     <span>Analysis of <a href="#" id="test-url"></a></span>
     <span class="result-date"><i class="fa fa-calendar"></i> March 22, 2016 &nbsp; &nbsp; <i class="fa fa-clock-o"></i> 08:00:12 AM</span>
@@ -80,6 +70,7 @@
       </div>
     </div>
   </div><!-- Card summary -->
+  <hr>
   <div class="result-navbar">
     <ul class="list-unstyled">
       <li class="active"><a href="#tab0" role="tab" data-toggle="tab"><i class="fa fa-sitemap fa-fw"></i> Site Structure</a></li>
@@ -92,8 +83,6 @@
   </div>
   <!-- Tab content -->
   <div class="tab-content">
-    <a href="#" class="btn btn-default save-all" id="save-all">Save All</a>
-
     <?php
     // echo var_dump($data);
     // category loop
