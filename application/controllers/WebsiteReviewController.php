@@ -37,7 +37,7 @@ class WebsiteReviewController extends CI_Controller
     }
 
     $raw['data'] = $data;
-    $data['title'] = "Analyze Testing";
+    $data['title'] = "Website Review";
     $data['content'] = $this->load->view('frontend/content-templates/content-analyze-result', $raw, TRUE);
     $this->load->view('frontend/page', $data);
   }

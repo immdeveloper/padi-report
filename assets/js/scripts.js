@@ -5,7 +5,33 @@ $(document).ready(function(){
   dataTable();
   dynamic_form();
   dynamic_point_check();
+  backtotop();
 });
+
+function backtotop()
+{
+  if ($('.back-to-top').length) {
+    var scrollTrigger = 100, // px
+        backToTop = function () {
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop > scrollTrigger) {
+                $('.back-to-top').addClass('show');
+            } else {
+                $('.back-to-top').removeClass('show');
+            }
+        };
+    backToTop();
+    $(window).on('scroll', function () {
+        backToTop();
+    });
+    $('.back-to-top').on('click', function (e) {
+        e.preventDefault();
+        $('html,body').animate({
+            scrollTop: 0
+        }, 700);
+    });
+}
+}
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
@@ -73,6 +99,33 @@ function dataTable()
 {
   $('.datatable').DataTable();
 }
+
+/*Exclude point from report*/
+$('.exclude-point').click(function(e){
+  e.preventDefault();
+  var id = $(this).data('id');
+  if($(this).attr('data-active') == 1)
+  {
+    $(this).attr('data-active', 0);
+    $(this).find('i').attr('class', 'fa fa-check-circle fa fw');
+    $(this).find('i').css('color', '#7AA93C');
+    $('#check-'+id).prop('disabled', true);
+    $('#check-status-'+id).prop('disabled', true);
+    $('#source-'+id).prop('disabled', true);
+    $('#text-'+id).css('text-decoration', 'line-through');
+  }
+  else
+  {
+    $(this).attr('data-active', 1);
+    $(this).find('i').attr('class', 'fa fa-times-circle fa fw');
+    $(this).find('i').css('color', '#F03');
+    $('#check-'+id).prop('disabled', false);
+    $('#check-status-'+id).prop('disabled', false);
+    $('#source-'+id).prop('disabled', false);
+    $('#text-'+id).css('text-decoration', 'none');
+  }
+
+});
 
 /*Getting Google Page Insights Results*/
 $('#btn-analyze').click(function(){

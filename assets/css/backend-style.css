@@ -491,3 +491,17 @@ footer a{
 .popover.bottom>.arrow:after{
   border-bottom-color:rgba(255,255,255,0.3);
 }
+
+.back-to-top{
+  z-index: 999999;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: #333;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.back-to-top.show {
+    opacity: .5;
+}

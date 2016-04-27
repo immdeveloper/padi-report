@@ -1,26 +1,17 @@
-<p>
-  This page is currently on testing mode...
-</p>
-
-<div class="form input-group">
-  <form action="" method="post" id="form-web-url">
-    <input type="text" id="web-url" class="form-control" placeholder="Enter your website url (don't include http(s)://)">
-  </form>
-  <form action="" method="post" id="hidden-web-url">
-    <!-- Keep the url being analyze -->
-    <?php $hidden_url = $_GET["url"]; $hidden_url = str_ireplace('www.', '', parse_url($hidden_url, PHP_URL_HOST)); ?>
-    <input type="hidden" name="hidden-url" id="hidden-url" value="<?= $hidden_url ?>" />
-  </form>
-  <a href="javascript:void(0)" class="btn btn-default input-group-addon" id="btn-analyze">Analyze</a>
-</div>
+<a href="#" class="back-to-top"><i class="fa fa-chevron-circle-up fa-3x"></i></a>
+<form action="" method="post" id="hidden-web-url">
+  <!-- Keep the url being analyze -->
+  <?php $hidden_url = $_GET["url"]; $hidden_url = str_ireplace('www.', '', parse_url($hidden_url, PHP_URL_HOST)); ?>
+  <input type="hidden" name="hidden-url" id="hidden-url" value="" />
+</form>
 <div class="preload" style="display:none">
   <i class="fa fa-circle-o-notch fa-spin"></i> <span>Getting results...<span id="load-status"></span></span>
 </div>
-<hr />
 <div class="result">
   <div id="test-scraping">
 
   </div>
+  <a href="#" class="btn btn-default save-all pull-right" id="save-all" style="margin-right:5%; margin-top:30px">Save All</a>
   <div class="result-title">
     <span>Analysis of <span style="color: #0D8FDB;">http://<?= $hidden_url ?></span>
     <span class="result-date"><i class="fa fa-calendar"></i> <?= date("Y F d"); ?></span>
@@ -80,6 +71,7 @@
       </div>
     </div>
   </div><!-- Card summary -->
+  <hr>
   <div class="result-navbar">
     <ul class="list-unstyled">
       <li class="active"><a href="#tab0" role="tab" data-toggle="tab"><i class="fa fa-sitemap fa-fw"></i> Site Structure</a></li>
@@ -92,8 +84,6 @@
   </div>
   <!-- Tab content -->
   <div class="tab-content">
-    <a href="#" class="btn btn-default save-all" id="save-all">Save All</a>
-
     <?php
     // echo var_dump($data);
     // category loop
@@ -152,14 +142,14 @@
                   foreach ($section_value['point'] as $point_value) { ?>
                     <div class="checkbox">
                       <label data-toggle="tooltip" data-placement="right" title="<?php echo $point_value['point_desc'];?>">
-                        <input type="hidden" value="off" name="<?php echo $point_value['id_point']; ?>">
+                        <input type="hidden" value="off" name="<?php echo $point_value['id_point']; ?>" id="check-status-<?php echo $point_value['id_point']; ?>">
                         <input id="check-<?php echo $point_value['id_point'];?>"
                         name="<?php echo $point_value['id_point']; ?>"
                         type="checkbox" data-toggle="collapse"
                         data-target="#<?php echo $point_value['id_point'];?>">
                         <input type="hidden" name="source-<?php echo $point_value['id_point']; ?>"
-                        value="<?php echo $point_value['id_source'];?>" class="form-control">
-                        <?php echo $point_value['point_name']; ?>
+                        value="<?php echo $point_value['id_source'];?>" class="form-control" id="source-<?php echo $point_value['id_point']; ?>">
+                        <span id="text-<?php echo $point_value['id_point'];?>"><?php echo $point_value['point_name']; ?></span> <a href="#" class="exclude-point" data-active="1" data-id="<?php echo $point_value['id_point'];?>"><i class="fa fa-times-circle fa-fw" style="color:#f03"></i></a>
                       </label>
                       <div class="collapse" id="<?php echo $point_value['id_point'];?>">
                         <div class="well">
@@ -203,8 +193,8 @@
 
                     </div>
                   </form>
-                  <a href="#" class="btn btn-default add-field" id="add-<?php echo $section_value['id_section']; ?>" data-section-id=<?php echo $section_value['id_section']; ?>>Add personal judgement</a>
-                  <a href="#" class="btn btn-default save-field" id="save-<?php echo $section_value['id_section'];  ?>" data-section-name="<?php echo $section_value['section_slug']?>">Save</a>
+                  <a href="javascript:void(0)" class="btn btn-primary save-field" id="save-<?php echo $section_value['id_section'];  ?>" data-section-name="<?php echo $section_value['section_slug']?>">Save</a>
+                  <a href="javascript:void(0)" class="btn btn-default add-field" id="add-<?php echo $section_value['id_section']; ?>" data-section-id=<?php echo $section_value['id_section']; ?>><i class="fa fa-plus-circle fa-fw"></i> Personal judgement</a>
                 </div>
               </div>
             </div><!-- card -->
