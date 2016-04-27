@@ -222,8 +222,8 @@ function dynamic_form()
                 '<span><strong>Who can fix it?</strong></span>' +
                 '<select class="form-control" name="who-fix-personal-'+section_id + x +'">' +
                   '<option value="">-- select user --</option>' +
-                  '<option value="1">Webmaster</option>' +
-                  '<option value="2">End user</option>' +
+                  '<option value="Webmaster">Webmaster</option>' +
+                  '<option value="Basic user">Basic user</option>' +
                 '</select>' +
               '</div>' +
               '<div class="form-group">' +
@@ -358,9 +358,9 @@ $('.save-all').click(function(){
     dataType: 'json',
     data: forms,
     beforeSend: function() {
-      $('#loading-save').modal({
-          backdrop: 'static'
-      });
+      // $('#loading-save').modal({
+      //     backdrop: 'static'
+      // });
       //$('#loading-save').modal('show');
       $('.preload2').fadeIn();
       // $('#load-status').html('Preparing fetching data');
