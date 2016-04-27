@@ -294,7 +294,7 @@
 
             <tr>
               <td rowspan="3" style="vertical-align:middle" class="table-score-wrapper">
-                <span class="table-score text-red"><?php echo 'XX' ?></span>
+                <span class="table-score text-red"><?php echo $result['section_score'] ?></span>
                 <span>score %</span>
               </td>
               <td style="text-align:center"><strong><?php echo $result['section_importance']?>/10</strong></td>

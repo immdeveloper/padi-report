@@ -103,7 +103,7 @@ class WebsiteReviewController extends CI_Controller
   public function report($id, $action)
   {
     $raw = $this->WebsiteReview->getReportData($id);
-    $s = $this->WebsiteReview->getSectionScore($id);
+    $score = $this->WebsiteReview->getSectionScore($id);
     $tmp = array();
 
     $status = array();
@@ -111,10 +111,26 @@ class WebsiteReviewController extends CI_Controller
     $status['url'] = $raw[0]->url;
     $status['date'] = $raw[0]->date;
 
+    $sectionPrev = NULL;
+    $section = array();
+    $section_score = array();
+
+    foreach ($raw as $key => $value) {
+      if($value->section_name != $sectionPrev)
+      {
+        $section[] = $value->section_name;
+      }
+      $sectionPrev = $value->section_name;
+    }
+
+    foreach ($score as $key => $value) {
+      $section_score[$section[$key]] = $value->section_score;
+    }
+
     foreach($raw as $arg)
     {
         $tmp[$arg->section_cat][$arg->section_name] = array(
-          //'section_score'     => $value->section_score,
+          'section_score'       => $section_score[$arg->section_name],
           'section_desc'        => $arg->section_desc,
           'section_slug'        => $arg->section_slug,
           'section_why'         => $arg->section_why,
