@@ -16,6 +16,13 @@ var typingTimer;                //timer identifier
 var doneTypingInterval = 1000;  //time in ms, 5 second for example
 var url = $('#web-url');
 var btn_submit = $('#btn-submit');
+btn_submit.prop('disabled', true); //disable submit button by default
+
+btn_submit.click(function(e){ //on btn_submit click in index page
+  e.preventDefault();
+  var weburl = $('#web-url').val(); //get weburl value pass to form page
+  window.location.replace(base_url + 'website-review-form/?url=' + weburl);
+});
 
 //on keyup, start the countdown
 url.on('keyup', function () {
