@@ -311,6 +311,8 @@ $('.save-field').click(function(e){
   $('#saved-section').html(savedSection+1);
   // alert(totalSection + savedSection);
   //calculate saved section
+  // alert(validateForm(section_name));
+  if(validateForm(section_name)){
   //calculate section score
   var selected = [];
   $('#form-'+ section_name + ' input:checked').each(function() {
@@ -339,8 +341,41 @@ $('.save-field').click(function(e){
   var result_id = $('#'+collapse_id).children('.result-table-wrapper').attr('id');
   $('#'+wrapper_id).hide();
   $('#'+result_id).fadeIn();
+}
 });
 
+function validateForm(sectionName){
+  var warning = 0;
+  // warning = $("#form-" + sectionName + " input").length;
+  // warning = $('#form-'+ sectionName + ' input').length;
+  // theInput = $('#form-'+ sectionName + ' input');
+  $("form#form-"+ sectionName + " :input").each(function(){
+      var input = $(this); // This is the jquery object of the input, do what you will
+      if(!input.val()){
+        input.addClass('warning');
+        warning++;
+      }else{
+        input.removeClass('warning');
+      }
+  });
+  // for (var i = 0; i < warning; i++) {
+  //   if(!theInput[0].val(){
+  //     theInput[0].addClass('warning');
+  //   }
+  // }
+  //   $('#form-'+ sectionName + ' input').blur(function(){
+  //   if( !$(this).val() ) {
+  //         $(this).addClass('warning');
+  //         //return false;
+  //         warning++;
+  //   }
+  // });
+  if (warning == 0) {
+    return true;
+  }else{
+    return false;
+  }
+}
 
 $('.save-all').click(function(){
   //var url = $('#web-url').val();
