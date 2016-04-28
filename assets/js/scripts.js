@@ -318,7 +318,7 @@ $('.save-field').click(function(e){
   });
   var totalSelected = selected.length;
   var totalCheckbox = $('#form-' + section_name ).find('input:checkbox').length;
-  var totalDisabledCheckbox = $('#form-' + section_name                                 ).find('input[type="checkbox"]').filter(function() {
+  var totalDisabledCheckbox = $('#form-' + section_name).find('input[type="checkbox"]').filter(function() {
     return this.disabled;
   }).length;
   totalCheckbox -= totalDisabledCheckbox;
