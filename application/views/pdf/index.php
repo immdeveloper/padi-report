@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title><?php echo $title; ?></title>
     <link rel="stylesheet" href="<?php echo base_url().'assets/css/reset.css'?>" type="text/css" />
     <link rel="stylesheet" href="<?php echo base_url().'assets/css/pdf-style.css'?>" type="text/css" />
@@ -33,13 +33,13 @@
 
     <!-- Header & Footer -->
     <div id="footer">
-        <p>www.islandmediamanagement.com</p>
+        <p><a href="https://www.islandmediamanagement.com" target="_blank">www.islandmediamanagement.com</a></p>
     </div>
     <div class="container">
       <section id="page-1">
         <img src="<?php echo base_url().'assets/images/logo.png'?>" alt="" width="230" height="138" class="logo" />
         <p class="first-page-imm">Island Media Management</p>
-        <p class="first-page-title">Website review for <em><?php echo $status['url'] ?></em>, <?php echo date('j<\s\up>S</\s\up> F Y', strtotime($status['date']));?></p>
+        <p class="first-page-title">Website review for <em><a href="http://www.<?php echo $status['url'] ?>" style="text-decoration:none"><?php echo $status['url'] ?></a></em>, <?php echo date('j<\s\up>S</\s\up> F Y', strtotime($status['date']));?></p>
         <div style="height:400px;"></div>
         <h2 class="heading">List of Contents</h2>
         <ul class="section-list">
@@ -63,11 +63,11 @@
       <section>
         <h2 class="heading heading-section"><a name="intro">Section 1 – An Introduction to Island Media Management</a></h2>
         <p>
-          This is an independent review of your website, <u><?php echo $status['url'] ?></u>, performed by Island Media Management. IMM a marketing consulting firm based in Bali, Indonesia which is managed by experienced dive industry marketers who have also taught at all levels from Discover Scuba Diving up to Trimix Instructor. This review is meant to serve as a tool to help you see how your online marketing efforts can be improved in order to deliver sustainable results for your dive business.
+          This is an independent review of your website, <u><a href="http://www.<?php echo $status['url'] ?>" target="_blank"><?php echo $status['url'] ?></a></u>, performed by Island Media Management. IMM a marketing consulting firm based in Bali, Indonesia which is managed by experienced dive industry marketers who have also taught at all levels from Discover Scuba Diving up to Trimix Instructor. This review is meant to serve as a tool to help you see how your online marketing efforts can be improved in order to deliver sustainable results for your dive business.
         </p>
         <p>
           If you have any questions about the report you are welcome to contact us direct at
-          <a href="info@islandmediamanagement.com">info@islandmediamanagement.com</a> where our team is ready and waiting to assist you.
+          <a href="mailto:info@islandmediamanagement.com">info@islandmediamanagement.com</a> where our team is ready and waiting to assist you.
         </p>
         <div style="height:10px"></div>
         <h2 class="heading sub-heading" style="font-size:14">How to use this report</h2>
@@ -87,12 +87,12 @@
           <table>
 
             <tr>
-              <td rowspan="3" style="vertical-align:middle" class="table-score-wrapper">
+              <td rowspan="3" style="vertical-align:middle; width:80" class="table-score-wrapper">
                 <span class="table-score text-green">xx</span>
                 <span>score %</span>
               </td>
-              <td style="text-align:center">x/10</td>
-              <td>Importance</td>
+              <td style="text-align:center; width:10">x/10</td>
+              <td style="width:80">Importance</td>
               <td rowspan="2" style="vertical-align:middle"><strong>What is it?</strong> A brief explanation of what this item is.</td>
             </tr>
             <tr>
@@ -108,7 +108,7 @@
         </div>
         <table class="detail-list">
           <tr>
-            <td><span>What’s working?</span></td>
+            <td style="width:100"><span>What’s working?</span></td>
             <td><span class="icon">&#xf00c;</span> - We will tell you what aspects are working.</td>
           </tr>
           <tr>
@@ -317,17 +317,17 @@
           <table>
 
             <tr>
-              <td rowspan="3" style="vertical-align:middle" class="table-score-wrapper">
-                <span class="table-score <?php echo $color; ?>"><?php echo $result['section_score'] ?></span>
+              <td rowspan="3" style="vertical-align:middle; width:80px;" class="table-score-wrapper">
+                <span class="section-loop-score table-score <?php echo $color; ?>"><?php echo $result['section_score'] ?></span>
                 <span>score %</span>
               </td>
-              <td style="text-align:center"><strong><?php echo $result['section_importance']?>/10</strong></td>
+              <td style="text-align:center; width:10"><strong><?php echo $result['section_importance']?>/10</strong></td>
               <td>Importance</td>
               <td rowspan="2" style="vertical-align:middle"><strong><em>What: <?php echo $result['section_desc']?></em></strong></td>
             </tr>
             <tr>
               <td style="text-align:center"><?php echo $result['section_difficulty']?>/10</td>
-              <td>Difficulty level</td>
+              <td style="width:80">Difficulty level</td>
             </tr>
             <tr>
               <td style="text-align:center">na</td>
@@ -366,7 +366,7 @@
                 {
                 ?>
                   <tr>
-                  <td><?php echo $title;?></td>
+                  <td style="width:100"><?php echo $title;?></td>
                   <td><span class="icon">&#xf00c;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></td>
                   </tr>
                 <?php

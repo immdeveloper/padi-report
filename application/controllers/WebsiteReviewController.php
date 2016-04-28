@@ -83,8 +83,8 @@ class WebsiteReviewController extends CI_Controller
 
     foreach ($raw as $arg) {
       $tmp[$arg->section_cat][$arg->section_name]['point'][] = array(
-        'point_name' => $arg->point_name,
-        'result'     => $arg->point_result
+        'point_name' =>  $arg->point_name,
+        'result'     =>  $arg->point_result
       );
     }
 
@@ -188,7 +188,7 @@ class WebsiteReviewController extends CI_Controller
         if(!empty($result)){
           $data = array(
               'id_source' => $id_source,
-              'result'    => json_encode($result)
+              'result'    => json_encode($result, JSON_UNESCAPED_UNICODE);
             );
           $id_result = $this->WebsiteReview->insertNewResult($data);
           $data = array(

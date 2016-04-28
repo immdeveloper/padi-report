@@ -85,6 +85,10 @@ a{
   right: 0;
   font-size: 10pt;
 }
+
+#footer a{
+  text-decoration: none;
+}
 /*-------------------*/
 
 .logo{
