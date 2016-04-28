@@ -4,7 +4,6 @@
 //echo '<pre>';
 //print_r($point);
 //echo '</pre>';
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -109,19 +108,19 @@
         <table class="detail-list">
           <tr>
             <td style="width:100"><span>What’s working?</span></td>
-            <td><span class="icon">&#xf00c;</span> - We will tell you what aspects are working.</td>
+            <td><span class="icon">&#10003;</span> - We will tell you what aspects are working.</td>
           </tr>
           <tr>
             <td><span>What needs fixing?</span></td>
-            <td><span class="icon">&#xf096;</span> - We will also tell you what aspects need our attention.</td>
+            <td><span class="icon">&#9744;</span> - We will also tell you what aspects need our attention.</td>
           </tr>
           <tr>
             <td><span>Who can fix it?</span></td>
-            <td><span class="icon">&#xf183;</span> - Basic user / webmaster / programmer</td>
+            <td><span class="icon-fa">&#xf183;</span> - Basic user / webmaster / programmer</td>
           </tr>
           <tr>
             <td><span>How do you fix it?</span></td>
-            <td><span class="icon">&#xf046;</span> - We will tell you how to get the problem fixed, allowing you to determine if you can do it in-house, or if you need to outsource the service.</td>
+            <td><span class="icon">&#9745;</span> - We will tell you how to get the problem fixed, allowing you to determine if you can do it in-house, or if you need to outsource the service.</td>
           </tr>
         </table>
         <p>
@@ -150,7 +149,7 @@
             <td>Last Report Score</td>
             <td class="number"><?php echo $score['Meta Tags & Headings'] ?></td>
             <td>Meta Tags</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $status['overallcontentscore'] ?></td>
             <td>Overall Content</td>
           </tr>
           <tr>
@@ -158,7 +157,7 @@
             <td>User Experience</td>
             <td class="number"><?php echo $score['Images'] ?></td>
             <td>Images</td>
-            <td class="number">xx</td>
+            <td class="number"><?php echo $status['socialintegrationscore'] ?></td>
             <td>Social Integration</td>
           </tr>
           <tr>
@@ -166,7 +165,7 @@
             <td>Navigation</td>
             <td class="number"><?php echo $score['Text'] ?></td>
             <td>Text</td>
-            <td class="number"><?php echo $score['Quality Signals'] ?></td>
+            <td class="number"><?php echo $status['qualitysignalscore']; ?></td>
             <td>Quality Signals</td>
           </tr>
           <tr>
@@ -367,7 +366,7 @@
                 ?>
                   <tr>
                   <td style="width:100"><?php echo $title;?></td>
-                  <td><span class="icon">&#xf00c;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></td>
+                  <td><span class="icon">&#10003;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></td>
                   </tr>
                 <?php
                 }
@@ -377,15 +376,15 @@
                 ?>
                   <tr>
                     <td><span>What needs fixing?</span></td>
-                    <td><span class="icon">&#xf096;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?> </td>
+                    <td><span class="icon">&#9744;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?> </td>
                   </tr>
                   <tr>
                     <td><span>Who can fix it?</span></td>
-                    <td><span class="icon">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></td>
+                    <td><span class="icon-fa">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></td>
                   </tr>
                   <tr>
                     <td><span>How do you fix it?</span></td>
-                    <td><span class="icon">&#xf046;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></td>
+                    <td><span class="icon">&#9745;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></td>
                   </tr>
                 <?php
                 }
@@ -395,19 +394,19 @@
                 ?>
                   <tr>
                   <td><?php echo $title;?></td>
-                  <td><span class="icon">&#xf00c;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></td>
+                  <td><span class="icon">&#10003;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></td>
                   </tr>
                   <tr>
                     <td><span>What needs fixing?</span></td>
-                    <td><span class="icon">&#xf096;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?> </td>
+                    <td><span class="icon">&#9744;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?> </td>
                   </tr>
                   <tr>
                     <td><span>Who can fix it?</span></td>
-                    <td><span class="icon">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></td>
+                    <td><span class="icon-fa">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></td>
                   </tr>
                   <tr>
                     <td><span>How do you fix it?</span></td>
-                    <td><span class="icon">&#xf046;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></td>
+                    <td><span class="icon">&#9745;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></td>
                   </tr>
                 <?php
                 }

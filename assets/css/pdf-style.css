@@ -23,6 +23,10 @@ section:last-child,
 }
 
 span.icon{
+  font-family: DejaVu Sans;
+}
+
+span.icon-fa{
   font-family: FontAwesome;
   margin-right: 5px;
 }
