@@ -23,6 +23,10 @@ section:last-child,
 }
 
 span.icon{
+  font-family: DejaVu Sans;
+}
+
+span.icon-fa{
   font-family: FontAwesome;
   margin-right: 5px;
 }
@@ -44,15 +48,15 @@ section p{
 
 /*Text Color*/
 .text-red{
-  color: #FF0000;
+  color: #DD0000;
 }
 
 .text-green{
-  color: #387026;
+  color: #008800;
 }
 
 .text-yellow{
-
+  color:#FF9511;
 }
 
 .text-blue{
@@ -84,6 +88,10 @@ a{
   position: absolute;
   right: 0;
   font-size: 10pt;
+}
+
+#footer a{
+  text-decoration: none;
 }
 /*-------------------*/
 
