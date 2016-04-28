@@ -5,9 +5,6 @@
 <div class="container-fluid no-pad">
       <!-- Load the sidebar -->
       <?php require_once('sidebar.php'); ?>
-      <div class="preload2" style="display:none; background-image:url('<?php echo base_url().'assets/images/rolling.svg'?>')">
-        <span>Generating report preview, please wait...</span>
-      </div>
     <div class="page-wrapper">
       <!-- Top bar -->
       <?php require_once('top-bar.php'); ?>

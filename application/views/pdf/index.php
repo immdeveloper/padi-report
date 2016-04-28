@@ -6,14 +6,19 @@
 //echo '</pre>';
 
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title><?php echo $title; ?></title>
     <link rel="stylesheet" href="<?php echo base_url().'assets/css/reset.css'?>" type="text/css" />
     <link rel="stylesheet" href="<?php echo base_url().'assets/css/pdf-style.css'?>" type="text/css" />
+    <?php
+      if($action == 'preview')
+      {
+        echo '<link rel="stylesheet" href="'.base_url().'assets/css/preview-pdf.css" type="text/css" />';
+      }
+    ?>
     <link rel="stylesheet" href="<?php echo base_url().'assets/css/font-awesome.min.css'?>" type="text/css" />
   </head>
   <body>
@@ -21,6 +26,8 @@
       if($action == 'preview')
       {
         require_once('pdf-top-bar.php');
+        echo '<div class="preload" style="display:none; background-image:url('.base_url().'assets/images/rolling.svg)">';
+        echo '<span>Generating PDF, please wait...</span></div>';
       }
     ?>
 
@@ -280,10 +287,27 @@
         $section_number = 3;
           foreach ($point as $category => $value) {
             echo '<section>';
+            $name = '';
+            if($category == 'seo')
+            {
+              $name = 'SEO Assessment';
+            }
+            else
+            {
+              $name = $category;
+            }
         ?>
-              <h2 class="heading heading-section"><a name="<?php echo 'category-'.$section_number ?>"><span>Section <?php echo $section_number; ?>:</span> <?php echo ucwords($category); ?></a></h2>
+              <h2 class="heading heading-section"><a name="<?php echo 'category-'.$section_number ?>"><span>Section <?php echo $section_number; ?>:</span> <?php echo ucwords($name); ?></a></h2>
         <?php
           foreach ($value as $section => $result) {
+            $color = '';
+            if ($result['section_score'] < 50) {
+              $color = 'text-red';
+            }else if ($result['section_score'] < 80) {
+              $color = 'text-yellow';
+            }else if($result['section_score'] <= 100){
+              $color = 'text-green';
+            }
         ?>
               <h2 class="heading sub-heading"><?php echo strtoupper($section); ?></h2>
         <?php
@@ -294,7 +318,7 @@
 
             <tr>
               <td rowspan="3" style="vertical-align:middle" class="table-score-wrapper">
-                <span class="table-score text-red"><?php echo $result['section_score'] ?></span>
+                <span class="table-score <?php echo $color; ?>"><?php echo $result['section_score'] ?></span>
                 <span>score %</span>
               </td>
               <td style="text-align:center"><strong><?php echo $result['section_importance']?>/10</strong></td>
@@ -399,16 +423,17 @@
       }
       ?>
     </div>
+    <input type="hidden" value="<?php echo base_url(); ?>" id="base_url">
+    <script type="text/javascript" src="<?php echo base_url().'assets/js/jquery-1.12.2.min.js'?>"></script>
   </body>
 </html>
-<?php
-/*if($action == "generate")
-{
-  $html = ob_get_clean();
-  $dompdf = new DOMPDF();
-  $dompdf->load_html($html);
-  $dompdf->set_paper("A4", "portrait");
-  $dompdf->render();
-  $dompdf->stream("dompdf_out.pdf", array("Attachment" => false)); exit(0);
-}*/
-?>
+<script type="text/javascript">
+var base_url = $('#base_url').val();
+$('#generate-report').click(function(e){
+  e.preventDefault();
+  var id = $(this).data('id');
+  $('.preload').fadeIn();
+  window.location.replace(base_url + 'report/' + id + '/generate');
+  return false;
+});
+</script>

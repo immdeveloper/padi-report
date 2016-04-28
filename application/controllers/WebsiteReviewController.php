@@ -91,15 +91,19 @@ class WebsiteReviewController extends CI_Controller
     $data['point'] = $tmp;
     $data['status'] = $status;
     $data['action'] = $action;
-    $data['title'] = "Report Preview";
 
     if($action == 'preview')
     {
+      $data['title'] = "Report Preview";
       $this->load->view('pdf/index', $data);
     }
     elseif($action == 'generate')
     {
-      generate_pdf($this->load->view('pdf/index', $data, true), 'pdf-report');
+      $date = date('j<\s\up>S</\s\up> F Y', strtotime($status['date']));
+      $filedate = date('j F Y', strtotime($status['date']));
+      $filename = 'PADI-website-review-'.$status['url']. ' ('.$filedate.')';
+      $data['title'] = "Report for ". $status['url'].', '.$date;
+      generate_pdf($this->load->view('pdf/index', $data, true), $filename);
     }
 
   }

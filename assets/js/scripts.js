@@ -8,6 +8,39 @@ $(document).ready(function(){
   backtotop();
 });
 
+function showPreload(wrapper, text)
+{
+  //Generating report preview, please wait...
+  $html = '<div class="preload2" style="display:none; background-image:url(' + base_url + 'assets/images/rolling.svg)">' +
+      '<span>' + text + '</span>'+
+    '</div>';
+  wrapper.html($html);
+}
+
+$('#generate-report').click(function(e){
+  e.preventDefault();
+  var id = $(this).data('id');
+  showPreload('.preload-wrapper', 'Generating to PDF, please wait...');
+  /*$.ajax({
+    url: base_url + 'report/' + id + '/generate',
+    type: 'POST',
+    dataType: 'json',
+    beforeSend: function() {
+
+    },
+    error: function() {
+
+    },
+    success: function(res) {
+
+     };
+   },
+   complete: function() {
+
+   }
+ });*/
+});
+
 function backtotop()
 {
   if ($('.back-to-top').length) {
