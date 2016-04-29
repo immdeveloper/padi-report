@@ -21,7 +21,8 @@
   <div id="test-scraping">
 
   </div>
-  <a href="#" class="btn btn-default save-all pull-right" id="save-all" style="margin-right:5%; margin-top:30px">Save All</a>
+  <a href="#tab6" role="tab" data-toggle="tab" class="btn btn-default pull-right" style="margin-right:5%; margin-top:30px">Priority & Summary</a>
+  <a href="#" class="btn btn-default save-all pull-right" id="save-all" style="margin-right:20px; margin-top:30px">Save All</a>
   <div class="result-title">
     <span>Analysis of <span style="color: #0D8FDB;">http://<?= $hidden_url ?></span>
     <span class="result-date"><i class="fa fa-calendar"></i> <?= date("Y F d"); ?></span>
@@ -216,6 +217,123 @@
 
           <div id="total-section" style="display:none;"><?= $section_count ?></div>
           <div id="saved-section" style="display:none;">0</div>
+          <!-- Priority task and report summary -->
+          <div role="tabpanel" class="tab-pane fade" id="tab6">
+            <div class="card">
+              <h4 class="card-title">PRIORITY TASK & REPORT SUMMARY</h4>
+              <span class="card-subtitle"></span>
+              <hr>
+              <form>
+                <?php
+                  for ($i=0; $i < 4; $i++) {
+                ?>
+                <div class="form-group">
+                  <input type="text" name="priority-what[]" id="priority-result-what-<?php echo $i; ?>">
+                  <input type="text" name="priority-why[]" id="priority-result-why-<?php echo $i; ?>">
+                  <input type="text" name="priority-how[]" id="priority-result-how-<?php echo $i; ?>">
+                </div>
+                <?php } ?>
+                <div class="form-group">
+                  <textarea name="report-summary" rows="8" cols="40"></textarea>
+                </div>
+              </form>
+
+              <div class="priority-summary-result">
+                <div class="result-table priority-table">
+                  <table>
+                    <tr>
+                      <td rowspan="3" class="table-score-wrapper">
+                        <span class="text-red text-priority">PRIORITY TASK</span>
+                      </td>
+                      <td style="width:110px;">What?</td>
+                      <td><strong>CONVERSION</strong></td>
+                    </tr>
+                    <tr>
+                      <td style="width:110px;">Why?</td>
+                      <td>There is no clear way to get in touch with you via website.</td>
+                    </tr>
+                    <tr>
+                      <td style="width:110px;">How to fix it:</td>
+                      <td>Create a contact form on its own page, link into top navigation.</td>
+                    </tr>
+                  </table>
+                </div>
+                <h3>Report Summary</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <a href="#" class="btn btn-default"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+              </div>
+              <div class="priority-summary-form">
+                <fieldset>
+                  <legend>Priority Task</legend>
+                  <span>How you want to generate priority task?</span>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="set-priority-task" id="optionsRadios1" value="auto">
+                      Automatically generate priority task for this report
+                    </label>
+                  </div>
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="set-priority-task" id="optionsRadios2" value="manual">
+                      Manually choose priority task for this report
+                    </label>
+                  </div>
+                  <hr />
+                  <?php
+                    for ($i=0; $i < 4; $i++) {
+                  ?>
+                  <div class="priority-block" style="display:none">
+                    <h4>Priority Task <?php echo $i+1; ?></h4>
+                    <form class="form-inline select-priority-type">
+                      <div class="form-group">
+                        <select class="form-control priority-type" id="priority-type-<?php echo $i; ?>" data-id="<?php echo $i; ?>">
+                          <option>-- Select type of priority task --</option>
+                          <option value="section">Section</option>
+                          <option value="sub-section">Sub Section</option>
+                          <option value="point">Point</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <select class="form-control" name="" id="result-type-<?php echo $i; ?>">
+                          <option>-- Section --</option>
+                        </select>
+                      </div>
+                    </form>
+                    <form>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>What?</label>
+                            <input type="text" class="form-control" readonly id="priority-what-<?php echo $i; ?>">
+                          </div>
+                        </div>
+                        <div class="col-md-8">
+                          <div class="form-group">
+                            <label>Why?</label>
+                            <input type="text" class="form-control" id="priority-why-<?php echo $i; ?>">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>How to fix it:</label>
+                        <input type="text" class="form-control" id="priority-how-<?php echo $i; ?>">
+                      </div>
+                    </form>
+                  </div><!-- Priority block -->
+                  <?php } ?>
+                </fieldset>
+                <fieldset>
+                  <legend>Report Summary</legend>
+                  <div class="form-group">
+                    <textarea name="name" rows="8" cols="40" class="form-control"></textarea>
+                  </div>
+                </fieldset>
+                <a href="#" class="btn btn-default">Save</a>
+              </div>
+              </div>
+          </div>
         </div><!-- tab content -->
 
       </div><!-- Result -->

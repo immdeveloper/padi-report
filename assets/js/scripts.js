@@ -6,6 +6,7 @@ $(document).ready(function(){
   dynamic_form();
   dynamic_point_check();
   backtotop();
+  getPriorityType();
 });
 
 function showPreload(wrapper, text)
@@ -17,29 +18,81 @@ function showPreload(wrapper, text)
   wrapper.html($html);
 }
 
-$('#generate-report').click(function(e){
-  e.preventDefault();
-  var id = $(this).data('id');
-  showPreload('.preload-wrapper', 'Generating to PDF, please wait...');
-  /*$.ajax({
-    url: base_url + 'report/' + id + '/generate',
-    type: 'POST',
-    dataType: 'json',
-    beforeSend: function() {
+function getPriorityType()
+{
+  $('input[type=radio][name=set-priority-task]').change(function() {
+        if ($(this).val() == 'auto') {
+            $('.priority-block').fadeOut();
+        }
+        else if ($(this).val() == 'manual') {
+            $('.priority-block').fadeIn();
+        }
+    });
 
-    },
-    error: function() {
+  $('.priority-type').on('change', function() {
+    var id = $(this).data('id');
+    var value = $(this).val();
+    $.ajax({
+      url: base_url + 'priority-type/' + value,
+      type: 'POST',
+      dataType: 'json',
+      beforeSend: function() {
 
-    },
-    success: function(res) {
+      },
+      error: function() {
+        alert('error');
+      },
+      success: function(res) {
+        var data = '';
+        var index = '';
+        var why = '';
+        var how = '';
+        $('#result-type-' + id)
+            .empty()
+            .append($("<option></option>")
+                       .attr("value", "")
+                       .text("-- select " + value + "--"));
+        $.each(res, function(key, output) {
+          if(value == 'section')
+          {
+            val = output.section_cat;
+            data = val.substr(0,1).toUpperCase()+val.substr(1);
+            index = output.id_section;
+          }
+          else if(value == 'sub-section')
+          {
+            data = output.section_name;
+            index = output.id_section;
+          }
+          else if (value == 'point')
+          {
+            data = output.point_name;
+            index = output.id_point;
+            why = output.point_what_need_fixing;
+            how = output.point_how_to_fix;
+          }
+             $('#result-type-' + id)
+                 .append($("<option></option>")
+                            .attr("value", index)
+                            .attr("data-why", why)
+                            .attr("data-how", how)
+                            .text(data));
+        });
 
-     };
-   },
-   complete: function() {
+        $('#result-type-' + id).on('change', function() {
+          $('#priority-what-' + id).val($(this).find(':selected').text());
+          $('#priority-why-' + id).val($(this).find(':selected').data('why'));
+          $('#priority-how-' + id).val($(this).find(':selected').data('how'));
 
-   }
- });*/
-});
+          $('#priority-result-what-' + id).val($(this).find(':selected').text());
+          $('#priority-result-why-' + id).val($(this).find(':selected').data('why'));
+          $('#priority-result-how-' + id).val($(this).find(':selected').data('how'));
+        });
+
+     },
+   });
+  });
+}
 
 function backtotop()
 {

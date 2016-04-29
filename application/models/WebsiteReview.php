@@ -133,6 +133,28 @@ class WebsiteReview extends CI_Model {
     return $query->result();
   }
 
+  public function getPriorityType($type)
+  {
+    $query = '';
+    if($type == 'section')
+    {
+      $this->db->select('id_section, section_cat');
+      $this->db->group_by('section_cat');
+      $query = $this->db->get('section');
+    }
+    elseif($type == 'sub-section')
+    {
+      $this->db->select('id_section, section_name');
+      $query = $this->db->get('section');
+    }
+    elseif ($type == 'point')
+    {
+      $this->db->select('id_point, point_name, point_what_need_fixing, point_how_to_fix');
+      $query = $this->db->get('point_check');
+    }
+    return $query->result();
+  }
+
 }
 
 // foreach ($query->result() as $row)

@@ -117,6 +117,13 @@ class WebsiteReviewController extends CI_Controller
 
   }
 
+  public function getPriorityType($type)
+  {
+    $data = $this->WebsiteReview->getPriorityType($type);
+    $this->output->set_content_type('application/json');
+    echo json_encode($data);
+  }
+
   public function run()
   {
     $url = $this->input->post('url');
