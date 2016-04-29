@@ -71,7 +71,7 @@ class WebsiteReviewController extends CI_Controller
 
     $overallcontentscore = ($section_score['Homepage Content'] + $section_score['Internal Page Content'] + $section_score['Blog / News Section'] + $section_score['Special Offers'] + $section_score['Content Management'] + $section_score['Indexed Pages']) / 6;
     $socialintegrationscore = ($section_score['Products Pages & Blog Pages'] + $section_score['Homepage']) / 2;
-    $qualitysignalscore = ($section_score['Quality Signals'] + $section_score['Strong Company / About us Signal']) / 2;
+    $qualitysignalscore = ($section_score['Quality Signals'] + $section_score['Strong Company / About Us Quality']) / 2;
 
     foreach($raw as $arg)
     {
