@@ -116,6 +116,9 @@ $('.exclude-point').click(function(e){
     $('#check-'+id).prop('disabled', true);
     $('#check-status-'+id).prop('disabled', true);
     $('#source-'+id).prop('disabled', true);
+    $('#explanation-'+id).prop('disabled', true);
+    $('#who-fix-'+id).prop('disabled', true);
+    $('#how-fix-'+id).prop('disabled', true);
     $('#text-'+id).css('text-decoration', 'line-through');
   }
   else
@@ -126,6 +129,9 @@ $('.exclude-point').click(function(e){
     $('#check-'+id).prop('disabled', false);
     $('#check-status-'+id).prop('disabled', false);
     $('#source-'+id).prop('disabled', false);
+    $('#explanation-'+id).prop('disabled', false);
+    $('#who-fix-'+id).prop('disabled', false);
+    $('#how-fix-'+id).prop('disabled', false);
     $('#text-'+id).css('text-decoration', 'none');
   }
 
@@ -346,17 +352,26 @@ $('.save-field').click(function(e){
 
 function validateForm(sectionName){
   var warning = 0;
+  var dis = 0;
   // warning = $("#form-" + sectionName + " input").length;
   // warning = $('#form-'+ sectionName + ' input').length;
   // theInput = $('#form-'+ sectionName + ' input');
   $("form#form-"+ sectionName + " :input").each(function(){
-      var input = $(this); // This is the jquery object of the input, do what you will
-      if(!input.val()){
-        input.addClass('warning');
-        warning++;
-      }else{
-        input.removeClass('warning');
-      }
+      var input = $(this);
+
+      // if(!input.prop("disabled")){
+        if(!input.val() && !input.prop("disabled")){
+          input.addClass('warning');
+          warning++;
+        }else{
+          input.removeClass('warning');
+          // alert('remove');
+        }
+    // }
+    // else{
+    //   dis++;
+    //   alert(dis);
+    // }
   });
   // for (var i = 0; i < warning; i++) {
   //   if(!theInput[0].val(){
@@ -370,6 +385,7 @@ function validateForm(sectionName){
   //         warning++;
   //   }
   // });
+  // alert(warning);
   if (warning == 0) {
     return true;
   }else{

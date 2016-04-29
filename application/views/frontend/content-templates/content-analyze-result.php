@@ -166,11 +166,11 @@
                           <input type="hidden" name="description-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_desc'];?>" class="form-control">
                           <div class="form-group">
                             <span><strong>Explanation</strong></span>
-                            <input type="text" name="explanation-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_what_need_fixing'];?>" class="form-control">
+                            <input type="text" name="explanation-<?php echo $point_value['id_point']; ?>" id="explanation-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_what_need_fixing'];?>" class="form-control">
                           </div>
                           <div class="form-group">
                             <span><strong>Who can fix it?</strong></span>
-                            <select class="form-control" name="who-fix-<?php echo $point_value['id_point']; ?>">
+                            <select class="form-control" name="who-fix-<?php echo $point_value['id_point']; ?>" id="who-fix-<?php echo $point_value['id_point']; ?>">
                               <?php
                               if($point_value['point_who_can_fix'] == 'Webmaster')
                               {
@@ -192,7 +192,7 @@
                           </div>
                           <div class="form-group">
                             <span><strong>How do you fix it?</strong></span>
-                            <input type="text" name="how-fix-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_how_to_fix'];?>" class="form-control">
+                            <input type="text" name="how-fix-<?php echo $point_value['id_point']; ?>" id="how-fix-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_how_to_fix'];?>" class="form-control">
                           </div>
                         </div>
                       </div><!-- collapse -->
