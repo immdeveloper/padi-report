@@ -116,6 +116,7 @@ $('.exclude-point').click(function(e){
     $('#check-'+id).prop('disabled', true);
     $('#check-status-'+id).prop('disabled', true);
     $('#source-'+id).prop('disabled', true);
+    $('#description-'+id).prop('disabled', true);
     $('#explanation-'+id).prop('disabled', true);
     $('#who-fix-'+id).prop('disabled', true);
     $('#how-fix-'+id).prop('disabled', true);
@@ -129,6 +130,7 @@ $('.exclude-point').click(function(e){
     $('#check-'+id).prop('disabled', false);
     $('#check-status-'+id).prop('disabled', false);
     $('#source-'+id).prop('disabled', false);
+    $('#description-'+id).prop('disabled', false);
     $('#explanation-'+id).prop('disabled', false);
     $('#who-fix-'+id).prop('disabled', false);
     $('#how-fix-'+id).prop('disabled', false);

@@ -163,7 +163,7 @@
                       </label>
                       <div class="collapse" id="well-<?php echo $point_value['id_point'];?>">
                         <div class="well">
-                          <input type="hidden" name="description-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_desc'];?>" class="form-control">
+                          <input type="hidden" name="description-<?php echo $point_value['id_point']; ?>" id="description-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_desc'];?>" class="form-control">
                           <div class="form-group">
                             <span><strong>Explanation</strong></span>
                             <input type="text" name="explanation-<?php echo $point_value['id_point']; ?>" id="explanation-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_what_need_fixing'];?>" class="form-control">
