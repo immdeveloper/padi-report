@@ -313,44 +313,49 @@ function dynamic_point_check()
 $('.save-field').click(function(e){
   e.preventDefault();
   var save_id = $(this).attr('id');
-  var section_name = $(this).data('section-name');
-  //calculate saved section
-  var savedSection = parseInt($('#saved-section').html());
-  $('#saved-section').html(savedSection+1);
-  // alert(totalSection + savedSection);
-  //calculate saved section
-  // alert(validateForm(section_name));
-  if(validateForm(section_name)){
-  //calculate section score
+  var sectionName = $(this).data('section-name');
+
+  if(validateForm(sectionName)){
+    //if section form is validated, saved section + 1
+    var savedSection = parseInt($('#saved-section').html());
+    $('#saved-section').html(savedSection+1);
+
+    //calculate section score
+    var sectionScore = calculateSectionScore(sectionName);
+    $('#result-' + sectionName ).find('.table-score').html(sectionScore);
+    $('#form-'+ sectionName ).find('.score-'+ sectionName).val(sectionScore);
+    $('#section-score-' + sectionName ).removeClass('red');
+    $('#section-score-' + sectionName ).removeClass('orange');
+    if (sectionScore < 50) {
+      $('#section-score-' + sectionName ).addClass('red');
+    }else if (sectionScore < 80) {
+      $('#section-score-' + sectionName ).addClass('orange');
+    }
+
+    var wrapper_id = $('#'+save_id).closest('div').attr('id');
+    var collapse_id = $('#'+wrapper_id).parents('.res').attr('id');
+    var result_id = $('#'+collapse_id).children('.result-table-wrapper').attr('id');
+    $('#'+wrapper_id).hide();
+    $('#'+result_id).fadeIn();
+  }
+});
+
+//calculate section score
+function calculateSectionScore(sectionName) {
   var selected = [];
-  $('#form-'+ section_name + ' input:checked').each(function() {
+  $('#form-'+ sectionName + ' input:checked').each(function() {
       selected.push($(this).attr('name'));
   });
   var totalSelected = selected.length;
-  var totalCheckbox = $('#form-' + section_name ).find('input:checkbox').length;
-  var totalDisabledCheckbox = $('#form-' + section_name).find('input[type="checkbox"]').filter(function() {
+  var totalCheckbox = $('#form-' + sectionName ).find('input:checkbox').length;
+  var totalDisabledCheckbox = $('#form-' + sectionName).find('input[type="checkbox"]').filter(function() {
     return this.disabled;
   }).length;
   totalCheckbox -= totalDisabledCheckbox;
   var totalNotSelected = totalCheckbox - totalSelected;
   var sectionScore = Math.round(totalNotSelected * 100 / totalCheckbox);//alert(sectionScore);
-  $('#result-' + section_name ).find('.table-score').html(sectionScore);
-  $('#form-'+ section_name ).find('.score-'+ section_name).val(sectionScore);
-  $('#section-score-' + section_name ).removeClass('red');
-  $('#section-score-' + section_name ).removeClass('orange');
-  if (sectionScore < 50) {
-    $('#section-score-' + section_name ).addClass('red');
-  }else if (sectionScore < 80) {
-    $('#section-score-' + section_name ).addClass('orange');
-  }
-  //calculate section score
-  var wrapper_id = $('#'+save_id).closest('div').attr('id');
-  var collapse_id = $('#'+wrapper_id).parents('.res').attr('id');
-  var result_id = $('#'+collapse_id).children('.result-table-wrapper').attr('id');
-  $('#'+wrapper_id).hide();
-  $('#'+result_id).fadeIn();
+  return sectionScore;
 }
-});
 
 function validateForm(sectionName){
   var warning = 0;
