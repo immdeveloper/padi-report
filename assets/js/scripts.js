@@ -131,9 +131,10 @@ $('.exclude-point').click(function(e){
     $('#check-status-'+id).prop('disabled', false);
     $('#source-'+id).prop('disabled', false);
     $('#description-'+id).prop('disabled', false);
-    $('#explanation-'+id).prop('disabled', false);
-    $('#who-fix-'+id).prop('disabled', false);
-    $('#how-fix-'+id).prop('disabled', false);
+    // only enable description because the current state of the checkbox is unchecked
+    // $('#explanation-'+id).prop('disabled', false);
+    // $('#who-fix-'+id).prop('disabled', false);
+    // $('#how-fix-'+id).prop('disabled', false);
     $('#text-'+id).css('text-decoration', 'none');
   }
 
@@ -355,6 +356,24 @@ function calculateSectionScore(sectionName) {
   var totalNotSelected = totalCheckbox - totalSelected;
   var sectionScore = Math.round(totalNotSelected * 100 / totalCheckbox);//alert(sectionScore);
   return sectionScore;
+}
+
+//onClick point-checkbox
+function onCollapse(id){
+  //if description currently disable i.e checkbox is in checked state
+  //enable description, disable explanation, who fix, how fix
+  if($('#description-'+id).prop('disabled')){
+    $('#description-'+id).prop('disabled', false);
+    $('#explanation-'+id).prop('disabled', true);
+    $('#who-fix-'+id).prop('disabled', true);
+    $('#how-fix-'+id).prop('disabled', true);
+  }else{//else description currently enable i.e checkbox is in unchecked state
+    //disable description, enable explanation, who fix, how fix
+    $('#description-'+id).prop('disabled', true);
+    $('#explanation-'+id).prop('disabled', false);
+    $('#who-fix-'+id).prop('disabled', false);
+    $('#how-fix-'+id).prop('disabled', false);
+  }
 }
 
 function validateForm(sectionName){
