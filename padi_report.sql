@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2016 at 08:50 AM
+-- Generation Time: Apr 29, 2016 at 03:03 PM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -134,10 +134,10 @@ INSERT INTO `point_check` (`id_point`, `id_source`, `id_section`, `point_name`, 
 (35, 1, 13, 'Text', 'is brand- or product-relevant and have enough words.', 'At least one paragraph with appropriate keywords – the text on the homepage is too small and need expanding so that search engines and users can benefit from the content.', 'Webmaster', 'Work towards having at least 300 words on the home page that is relevant about your product and brand.', b'0'),
 (36, 1, 13, 'Product pages', 'are appropriately descriptive and have enough text.', 'Text quantity is low – many internal pages do not have enough text.', 'Webmaster', 'Work towards having at least 300 words on the home page that is relevant about your product and brand.', b'0'),
 (37, 1, 14, 'Product pages', '', '', '', '', b'0'),
-(38, 1, 15, 'Blog section', 'has lots of updates with good images', 'Consistency and quality – there are only 1 to 3 blog posts per month and so this could be done more regularly.', 'Webmaster', 'We would suggest developing a content strategy so that you can post our news and blog posts every week that can then also be used as part of your social media campaign.', b'0'),
-(39, 1, 15, 'News section', 'has lots of updates about the company.', 'No news section seems to exist – we have been unable to find a section that includes the latest updates from the company.', 'Basic user', 'We would suggest developing a content strategy so that you can post our news and blog posts every week that can then also be used as part of your social media campaign.', b'0'),
-(40, 1, 16, 'Special offers page', '', '', '', '', b'0'),
-(41, 1, 16, 'Special offer information', '', '', '', '', b'0'),
+(38, 1, 15, 'Blog Section', 'exist.', 'we have been unable to find a section that includes the latest updates from the company.', 'Basic user', 'We would suggest developing a content strategy so that you can post our news and blog posts every week that can then also be used as part of your social media campaign.', b'0'),
+(39, 1, 15, 'Consistency and Quality', 'has lots of updates with good images', 'Consistency and quality – there are only 1 to 3 blog posts per month and so this could be done more regularly.', 'Basic user', 'We would suggest developing a content strategy so that you can post our news and blog posts every week that can then also be used as part of your social media campaign.', b'0'),
+(40, 1, 16, 'Special offers page', 'Exist', 'No special offers page exist on the site.', 'Webmaster', 'Try to create a page that is dedicated to offers and promotions that users can easily find. This will encourage better conversion and highlight your key services that you are looking to promote.', b'0'),
+(41, 1, 16, 'Special offer information', 'Exist on the internal product pages', '', '', '', b'0'),
 (42, 1, 17, 'CMS', 'Built on an easy-to-update CMS', 'We would look to have some form of CMS in place for future website builds that will allow you to easily update and control information on your website.', 'Basic user', 'One for the future – choosing something like WordPress or Drupal for future website installations will help with content management and also google rankings as these platforms are very SEO friendly.', b'0'),
 (43, 1, 17, 'RSS feed', 'is present', 'No RSS feed is present on the site – when you have new content then having an RSS feed will allow other people to pick up your content.', 'Basic user', 'Installing an RSS feed is simple for a webmaster to do for this site.', b'0'),
 (44, 1, 17, 'Regular updates', 'is maintained well in the blog section.', 'We would suggest building the news section and then posting more quality content that is pointing to your website.', 'Basic user', 'Establish a content production schedule for your staff to write content which will then be posted on your site. A new section can contain so much information about what is going on at your dive center, the local region and in the dive industry in general.', b'0'),
@@ -164,7 +164,9 @@ INSERT INTO `point_check` (`id_point`, `id_source`, `id_section`, `point_name`, 
 (65, 1, 23, 'End of pages feature back to top', 'appears in every pages.', 'doesn’t appear anywhere on the site.', 'Webmaster', 'Add a “back to top” link at the bottom of pages to encourage users to access your site’s main navigation again. This, coupled with the “what’s next” feature is a great way to keep users on the website.', b'0'),
 (66, 1, 24, 'Book online / Sign up forms', 'present in the contact menu and it’s linked to each internal product pages', 'not present anywhere on the site.', 'Webmaster', 'You can allow users to inquire about specific programs and offers through specialized sign up forms that you include on the product pages. Consider adding a sign up form for a newsletter as well. Place the sign up forms on your product pages making it easy for them.', b'0'),
 (67, 1, 24, 'Contact Page', 'is clear and simple to use.', 'We would suggest you expand the contact pages to include your Name, Address and telephone number, social icons and even a Google map. The current page is very empty.', 'Webmaster', 'You must expand on your contact page for the site as soon as possible so that people can get in touch more easily. The more information you can collect from the customer helps you to provide a better service for that customer.', b'0'),
-(68, 1, 24, 'Contact Page uses forms', 'which allow customers to provide useful data.', 'We would suggest you expand the contact page to include a contact form so that people can add information and make it easy to send to you.', 'Webmaster', 'You must expand on your contact page for the site as soon as possible so that people can get in touch more easily. The more information you can collect from the customer helps you to provide a better service for that customer. Consider adding a Google map to your contact page so people know how to find you.', b'0');
+(68, 1, 24, 'Contact Page uses forms', 'which allow customers to provide useful data.', 'We would suggest you expand the contact page to include a contact form so that people can add information and make it easy to send to you.', 'Webmaster', 'You must expand on your contact page for the site as soon as possible so that people can get in touch more easily. The more information you can collect from the customer helps you to provide a better service for that customer. Consider adding a Google map to your contact page so people know how to find you.', b'0'),
+(82, 0, 16, 'Price Information', '', '', 'Basic user', '', b'0'),
+(83, 0, 16, 'Link from other pages', '', 'Special offers could be more prominent on the internal pages of the website', 'Webmaster', 'Try to include special offer text on the actual product pages so people do not have to travel to the special offers page to get the information.', b'0');
 
 -- --------------------------------------------------------
 
@@ -220,7 +222,7 @@ INSERT INTO `section` (`id_section`, `section_name`, `section_slug`, `section_de
 (19, 'Homepage', 'homepage', 'This checks how integrated your home/main pages are with your social media efforts.', 'Sends verifiable signals to both human users and search engines that your company is active in engaging its audience. This affects your rankings.', 7, 4, 'social integration'),
 (20, 'Products Pages & Blog Pages', 'product-and-blog', 'An assessment of your site’s integration of social media shares.', 'It is good to encourage social sharing by featuring “share this” and/or “pin it” type functionality on your product, news, special offer and blog pages.', 7, 4, 'social integration'),
 (21, 'Quality Signals', 'quality-signal', 'Signals regarding the legitimacy, accountability and capability of your company.', 'Anyone can put up a website, so it is important to let users (and search engines) know that there is a strong organization behind the site.', 9, 4, 'quality/retention/convertion'),
-(22, 'Strong Company / ', 'strong-company-about-us-quality', 'Website users want to identify with brands and the individuals behind them', 'Sends users a good quality signal that there are real people driving the business and to offer customer support. Search engines can now recognize this and many count it in their ranking algorithms.', 5, 4, 'quality/retention/convertion'),
+(22, 'Strong Company / About Us Quality', 'strong-company-about-us-quality', 'Website users want to identify with brands and the individuals behind them', 'Sends users a good quality signal that there are real people driving the business and to offer customer support. Search engines can now recognize this and many count it in their ranking algorithms.', 5, 4, 'quality/retention/convertion'),
 (23, 'Retention', 'retention', 'Retention deals with your site’s ability to keep users engaged and consuming more content.', 'Users who stay on a website longer are more likely to participate in a conversion-oriented behavior (like subscribing to a newsletter, inquiring via contact form, or submitting a booking!)', 8, 3, 'quality/retention/convertion'),
 (24, 'Conversion', 'conversion', 'Conversion relates to the actions that lead to inquiries, customer interaction, and bookings.', 'Meeting these goals leads to increased revenue.', 10, 2, 'quality/retention/convertion');
 
@@ -334,7 +336,7 @@ ALTER TABLE `domain`
 -- AUTO_INCREMENT for table `point_check`
 --
 ALTER TABLE `point_check`
-  MODIFY `id_point` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id_point` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 --
 -- AUTO_INCREMENT for table `result`
 --
