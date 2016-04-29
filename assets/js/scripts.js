@@ -106,12 +106,18 @@ function onClickPointCheck(id){
   //if description currently disable i.e checkbox is in checked state
   //enable description, disable explanation, who fix, how fix
   if($('#description-'+id).prop('disabled')){
+    $('#well-fix-'+id).collapse("toggle")
+    $('#well-desc-'+id).collapse("toggle")
+    // $('#check-'+id).attr('data-target', "#well-desc-" + id );
     $('#description-'+id).prop('disabled', false);
     $('#explanation-'+id).prop('disabled', true);
     $('#who-fix-'+id).prop('disabled', true);
     $('#how-fix-'+id).prop('disabled', true);
   }else{//else description currently enable i.e checkbox is in unchecked state
     //disable description, enable explanation, who fix, how fix
+    $('#well-desc-'+id).collapse("toggle")
+    $('#well-fix-'+id).collapse("toggle")
+    // $('#check-'+id).attr('data-target', "#well-fix-" + id );
     $('#description-'+id).prop('disabled', true);
     $('#explanation-'+id).prop('disabled', false);
     $('#who-fix-'+id).prop('disabled', false);
