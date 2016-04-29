@@ -101,6 +101,24 @@ function dataTable()
   $('.datatable').DataTable();
 }
 
+//onClick point-check checkbox -> disable input field base on checkbox state
+function onClickPointCheck(id){
+  //if description currently disable i.e checkbox is in checked state
+  //enable description, disable explanation, who fix, how fix
+  if($('#description-'+id).prop('disabled')){
+    $('#description-'+id).prop('disabled', false);
+    $('#explanation-'+id).prop('disabled', true);
+    $('#who-fix-'+id).prop('disabled', true);
+    $('#how-fix-'+id).prop('disabled', true);
+  }else{//else description currently enable i.e checkbox is in unchecked state
+    //disable description, enable explanation, who fix, how fix
+    $('#description-'+id).prop('disabled', true);
+    $('#explanation-'+id).prop('disabled', false);
+    $('#who-fix-'+id).prop('disabled', false);
+    $('#how-fix-'+id).prop('disabled', false);
+  }
+}
+
 /*Exclude point from report*/
 $('.exclude-point').click(function(e){
   e.preventDefault();
@@ -358,63 +376,24 @@ function calculateSectionScore(sectionName) {
   return sectionScore;
 }
 
-//onClick point-checkbox
-function onCollapse(id){
-  //if description currently disable i.e checkbox is in checked state
-  //enable description, disable explanation, who fix, how fix
-  if($('#description-'+id).prop('disabled')){
-    $('#description-'+id).prop('disabled', false);
-    $('#explanation-'+id).prop('disabled', true);
-    $('#who-fix-'+id).prop('disabled', true);
-    $('#how-fix-'+id).prop('disabled', true);
-  }else{//else description currently enable i.e checkbox is in unchecked state
-    //disable description, enable explanation, who fix, how fix
-    $('#description-'+id).prop('disabled', true);
-    $('#explanation-'+id).prop('disabled', false);
-    $('#who-fix-'+id).prop('disabled', false);
-    $('#how-fix-'+id).prop('disabled', false);
-  }
-}
-
+//validate section form -> check if section form input field has value
 function validateForm(sectionName){
   var warning = 0;
-  var dis = 0;
-  // warning = $("#form-" + sectionName + " input").length;
-  // warning = $('#form-'+ sectionName + ' input').length;
-  // theInput = $('#form-'+ sectionName + ' input');
+
   $("form#form-"+ sectionName + " :input").each(function(){
       var input = $(this);
-
-      // if(!input.prop("disabled")){
+        //if input field doesn't have value and is not in disable state
         if(!input.val() && !input.prop("disabled")){
           input.addClass('warning');
           warning++;
         }else{
           input.removeClass('warning');
-          // alert('remove');
         }
-    // }
-    // else{
-    //   dis++;
-    //   alert(dis);
-    // }
   });
-  // for (var i = 0; i < warning; i++) {
-  //   if(!theInput[0].val(){
-  //     theInput[0].addClass('warning');
-  //   }
-  // }
-  //   $('#form-'+ sectionName + ' input').blur(function(){
-  //   if( !$(this).val() ) {
-  //         $(this).addClass('warning');
-  //         //return false;
-  //         warning++;
-  //   }
-  // });
-  // alert(warning);
+  // if no warning or all required field is not empty
   if (warning == 0) {
     return true;
-  }else{
+  }else{ // if there is warning or there are some empty required field
     return false;
   }
 }
