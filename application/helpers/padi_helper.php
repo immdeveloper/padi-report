@@ -12,3 +12,12 @@ if ( ! function_exists('generate_pdf'))
         return $dompdf->stream($filename.".pdf", array("Attachment" => false)); exit(0);
     }
 }
+
+if ( ! function_exists('_esc_apos'))
+{
+    function _esc_apos($text)
+    {
+      $escapedtext = str_replace("’", "&#39;", $text);
+      return $escapedtext;
+    }
+}

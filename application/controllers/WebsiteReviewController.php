@@ -50,12 +50,12 @@ class WebsiteReviewController extends CI_Controller
 
     $status = array();
 
-    $status['url'] = $raw[0]->url;
-    $status['date'] = $raw[0]->date;
-
     $sectionPrev = NULL;
     $section = array();
     $section_score = array();
+    $overallcontentscore = 0;
+    $socialintegrationscore = 0;
+    $qualitysignalscore = 0;
 
     foreach ($raw as $key => $value) {
       if($value->section_name != $sectionPrev)
@@ -68,6 +68,10 @@ class WebsiteReviewController extends CI_Controller
     foreach ($score as $key => $value) {
       $section_score[$section[$key]] = $value->section_score;
     }
+
+    $overallcontentscore = ($section_score['Homepage Content'] + $section_score['Internal Page Content'] + $section_score['Blog / News Section'] + $section_score['Special Offers'] + $section_score['Content Management'] + $section_score['Indexed Pages']) / 6;
+    $socialintegrationscore = ($section_score['Products Pages & Blog Pages'] + $section_score['Homepage']) / 2;
+    $qualitysignalscore = ($section_score['Quality Signals'] + $section_score['Strong Company / About us Signal']) / 2;
 
     foreach($raw as $arg)
     {
@@ -83,23 +87,32 @@ class WebsiteReviewController extends CI_Controller
 
     foreach ($raw as $arg) {
       $tmp[$arg->section_cat][$arg->section_name]['point'][] = array(
-        'point_name' => $arg->point_name,
-        'result'     => $arg->point_result
+        'point_name' =>  $arg->point_name,
+        'result'     =>  $arg->point_result
       );
     }
 
+    $status['url'] = $raw[0]->url;
+    $status['date'] = $raw[0]->date;
+    $status['overallcontentscore'] = $overallcontentscore;
+    $status['socialintegrationscore'] = $socialintegrationscore;
+    $status['qualitysignalscore'] = $qualitysignalscore;
     $data['point'] = $tmp;
     $data['status'] = $status;
     $data['action'] = $action;
-    $data['title'] = "Report Preview";
 
     if($action == 'preview')
     {
+      $data['title'] = "Report Preview";
       $this->load->view('pdf/index', $data);
     }
     elseif($action == 'generate')
     {
-      generate_pdf($this->load->view('pdf/index', $data, true), 'pdf-report');
+      $date = date('j<\s\up>S</\s\up> F Y', strtotime($status['date']));
+      $filedate = date('j F Y', strtotime($status['date']));
+      $filename = 'PADI-website-review-'.$status['url']. ' ('.$filedate.')';
+      $data['title'] = "Report for ". $status['url'].', '.$date;
+      generate_pdf($this->load->view('pdf/index', $data, true), $filename);
     }
 
   }
@@ -184,7 +197,7 @@ class WebsiteReviewController extends CI_Controller
         if(!empty($result)){
           $data = array(
               'id_source' => $id_source,
-              'result'    => json_encode($result)
+              'result'    => json_encode($result, JSON_UNESCAPED_UNICODE)
             );
           $id_result = $this->WebsiteReview->insertNewResult($data);
           $data = array(
