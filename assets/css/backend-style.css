@@ -529,3 +529,7 @@ footer a{
 .back-to-top.show {
     opacity: .5;
 }
+
+.warning{
+  border-color: red;
+}

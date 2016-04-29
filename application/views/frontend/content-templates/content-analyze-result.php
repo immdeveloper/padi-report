@@ -156,21 +156,29 @@
                         <input id="check-<?php echo $point_value['id_point'];?>"
                         name="<?php echo $point_value['id_point']; ?>"
                         type="checkbox" data-toggle="collapse"
-                        data-target="#well-<?php echo $point_value['id_point'];?>">
+                        data-target="#well-fix<?php echo $point_value['id_point'];?>"
+                        onclick="onClickPointCheck(<?php echo $point_value['id_point']; ?>)"; >
                         <input type="hidden" name="source-<?php echo $point_value['id_point']; ?>"
                         value="<?php echo $point_value['id_source'];?>" class="form-control" id="source-<?php echo $point_value['id_point']; ?>">
                         <span id="text-<?php echo $point_value['id_point'];?>"><?php echo $point_value['point_name']; ?></span> <a href="#" class="exclude-point" data-active="1" data-id="<?php echo $point_value['id_point'];?>"><i class="fa fa-times-circle fa-fw" style="color:#f03"></i></a>
                       </label>
-                      <div class="collapse" id="well-<?php echo $point_value['id_point'];?>">
+                      <div class="collapse in" id="well-desc-<?php echo $point_value['id_point'];?>">
                         <div class="well">
-                          <input type="hidden" name="description-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_desc'];?>" class="form-control">
+                          <div class="form-group">
+                            <span><strong>Description</strong></span>
+                            <input type="text" name="description-<?php echo $point_value['id_point']; ?>" id="description-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_desc'];?>" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="collapse" id="well-fix-<?php echo $point_value['id_point'];?>">
+                        <div class="well">
                           <div class="form-group">
                             <span><strong>Explanation</strong></span>
-                            <input type="text" name="explanation-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_what_need_fixing'];?>" class="form-control">
+                            <input type="text" name="explanation-<?php echo $point_value['id_point']; ?>" id="explanation-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_what_need_fixing'];?>" class="form-control" disabled>
                           </div>
                           <div class="form-group">
                             <span><strong>Who can fix it?</strong></span>
-                            <select class="form-control" name="who-fix-<?php echo $point_value['id_point']; ?>">
+                            <select class="form-control" name="who-fix-<?php echo $point_value['id_point']; ?>" id="who-fix-<?php echo $point_value['id_point']; ?>" disabled>
                               <?php
                               if($point_value['point_who_can_fix'] == 'Webmaster')
                               {
@@ -192,7 +200,7 @@
                           </div>
                           <div class="form-group">
                             <span><strong>How do you fix it?</strong></span>
-                            <input type="text" name="how-fix-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_how_to_fix'];?>" class="form-control">
+                            <input type="text" name="how-fix-<?php echo $point_value['id_point']; ?>" id="how-fix-<?php echo $point_value['id_point']; ?>" value="<?php echo $point_value['point_how_to_fix'];?>" class="form-control" disabled>
                           </div>
                         </div>
                       </div><!-- collapse -->
