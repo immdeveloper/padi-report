@@ -94,9 +94,9 @@ class WebsiteReviewController extends CI_Controller
 
     $status['url'] = $raw[0]->url;
     $status['date'] = $raw[0]->date;
-    $status['overallcontentscore'] = $overallcontentscore;
-    $status['socialintegrationscore'] = $socialintegrationscore;
-    $status['qualitysignalscore'] = $qualitysignalscore;
+    $status['overallcontentscore'] = floor($overallcontentscore);
+    $status['socialintegrationscore'] = floor($socialintegrationscore);
+    $status['qualitysignalscore'] = floor($qualitysignalscore);
     $data['point'] = $tmp;
     $data['status'] = $status;
     $data['action'] = $action;
@@ -115,6 +115,13 @@ class WebsiteReviewController extends CI_Controller
       generate_pdf($this->load->view('pdf/index', $data, true), $filename);
     }
 
+  }
+
+  public function getPriorityType($type)
+  {
+    $data = $this->WebsiteReview->getPriorityType($type);
+    $this->output->set_content_type('application/json');
+    echo json_encode($data);
   }
 
   public function run()

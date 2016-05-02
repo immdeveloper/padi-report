@@ -20,6 +20,11 @@ a:focus{
   text-decoration: none;
 }
 
+/*Input validation*/
+.not-valid{
+  border: 1px solid #f03;
+}
+
 /*
 * Preloader
 */
@@ -532,4 +537,22 @@ footer a{
 
 .warning{
   border-color: red;
+
+/*Priority task block*/
+.priority-block{
+  background-color: #f5f5f5;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.select-priority-type{
+  margin-bottom: 20px;
+}
+
+.priority-table .table-score-wrapper{
+  color:#DD0000;
+  background-color: #B4ECFC;
+  width: 100px;
+  font-size: 20px;
+  font-weight: 800;
 }

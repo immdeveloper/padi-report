@@ -5,7 +5,9 @@ $(document).ready(function(){
   dataTable();
   dynamic_form();
   dynamic_point_check();
+  dynamic_priority_task_form();
   backtotop();
+  getPriorityType();
 });
 
 function showPreload(wrapper, text)
@@ -17,29 +19,195 @@ function showPreload(wrapper, text)
   wrapper.html($html);
 }
 
-$('#generate-report').click(function(e){
-  e.preventDefault();
-  var id = $(this).data('id');
-  showPreload('.preload-wrapper', 'Generating to PDF, please wait...');
-  /*$.ajax({
-    url: base_url + 'report/' + id + '/generate',
-    type: 'POST',
-    dataType: 'json',
-    beforeSend: function() {
+function getPriorityType()
+{
+  /*Save Priority and Summary*/
+  $('#btn-save-summary').click(function(e){
+    e.preventDefault();
+    var pass = true;
 
-    },
-    error: function() {
+    /*Form Validation for all input*/
+    if($('input[type=radio][name=set-priority-task]:checked').val() == 'manual')
+    {
+      $('.priority-block input').each(function(){
+        if($(this).val() == "")
+        {
+          $(this).addClass('not-valid');
+          pass = false;
+        }
+        else
+        {
+          $(this).removeClass('not-valid');
+        }
+      });
+    }
 
-    },
-    success: function(res) {
+    /*Form Validation for textarea*/
+    if($('#report-summary').val().trim().length == 0)
+    {
+      $('#report-summary').addClass('not-valid');
+      pass = false;
+    }
+    else
+    {
+      $('#report-summary').removeClass('not-valid');
+    }
 
-     };
-   },
-   complete: function() {
+    /*Form Validation radio button*/
+    if($('input[type=radio][name=set-priority-task]').is(':checked') == false)
+    {
+      $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#f03');
+      pass = false;
+    }
+    else
+    {
+      $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#333');
+    }
 
-   }
- });*/
-});
+    if(pass == true)
+    {
+      $('.priority-summary-result').fadeIn();
+      $('.priority-summary-form').fadeOut();
+      var count = $('.priority-block').length;
+      var arr = new Array();
+      for (var i = 0; i < count; i++) {
+        arr[i] = $('.priority-block').eq(i).data('id');
+      }
+      loopPriorityResult(count, arr);
+      loopPriorityTable(count, arr);
+      $('.report-summary').html($('#report-summary').val());
+      $('#report-summary-result').val($('#report-summary').val());
+      var saved = parseInt($('#saved-section').html());
+      $('#saved-section').html(saved+1);
+    }
+  });
+
+  /*Edit Priority and Summary*/
+  $('#btn-edit-summary').click(function(e){
+    e.preventDefault();
+    $('.priority-summary-result').fadeOut();
+    $('.priority-summary-form').fadeIn();
+    var saved = parseInt($('#saved-section').html());
+    $('#saved-section').html(saved-1);
+  });
+
+  /*Check priority*/
+  $('input[type=radio][name=set-priority-task]').change(function() {
+        if ($(this).val() == 'auto') {
+            $('.priority-container').fadeOut();
+        }
+        else if ($(this).val() == 'manual') {
+            $('.priority-container').fadeIn();
+            $('.priority-block input').each(function(){
+              $(this).removeClass('not-valid');
+            });
+        }
+    });
+
+  $('.priority-type').on('change', function() {
+    var id = $(this).data('id');
+    var value = $(this).val();
+    $.ajax({
+      url: base_url + 'priority-type/' + value,
+      type: 'POST',
+      dataType: 'json',
+      beforeSend: function() {
+
+      },
+      error: function() {
+        alert('error');
+      },
+      success: function(res) {
+        var data = '';
+        var index = '';
+        var why = '';
+        var how = '';
+        $('#result-type-' + id)
+            .empty()
+            .append($("<option></option>")
+                       .attr("value", "")
+                       .text("-- select " + value + "--"));
+        $.each(res, function(key, output) {
+          if(value == 'section')
+          {
+            val = output.section_cat;
+            data = val.substr(0,1).toUpperCase()+val.substr(1);
+            index = output.id_section;
+          }
+          else if(value == 'sub-section')
+          {
+            data = output.section_name;
+            index = output.id_section;
+          }
+          else if (value == 'point')
+          {
+            data = output.point_name;
+            index = output.id_point;
+            why = output.point_what_need_fixing;
+            how = output.point_how_to_fix;
+          }
+             $('#result-type-' + id)
+                 .append($("<option></option>")
+                            .attr("value", index)
+                            .attr("data-why", why)
+                            .attr("data-how", how)
+                            .text(data));
+        });
+
+        $('#result-type-' + id).on('change', function() {
+          $('#priority-what-' + id).val($(this).find(':selected').text());
+          $('#priority-why-' + id).val($(this).find(':selected').data('why'));
+          $('#priority-how-' + id).val($(this).find(':selected').data('how'));
+        });
+
+     },
+   });
+  });
+}
+
+function loopPriorityResult(count, arr)
+{
+  $('.priority-result').empty();
+  for (var i = 0; i < count; i++)
+  {
+    $('.priority-result').append(
+      '<div class="form-group">' +
+      '<input type="hidden" name="priority-what[]" id="priority-result-what-' + i + '" value="'+ $('#priority-what-' + arr[i]).val() +'">' +
+      '<input type="hidden" name="priority-why[]" id="priority-result-why-' + i + '" value="'+ $('#priority-why-' + arr[i]).val() +'">' +
+      '<input type="hidden" name="priority-how[]" id="priority-result-how-' + i + '" value="' + $('#priority-what-' + arr[i]).val() + '">' +
+      '</div>'
+    );
+  }
+}
+
+function loopPriorityTable(count, arr)
+{
+  $('.priority-table-wrapper').empty();
+  for (var i = 0; i < count; i++)
+  {
+    $('.priority-table-wrapper').append(
+      '<div class="result-table priority-table">' +
+        '<table>' +
+          '<tr>' +
+            '<td rowspan="3" class="table-score-wrapper">' +
+              '<span class="text-red text-priority">PRIORITY TASK</span>' +
+            '</td>' +
+            '<td style="width:110px;">What?</td>' +
+            '<td><strong>'+ $('#priority-what-' + arr[i]).val().toUpperCase() +'</strong></td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td style="width:110px;">Why?</td>' +
+            '<td>'+ $('#priority-why-' + arr[i]).val() +'</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td style="width:110px;">How to fix it:</td>' +
+            '<td>'+ $('#priority-how-' + arr[i]).val() +'</td>' +
+          '</tr>' +
+        '</table>' +
+      '</div>'
+    );
+  }
+}
 
 function backtotop()
 {
@@ -248,6 +416,80 @@ $('#btn-analyze').click(function(){
 
 })
 /*Getting Google Page Insights Results*/
+
+/*Add Priority task form*/
+function dynamic_priority_task_form()
+{
+  var max_fields      = 4; //maximum input boxes allowed
+  var wrapper         = $('.priority-block-wrapper'); //Fields wrapper
+  var add_button      = $('.add-priority-task'); //Add button ID
+
+  var x = 1; //initlal text box count
+  var id = 0;
+
+  $(add_button).click(function(e){ //on add input button click
+      e.preventDefault();
+      if(x < max_fields){ //max input box allowed
+          x++; //text box increment
+          if(x == 4)
+          {
+           $(this).attr('disabled', true);
+          }
+          id++;
+          $(wrapper).append(
+            '<div class="priority-block" data-id="'+ id +'">' +
+              '<a href="#" class="pull-right remove-priority-task"><i class="fa fa-times fa-fw"></i></a>' +
+              '<h4>Priority Task ' + x + '</h4>' +
+              '<form class="form-inline select-priority-type">' +
+                '<div class="form-group" style="margin-right:5px">' +
+                  '<select class="form-control priority-type" id="priority-type-'+ id +'" data-id="'+ id +'">' +
+                    '<option>-- Select type of priority task --</option>' +
+                    '<option value="section">Section</option>' +
+                    '<option value="sub-section">Sub Section</option>' +
+                    '<option value="point">Point</option>' +
+                  '</select>' +
+                '</div>' +
+                '<div class="form-group">' +
+                  '<select class="form-control" id="result-type-'+ id +'">' +
+                    '<option>-- Section --</option>' +
+                  '</select>' +
+                '</div>' +
+              '</form>' +
+              '<form>' +
+                '<div class="row">' +
+                  '<div class="col-md-4">' +
+                    '<div class="form-group">' +
+                      '<label>What?</label>' +
+                      '<input type="text" class="form-control" readonly id="priority-what-'+ id +'">' +
+                    '</div>' +
+                  '</div>' +
+                  '<div class="col-md-8">' +
+                    '<div class="form-group">' +
+                      '<label>Why?</label>' +
+                      '<input type="text" class="form-control" id="priority-why-'+ id +'">' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                  '<label>How to fix it:</label>' +
+                  '<input type="text" class="form-control" id="priority-how-'+ id +'">' +
+                '</div>' +
+              '</form>' +
+            '</div><!-- Priority block -->'
+          ); //add input box
+          getPriorityType();
+      }
+  });
+
+  $(wrapper).on("click",".remove-priority-task", function(e){ //user click on remove text
+      e.preventDefault();
+      if(x != 1)
+      {
+        $(this).closest('.priority-block').remove(); x--;
+        $(add_button).attr('disabled', false);
+      }
+  })
+}
 
 function dynamic_form()
 {
