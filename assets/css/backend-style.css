@@ -438,6 +438,9 @@ footer a{
 .table-score-wrapper.orange{
   background-color: #E48000;
 }
+.table-score-wrapper.blue{
+  background-color: #0D8FDB;
+}
 
 .table-score{
   font-size: 60px;
