@@ -128,7 +128,7 @@
                           <span>Insert New Score</span>
                           <span><input type="number" min="0" max="100" id="input-new-score-<?php echo $section_value['section_slug']?>" value=0></span>
                           <span><a href="#" class="btn btn-default save-score" data-section-name="<?php echo $section_value['section_slug']?>" id="save-new-score-<?php echo $section_value['section_slug']?>">Save New Score</a></span>
-                          <span id="new-score-warning-<?php echo $section_value['section_slug']?>" class="new-score-warning">Insert Score Between 0 - 100</span>
+                          <span id="new-score-warning-<?php echo $section_value['section_slug']?>" class="new-score-warning" style="display:none;">Insert Score Between 0 - 100</span>
                         </div>
                       </td>
                     </tr>
