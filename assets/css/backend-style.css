@@ -533,3 +533,20 @@ footer a{
 .warning{
   border-color: red;
 }
+
+.new-score {
+    text-align: center;
+}
+
+.new-score span {
+    padding-bottom: 10px;
+}
+
+.new-score span input {
+    color: #000;
+}
+
+.new-score .new-score-warning{
+  color:#ff0000;
+  display:none;
+}
