@@ -617,20 +617,14 @@ $('.save-field').click(function(e){
 
   if(validateForm(sectionName)){
     //if section form is validated, saved section + 1
-    var savedSection = parseInt($('#saved-section').html());
-    $('#saved-section').html(savedSection+1);
+    setSavedSection(1);
 
     //calculate section score
     var sectionScore = calculateSectionScore(sectionName);
     $('#result-' + sectionName ).find('.table-score').html(sectionScore);
     $('#form-'+ sectionName ).find('.score-'+ sectionName).val(sectionScore);
-    $('#section-score-' + sectionName ).removeClass('red');
-    $('#section-score-' + sectionName ).removeClass('orange');
-    if (sectionScore < 50) {
-      $('#section-score-' + sectionName ).addClass('red');
-    }else if (sectionScore < 80) {
-      $('#section-score-' + sectionName ).addClass('orange');
-    }
+
+    changeSectionScoreBackground(sectionScore, sectionName);
 
     var wrapper_id = $('#'+save_id).closest('div').attr('id');
     var collapse_id = $('#'+wrapper_id).parents('.res').attr('id');
@@ -639,6 +633,18 @@ $('.save-field').click(function(e){
     $('#'+result_id).fadeIn();
   }
 });
+
+//change #section-score- background based on section score
+function changeSectionScoreBackground(sectionScore, sectionName){
+  $('#section-score-' + sectionName ).removeClass('red');
+  $('#section-score-' + sectionName ).removeClass('orange');
+  $('#section-score-' + sectionName ).removeClass('blue');
+  if (sectionScore < 50) {
+    $('#section-score-' + sectionName ).addClass('red');
+  }else if (sectionScore < 80) {
+    $('#section-score-' + sectionName ).addClass('orange');
+  }
+}
 
 //calculate section score
 function calculateSectionScore(sectionName) {
@@ -677,6 +683,12 @@ function validateForm(sectionName){
   }else{ // if there is warning or there are some empty required field
     return false;
   }
+}
+
+//set saved section +1 or -1
+function setSavedSection(number){// parameter could be 1 or -1
+  var savedSection = parseInt($('#saved-section').html());//get current saved section
+  $('#saved-section').html(savedSection + number); // set saved section plus one or minus one
 }
 
 $('.save-all').click(function(){
@@ -725,16 +737,60 @@ $('.preload2').fadeOut();
 
 $('.edit-field').click(function(e){
   e.preventDefault();
-  //calculate saved section
-  var savedSection = parseInt($('#saved-section').html());
-  $('#saved-section').html(savedSection-1);
-  //calculate saved section
+
+  setSavedSection(-1);// on edit field, reduce saved section -1
+
+  //hide edit score div if user haven't save the new score
+  var sectionName = $(this).data('section-name');
+  $('#new-score-warning-' + sectionName).fadeOut();
+  $('#current-score-' + sectionName).fadeIn();
+  $('#new-score-' + sectionName).fadeOut();
+  //hide edit score div if user haven't save the new score
   var edit_id = $(this).attr('id');
   var wrapper_id = $('#'+edit_id).closest('div').attr('id');
   var collapse_id = $('#'+wrapper_id).parents('.res').attr('id');
   var result_id = $('#'+collapse_id).children('.report-form').attr('id');
   $('#'+wrapper_id).hide();
   $('#'+result_id).fadeIn();
+});
+
+// onclick button edit score
+$('.edit-score').click(function(e){
+  e.preventDefault();
+  setSavedSection(-1);//on edit score, reduce saved section -1
+  // get section name
+  var sectionName = $(this).data('section-name');
+  //set the section score background to blue
+  $('#section-score-' + sectionName ).removeClass('red');
+  $('#section-score-' + sectionName ).removeClass('orange');
+  $('#section-score-' + sectionName ).addClass('blue');
+  // set the input default value to current score in table score class
+  $('#input-new-score-' + sectionName).val($('#result-' + sectionName ).find('.table-score').html());
+
+  $('#edit-' + sectionName).hide();
+  $('#current-score-' + sectionName).hide();
+  $('#new-score-' + sectionName).fadeIn();
+});
+
+// onclick button save new score
+$('.save-score').click(function(e){
+  e.preventDefault();
+
+  var sectionName = $(this).data('section-name');
+  var newScore = $('#input-new-score-' + sectionName).val();
+  if (newScore < 0 || newScore > 100) {//if input score is not valid
+    $('#new-score-warning-' + sectionName).fadeIn();
+  }else{
+    setSavedSection(1);//on finish save new score, add saved section +1
+    $('#result-' + sectionName ).find('.table-score').html(newScore);
+    $('#form-'+ sectionName ).find('.score-'+ sectionName).val(newScore);
+    changeSectionScoreBackground(newScore, sectionName);
+
+    $('#edit-' + sectionName).fadeIn();
+    $('#new-score-warning-' + sectionName).fadeOut();
+    $('#current-score-' + sectionName).fadeIn();
+    $('#new-score-' + sectionName).hide();
+  }
 });
 
 /*AJAX*/
