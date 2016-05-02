@@ -20,6 +20,11 @@ a:focus{
   text-decoration: none;
 }
 
+/*Input validation*/
+.not-valid{
+  border: 1px solid #f03;
+}
+
 /*
 * Preloader
 */

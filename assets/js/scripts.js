@@ -24,17 +24,33 @@ function getPriorityType()
   /*Save Priority and Summary*/
   $('#btn-save-summary').click(function(e){
     e.preventDefault();
-    $('.priority-summary-result').fadeIn();
-    $('.priority-summary-form').fadeOut();
-    var count = $('.priority-block').length;
-    var arr = new Array();
-    for (var i = 0; i < count; i++) {
-      arr[i] = $('.priority-block').eq(i).data('id');
+    var pass = true;
+    $('.priority-block input').each(function(){
+      if($(this).val() == "")
+      {
+        $(this).addClass('not-valid');
+        pass = false;
+      }
+      else
+      {
+        $(this).removeClass('not-valid');
+      }
+    });
+    console.log(pass);
+    if(pass == true)
+    {
+      $('.priority-summary-result').fadeIn();
+      $('.priority-summary-form').fadeOut();
+      var count = $('.priority-block').length;
+      var arr = new Array();
+      for (var i = 0; i < count; i++) {
+        arr[i] = $('.priority-block').eq(i).data('id');
+      }
+      loopPriorityResult(count, arr);
+      loopPriorityTable(count, arr);
+      $('.report-summary').html($('#report-summary').val());
+      $('#report-summary-result').val($('#report-summary').val());
     }
-    loopPriorityResult(count, arr);
-    loopPriorityTable(count, arr);
-    $('.report-summary').html($('#report-summary').val());
-    $('#report-summary-result').val($('#report-summary').val());
   });
 
   /*Edit Priority and Summary*/
