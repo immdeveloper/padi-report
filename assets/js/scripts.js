@@ -25,18 +25,45 @@ function getPriorityType()
   $('#btn-save-summary').click(function(e){
     e.preventDefault();
     var pass = true;
-    $('.priority-block input').each(function(){
-      if($(this).val() == "")
-      {
-        $(this).addClass('not-valid');
-        pass = false;
-      }
-      else
-      {
-        $(this).removeClass('not-valid');
-      }
-    });
-    console.log(pass);
+
+    /*Form Validation for all input*/
+    if($('input[type=radio][name=set-priority-task]:checked').val() == 'manual')
+    {
+      $('.priority-block input').each(function(){
+        if($(this).val() == "")
+        {
+          $(this).addClass('not-valid');
+          pass = false;
+        }
+        else
+        {
+          $(this).removeClass('not-valid');
+        }
+      });
+    }
+
+    /*Form Validation for textarea*/
+    if($('#report-summary').val().trim().length == 0)
+    {
+      $('#report-summary').addClass('not-valid');
+      pass = false;
+    }
+    else
+    {
+      $('#report-summary').removeClass('not-valid');
+    }
+
+    /*Form Validation radio button*/
+    if($('input[type=radio][name=set-priority-task]').is(':checked') == false)
+    {
+      $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#f03');
+      pass = false;
+    }
+    else
+    {
+      $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#333');
+    }
+
     if(pass == true)
     {
       $('.priority-summary-result').fadeIn();
@@ -50,6 +77,8 @@ function getPriorityType()
       loopPriorityTable(count, arr);
       $('.report-summary').html($('#report-summary').val());
       $('#report-summary-result').val($('#report-summary').val());
+      var saved = parseInt($('#saved-section').html());
+      $('#saved-section').html(saved+1);
     }
   });
 
@@ -58,6 +87,8 @@ function getPriorityType()
     e.preventDefault();
     $('.priority-summary-result').fadeOut();
     $('.priority-summary-form').fadeIn();
+    var saved = parseInt($('#saved-section').html());
+    $('#saved-section').html(saved-1);
   });
 
   /*Check priority*/
@@ -67,6 +98,9 @@ function getPriorityType()
         }
         else if ($(this).val() == 'manual') {
             $('.priority-container').fadeIn();
+            $('.priority-block input').each(function(){
+              $(this).removeClass('not-valid');
+            });
         }
     });
 

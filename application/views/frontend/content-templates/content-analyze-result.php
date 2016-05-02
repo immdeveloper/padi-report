@@ -215,7 +215,7 @@
           <?php $i++;?>
           <?php /*category loop*/ } ?>
 
-          <div id="total-section" style="display:none;"><?= $section_count ?></div>
+          <div id="total-section" style="display:none;"><?= $section_count+1 ?></div>
           <div id="saved-section" style="display:none;">0</div>
           <!-- Priority task and report summary -->
           <div role="tabpanel" class="tab-pane fade" id="tab6">
