@@ -10,6 +10,20 @@ $(document).ready(function(){
   getPriorityType();
 });
 
+$('#get-section').click(function(e){
+  var section = new Array();
+  var section_count = $('._section').length;
+  for (var i = 0; i < section_count; i++) {
+    section[i] = {
+      section_name: $('._section').eq(i).val(),
+      section_id: $('._section').eq(i).data('id'),
+      section_importance: $('._section').eq(i).data('importance'),
+      section_score: $('._section').eq(i).data('score')
+    };
+  }
+  console.log(section);
+});
+
 function getPriorityType()
 {
   /*Save Priority and Summary*/
@@ -623,6 +637,7 @@ $('.save-field').click(function(e){
     var sectionScore = calculateSectionScore(sectionName);
     $('#result-' + sectionName ).find('.table-score').html(sectionScore);
     $('#form-'+ sectionName ).find('.score-'+ sectionName).val(sectionScore);
+    $('#result-' + sectionName).find('._section').attr('data-score', sectionScore);
 
     changeSectionScoreBackground(sectionScore, sectionName);
 
@@ -698,7 +713,8 @@ $('.save-all').click(function(){
     var totalSection = $('#total-section').html();
     var savedSection = parseInt($('#saved-section').html());
     if (totalSection != savedSection) {
-      $('#save-section').modal('show');
+    //  $('#save-section').modal('show');
+      $('#modal-priority').modal('show');
     }else{
       $('#modal-priority').modal('show');
     }
@@ -788,6 +804,7 @@ $('.save-score').click(function(e){
     setSavedSection(1);//on finish save new score, add saved section +1
     $('#result-' + sectionName ).find('.table-score').html(newScore);
     $('#form-'+ sectionName ).find('.score-'+ sectionName).val(newScore);
+    $('#result-' + sectionName ).find('._section').attr('data-score', newScore);
     changeSectionScoreBackground(newScore, sectionName);
 
     $('#edit-' + sectionName).fadeIn();

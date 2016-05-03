@@ -1,3 +1,4 @@
+<a href="#" id="get-section" class="btn btn-default">get all section</a>
 <a href="#" class="back-to-top"><i class="fa fa-chevron-circle-up fa-3x"></i></a>
 <form action="" method="post" id="hidden-web-url">
   <!-- Keep the url being analyze -->
@@ -114,6 +115,7 @@
             <hr>
             <div class="collapse in res" id="<?php echo $section_value['section_slug']?>">
               <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $section_value['section_slug']?>">
+                <input type="hidden" class="_section" value="<?php echo strtoupper($section_name); ?>" data-id="<?php echo $section_value['id_section']; ?>" data-importance="<?php echo $section_value['section_importance']?>" data-score="xx" />
                 <div class="result-table">
                   <table>
                     <tr>
