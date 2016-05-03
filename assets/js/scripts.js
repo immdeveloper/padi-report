@@ -10,19 +10,10 @@ $(document).ready(function(){
   getPriorityType();
 });
 
-function showPreload(wrapper, text)
-{
-  //Generating report preview, please wait...
-  $html = '<div class="preload2" style="display:none; background-image:url(' + base_url + 'assets/images/rolling.svg)">' +
-      '<span>' + text + '</span>'+
-    '</div>';
-  wrapper.html($html);
-}
-
 function getPriorityType()
 {
   /*Save Priority and Summary*/
-  $('#btn-save-summary').click(function(e){
+  $(document).on("click", "#btn-save-summary", function(e){
     e.preventDefault();
     var pass = true;
 
@@ -43,14 +34,14 @@ function getPriorityType()
     }
 
     /*Form Validation for textarea*/
-    if($('#report-summary').val().trim().length == 0)
+    if($('.modal-body #report-summary').val().trim().length == 0)
     {
-      $('#report-summary').addClass('not-valid');
+      $('.modal-body #report-summary').addClass('not-valid');
       pass = false;
     }
     else
     {
-      $('#report-summary').removeClass('not-valid');
+      $('.modal-body #report-summary').removeClass('not-valid');
     }
 
     /*Form Validation radio button*/
@@ -68,6 +59,9 @@ function getPriorityType()
     {
       $('.priority-summary-result').fadeIn();
       $('.priority-summary-form').fadeOut();
+      $('.modal-footer #save-all-report').fadeIn();
+      $('.modal-footer #btn-edit-summary').fadeIn();
+      $('.modal-footer #btn-save-summary').fadeOut();
       var count = $('.priority-block').length;
       var arr = new Array();
       for (var i = 0; i < count; i++) {
@@ -75,20 +69,19 @@ function getPriorityType()
       }
       loopPriorityResult(count, arr);
       loopPriorityTable(count, arr);
-      $('.report-summary').html($('#report-summary').val());
-      $('#report-summary-result').val($('#report-summary').val());
-      var saved = parseInt($('#saved-section').html());
-      $('#saved-section').html(saved+1);
+      $('.report-summary').html($('.modal-body #report-summary').val());
+      $('.modal-body #report-summary-result').val($('.modal-body #report-summary').val());
     }
   });
 
   /*Edit Priority and Summary*/
-  $('#btn-edit-summary').click(function(e){
+  $(document).on("click", "#btn-edit-summary", function(e){
     e.preventDefault();
+    $('.modal-footer #save-all-report').fadeOut();
+    $('.modal-footer #btn-edit-summary').fadeOut();
+    $('.modal-footer #btn-save-summary').fadeIn();
     $('.priority-summary-result').fadeOut();
     $('.priority-summary-form').fadeIn();
-    var saved = parseInt($('#saved-section').html());
-    $('#saved-section').html(saved-1);
   });
 
   /*Check priority*/
@@ -122,11 +115,13 @@ function getPriorityType()
         var index = '';
         var why = '';
         var how = '';
-        $('#result-type-' + id)
+
+        $('.modal-body #result-type-' + id)
             .empty()
             .append($("<option></option>")
                        .attr("value", "")
                        .text("-- select " + value + "--"));
+
         $.each(res, function(key, output) {
           if(value == 'section')
           {
@@ -146,7 +141,7 @@ function getPriorityType()
             why = output.point_what_need_fixing;
             how = output.point_how_to_fix;
           }
-             $('#result-type-' + id)
+             $('.modal-body #result-type-' + id)
                  .append($("<option></option>")
                             .attr("value", index)
                             .attr("data-why", why)
@@ -154,10 +149,10 @@ function getPriorityType()
                             .text(data));
         });
 
-        $('#result-type-' + id).on('change', function() {
-          $('#priority-what-' + id).val($(this).find(':selected').text());
-          $('#priority-why-' + id).val($(this).find(':selected').data('why'));
-          $('#priority-how-' + id).val($(this).find(':selected').data('how'));
+        $('.modal-body #result-type-' + id).on('change', function() {
+          $('.modal-body #priority-what-' + id).val($(this).find(':selected').text());
+          $('.modal-body #priority-why-' + id).val($(this).find(':selected').data('why'));
+          $('.modal-body #priority-how-' + id).val($(this).find(':selected').data('how'));
         });
 
      },
@@ -477,7 +472,7 @@ function dynamic_priority_task_form()
               '</form>' +
             '</div><!-- Priority block -->'
           ); //add input box
-          getPriorityType();
+          //getPriorityType();
       }
   });
 
@@ -694,13 +689,20 @@ function setSavedSection(number){// parameter could be 1 or -1
 $('.save-all').click(function(){
   //var url = $('#web-url').val();
   var desktop_score = $('#desktop-score').html();
-  var forms = $('form').serialize();
   //var forms[1] = $('#form-user-navigation').serialize();
     var totalSection = $('#total-section').html();
     var savedSection = parseInt($('#saved-section').html());
     if (totalSection != savedSection) {
-      $('#save-section').modal('show');
+      //$('#save-section').modal('show');
+      $('#modal-priority').modal('show');
     }else{
+      $('#modal-priority').modal('show');
+    }
+});
+
+$(document).on('click', '#save-all-report', function(e){
+  e.preventDefault();
+  var forms = $('form').serialize();
   $.ajax({
     url: base_url + 'save',
     type: 'POST',
@@ -728,12 +730,10 @@ $('.save-all').click(function(){
 
    },
    complete: function() {
-$('.preload2').fadeOut();
+  $('.preload2').fadeOut();
    }
   });
-
-}
-})
+});
 
 $('.edit-field').click(function(e){
   e.preventDefault();
