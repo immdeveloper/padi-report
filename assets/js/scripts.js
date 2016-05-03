@@ -62,15 +62,20 @@ function getPriorityType()
       $('.modal-footer #save-all-report').fadeIn();
       $('.modal-footer #btn-edit-summary').fadeIn();
       $('.modal-footer #btn-save-summary').fadeOut();
+
       var count = $('.priority-block').length;
       var arr = new Array();
       for (var i = 0; i < count; i++) {
         arr[i] = $('.priority-block').eq(i).data('id');
       }
+
       loopPriorityResult(count, arr);
       loopPriorityTable(count, arr);
       $('.report-summary').html($('.modal-body #report-summary').val());
       $('.modal-body #report-summary-result').val($('.modal-body #report-summary').val());
+    }
+    else {
+      alert('error');
     }
   });
 
@@ -167,9 +172,9 @@ function loopPriorityResult(count, arr)
   {
     $('.priority-result').append(
       '<div class="form-group">' +
-      '<input type="hidden" name="priority-what[]" id="priority-result-what-' + i + '" value="'+ $('#priority-what-' + arr[i]).val() +'">' +
-      '<input type="hidden" name="priority-why[]" id="priority-result-why-' + i + '" value="'+ $('#priority-why-' + arr[i]).val() +'">' +
-      '<input type="hidden" name="priority-how[]" id="priority-result-how-' + i + '" value="' + $('#priority-what-' + arr[i]).val() + '">' +
+      '<input type="hidden" name="priority-what[]" id="priority-result-what-' + i + '" value="'+ $('.modal-body #priority-what-' + arr[i]).val() +'">' +
+      '<input type="hidden" name="priority-why[]" id="priority-result-why-' + i + '" value="'+ $('.modal-body #priority-why-' + arr[i]).val() +'">' +
+      '<input type="hidden" name="priority-how[]" id="priority-result-how-' + i + '" value="' + $('.modal-body #priority-how-' + arr[i]).val() + '">' +
       '</div>'
     );
   }
@@ -188,15 +193,15 @@ function loopPriorityTable(count, arr)
               '<span class="text-red text-priority">PRIORITY TASK</span>' +
             '</td>' +
             '<td style="width:110px;">What?</td>' +
-            '<td><strong>'+ $('#priority-what-' + arr[i]).val().toUpperCase() +'</strong></td>' +
+            '<td><strong>'+ $('.modal-body #priority-what-' + arr[i]).val().toUpperCase() +'</strong></td>' +
           '</tr>' +
           '<tr>' +
             '<td style="width:110px;">Why?</td>' +
-            '<td>'+ $('#priority-why-' + arr[i]).val() +'</td>' +
+            '<td>'+ $('.modal-body #priority-why-' + arr[i]).val() +'</td>' +
           '</tr>' +
           '<tr>' +
             '<td style="width:110px;">How to fix it:</td>' +
-            '<td>'+ $('#priority-how-' + arr[i]).val() +'</td>' +
+            '<td>'+ $('.modal-body #priority-how-' + arr[i]).val() +'</td>' +
           '</tr>' +
         '</table>' +
       '</div>'
@@ -472,7 +477,7 @@ function dynamic_priority_task_form()
               '</form>' +
             '</div><!-- Priority block -->'
           ); //add input box
-          //getPriorityType();
+          getPriorityType();
       }
   });
 
@@ -693,8 +698,7 @@ $('.save-all').click(function(){
     var totalSection = $('#total-section').html();
     var savedSection = parseInt($('#saved-section').html());
     if (totalSection != savedSection) {
-      //$('#save-section').modal('show');
-      $('#modal-priority').modal('show');
+      $('#save-section').modal('show');
     }else{
       $('#modal-priority').modal('show');
     }

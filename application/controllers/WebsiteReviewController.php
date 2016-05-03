@@ -94,6 +94,8 @@ class WebsiteReviewController extends CI_Controller
 
     $status['url'] = $raw[0]->url;
     $status['date'] = $raw[0]->date;
+    $status['priority'] = $raw[0]->priority_task;
+    $status['summary'] = $raw[0]->summary;
     $status['overallcontentscore'] = floor($overallcontentscore);
     $status['socialintegrationscore'] = floor($socialintegrationscore);
     $status['qualitysignalscore'] = floor($qualitysignalscore);
@@ -158,9 +160,25 @@ class WebsiteReviewController extends CI_Controller
 
     // insert new assessment with current time and date
     $date = date("Y-m-d H:i:s");
+    $summary = $this->input->post('report-summary');
+
+    /*Get all priority task*/
+    $priority = array();
+    $priority_count = count($this->input->post('priority-what'));
+    for ($i=0; $i < $priority_count; $i++)
+    {
+      $priority[$i] = array(
+        'priority_what' => $this->input->post('priority-what')[$i],
+        'priority_why'  => $this->input->post('priority-why')[$i],
+        'priority_how'  => $this->input->post('priority-how')[$i]
+      );
+    }
+
     $data_assessment = array(
-        'id_domain' => $id_domain,
-        'date'      => $date
+        'id_domain'     => $id_domain,
+        'date'          => $date,
+        'priority_task' => json_encode($priority, JSON_UNESCAPED_UNICODE),
+        'summary'       => $summary
       );
     $id_assessment = $this->WebsiteReview->insertNewAssessment($data_assessment);
 

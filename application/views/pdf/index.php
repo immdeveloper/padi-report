@@ -196,6 +196,10 @@
       </div>
       <p>Don't worry! Sure, there's some work to do, but we have prepared some simple steps to get you started in the right direction.</p>
       <p>Consider the following action points as the <strong>most important tasks</strong> that you should complete in order to have the greatest positive effects on your site’s performance.</p>
+      <?php
+        $decoded_priority = json_decode($status['priority'], true);
+        foreach ($decoded_priority as $key => $value) {
+      ?>
       <div class="result-table priority-table">
         <table>
           <tr>
@@ -204,82 +208,22 @@
               <span class="priority-link"><a href="#">Click for more information</a></span>
             </td>
             <td style="width:110px;">What?</td>
-            <td><strong>CONVERSION</strong></td>
+            <td><strong><?php echo strtoupper($value['priority_what']) ?></strong></td>
           </tr>
           <tr>
             <td style="width:110px;">Why?</td>
-            <td>There is no clear way to get in touch with you via website.</td>
+            <td><?php echo $value['priority_why']; ?></td>
           </tr>
           <tr>
             <td style="width:110px;">How to fix it:</td>
-            <td>Create a contact form on its own page, link into top navigation.</td>
+            <td><?php echo $value['priority_how']; ?></td>
           </tr>
         </table>
       </div>
-      <div class="result-table priority-table">
-        <table>
-          <tr>
-            <td rowspan="3" class="table-score-wrapper">
-              <span class="text-red text-priority">PRIORITY TASK</span>
-              <span class="priority-link"><a href="#">Click for more information</a></span>
-            </td>
-            <td style="width:110px;">What?</td>
-            <td><strong>ON PAGE SEO</strong></td>
-          </tr>
-          <tr>
-            <td style="width:110px;">Why?</td>
-            <td>Increases search engine visibility.</td>
-          </tr>
-          <tr>
-            <td style="width:110px;">How to fix it:</td>
-            <td>Complete SEO review and adjustment of on page factors.</td>
-          </tr>
-        </table>
-      </div>
-      <div class="result-table priority-table">
-        <table>
-          <tr>
-            <td rowspan="3" class="table-score-wrapper">
-              <span class="text-red text-priority">PRIORITY TASK</span>
-              <span class="priority-link"><a href="#">Click for more information</a></span>
-            </td>
-            <td style="width:110px;">What?</td>
-            <td><strong>LINK BUILDING</strong></td>
-          </tr>
-          <tr>
-            <td style="width:110px;">Why?</td>
-            <td>Increases direct traffic and benefits search engine visibility.</td>
-          </tr>
-          <tr>
-            <td style="width:110px;">How to fix it:</td>
-            <td>Look for high quality websites that wish to feature your content.</td>
-          </tr>
-        </table>
-      </div>
-      <div class="result-table priority-table">
-        <table>
-          <tr>
-            <td rowspan="3" class="table-score-wrapper">
-              <span class="text-red text-priority">PRIORITY TASK</span>
-              <span class="priority-link"><a href="#">Click for more information</a></span>
-            </td>
-            <td style="width:110px;">What?</td>
-            <td><strong>CONTENT GENERATION</strong></td>
-          </tr>
-          <tr>
-            <td style="width:110px;">Why?</td>
-            <td>Benefits users and search engines.</td>
-          </tr>
-          <tr>
-            <td style="width:110px;">How to fix it:</td>
-            <td>Create an in house content development plan.</td>
-          </tr>
-        </table>
-      </div>
+      <?php } ?>
       <p><strong>IMPORTANT –</strong> These are the most important aspects of the report that need your attention.</p>
       <p><strong>Summary:</strong></p>
-      <p>Whilst the site is visually appealing it has many areas that require work in order to get it in line with the best SEO practices for Google. Currently the site is struggling for Google rankings and most probably conversion also.</p>
-      <p>We would suggest that the SEO work, both on and off page, be put forward as a priority followed by a strong content generation program in order to make your site more content rich. This will benefit both the end user, and will help to increase rankings to the site which is key to increased customers coming through your door.</p>
+      <p><?php echo $status['summary']; ?></p>
       </section>
 
       <?php
