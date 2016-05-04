@@ -8,9 +8,14 @@ $(document).ready(function(){
   dynamic_priority_task_form();
   backtotop();
   getPriorityType();
+  $('.modal').on('hidden.bs.modal', function(e)
+  {
+      $(this).removeData();
+  }) ;
 });
 
-$('#get-section').click(function(e){
+function getSectionMeta()
+{
   var section = new Array();
   var section_count = $('._section').length;
   for (var i = 0; i < section_count; i++) {
@@ -18,73 +23,127 @@ $('#get-section').click(function(e){
       section_name: $('._section').eq(i).val(),
       section_id: $('._section').eq(i).data('id'),
       section_importance: $('._section').eq(i).data('importance'),
-      section_score: $('._section').eq(i).data('score')
+      section_score: $('._section').eq(i).attr('data-score'),
+      section_why: $('._section').eq(i).data('why'),
+      section_priority: 0
     };
   }
-  console.log(section);
-});
+
+  return section;
+}
+
+function calculatePriority()
+{
+  var section = getSectionMeta();
+  var tmp1 = new Array();
+  var tmp2 = new Array();
+  var priority_point = new Array();
+  var priority_task = new Array();
+  for (var i = 0; i < section.length; i++)
+  {
+    tmp1[i] = parseInt(section[i]['section_score']) / parseInt(section[i]['section_importance']);
+    tmp2[i] = tmp1[i] / parseInt(section[i]['section_importance']);
+    section[i].section_priority = parseFloat(tmp2[i]).toFixed(2);
+  }
+
+  section.sort(function(a,b){
+    return parseFloat(a.section_priority) - parseFloat(b.section_priority);
+  });
+
+  for (var i = 0; i < 4; i++) {
+    priority_task[i] = section[i];
+  }
+
+  priority_task.sort(function(a,b){
+    return parseInt(a.section_id) - parseInt(b.section_id);
+  });
+
+
+  return priority_task;
+}
+
+function priority_summary_validation()
+{
+  var pass = true;
+  /*Form Validation for all input*/
+  if($('input[type=radio][name=set-priority-task]:checked').val() == 'manual')
+  {
+    $('.priority-block input').each(function(){
+      if($(this).val() == "")
+      {
+        $(this).addClass('not-valid');
+        pass = false;
+      }
+      else
+      {
+        $(this).removeClass('not-valid');
+      }
+    });
+  }
+
+  /*Form Validation for textarea*/
+  if($('.modal-body #report-summary').val().trim().length == 0)
+  {
+    $('.modal-body #report-summary').addClass('not-valid');
+    pass = false;
+  }
+  else
+  {
+    $('.modal-body #report-summary').removeClass('not-valid');
+  }
+
+  /*Form Validation radio button*/
+  if($('input[type=radio][name=set-priority-task]').is(':checked') == false)
+  {
+    $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#f03');
+    pass = false;
+  }
+  else
+  {
+    $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#333');
+  }
+
+  return pass;
+}
 
 function getPriorityType()
 {
   /*Save Priority and Summary*/
   $(document).on("click", "#btn-save-summary", function(e){
     e.preventDefault();
-    var pass = true;
+    var pass = priority_summary_validation();
 
-    /*Form Validation for all input*/
-    if($('input[type=radio][name=set-priority-task]:checked').val() == 'manual')
-    {
-      $('.priority-block input').each(function(){
-        if($(this).val() == "")
-        {
-          $(this).addClass('not-valid');
-          pass = false;
-        }
-        else
-        {
-          $(this).removeClass('not-valid');
-        }
-      });
-    }
-
-    /*Form Validation for textarea*/
-    if($('.modal-body #report-summary').val().trim().length == 0)
-    {
-      $('.modal-body #report-summary').addClass('not-valid');
-      pass = false;
-    }
-    else
-    {
-      $('.modal-body #report-summary').removeClass('not-valid');
-    }
-
-    /*Form Validation radio button*/
-    if($('input[type=radio][name=set-priority-task]').is(':checked') == false)
-    {
-      $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#f03');
-      pass = false;
-    }
-    else
-    {
-      $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#333');
-    }
-
+    /*Validation passed*/
     if(pass == true)
     {
+      var type = '';
+      var count = 4;
+      var arr = new Array();
+
       $('.priority-summary-result').fadeIn();
       $('.priority-summary-form').fadeOut();
       $('.modal-footer #save-all-report').fadeIn();
       $('.modal-footer #btn-edit-summary').fadeIn();
       $('.modal-footer #btn-save-summary').fadeOut();
 
-      var count = $('.priority-block').length;
-      var arr = new Array();
-      for (var i = 0; i < count; i++) {
-        arr[i] = $('.priority-block').eq(i).data('id');
+      /*Manual priority*/
+      if($('input[type=radio][name=set-priority-task]:checked').val() == 'manual')
+      {
+        type = 'manual';
+        count = $('.priority-block').length;
+        for (var i = 0; i < count; i++) {
+          arr[i] = $('.priority-block').eq(i).data('id');
+        }
+      }
+      else
+      {
+        type = 'auto';
+        arr = calculatePriority();
+        $('#state').val('true');
       }
 
-      loopPriorityResult(count, arr);
-      loopPriorityTable(count, arr);
+      loopPriorityResult(count, arr, type);
+      loopPriorityTable(count, arr, type);
       $('.report-summary').html($('.modal-body #report-summary').val());
       $('.modal-body #report-summary-result').val($('.modal-body #report-summary').val());
     }
@@ -179,48 +238,96 @@ function getPriorityType()
   });
 }
 
-function loopPriorityResult(count, arr)
+function loopPriorityResult(count, arr, type)
 {
   $('.priority-result').empty();
-  for (var i = 0; i < count; i++)
+  if(type == 'manual')
   {
-    $('.priority-result').append(
-      '<div class="form-group">' +
-      '<input type="hidden" name="priority-what[]" id="priority-result-what-' + i + '" value="'+ $('.modal-body #priority-what-' + arr[i]).val() +'">' +
-      '<input type="hidden" name="priority-why[]" id="priority-result-why-' + i + '" value="'+ $('.modal-body #priority-why-' + arr[i]).val() +'">' +
-      '<input type="hidden" name="priority-how[]" id="priority-result-how-' + i + '" value="' + $('.modal-body #priority-how-' + arr[i]).val() + '">' +
-      '</div>'
-    );
+    for (var i = 0; i < count; i++)
+    {
+      $('.priority-result').append(
+        '<div class="form-group">' +
+        '<input type="hidden" name="priority-what[]" id="priority-result-what-' + i + '" value="'+ $('.modal-body #priority-what-' + arr[i]).val() +'">' +
+        '<input type="hidden" name="priority-why[]" id="priority-result-why-' + i + '" value="'+ $('.modal-body #priority-why-' + arr[i]).val() +'">' +
+        '<input type="hidden" name="priority-how[]" id="priority-result-how-' + i + '" value="' + $('.modal-body #priority-how-' + arr[i]).val() + '">' +
+        '</div>'
+      );
+    }
+  }
+  else
+  {
+    for (var i = 0; i < count; i++)
+    {
+      $('.priority-result').append(
+        '<div class="form-group">' +
+        '<input type="hidden" name="priority-what[]" id="priority-result-what-' + i + '" value="'+ arr[i].section_name +'">' +
+        '<input type="hidden" name="priority-why[]" id="priority-result-why-' + i + '" value="'+ arr[i].section_why +'">' +
+        '<input type="hidden" name="priority-how[]" id="priority-result-how-' + i + '" value="lorem ipsum">' +
+        '</div>'
+      );
+    }
   }
 }
 
-function loopPriorityTable(count, arr)
+function loopPriorityTable(count, arr, type)
 {
   $('.priority-table-wrapper').empty();
-  for (var i = 0; i < count; i++)
+
+  if(type == 'manual')
   {
-    $('.priority-table-wrapper').append(
-      '<div class="result-table priority-table">' +
-        '<table>' +
-          '<tr>' +
-            '<td rowspan="3" class="table-score-wrapper">' +
-              '<span class="text-red text-priority">PRIORITY TASK</span>' +
-            '</td>' +
-            '<td style="width:110px;">What?</td>' +
-            '<td><strong>'+ $('.modal-body #priority-what-' + arr[i]).val().toUpperCase() +'</strong></td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td style="width:110px;">Why?</td>' +
-            '<td>'+ $('.modal-body #priority-why-' + arr[i]).val() +'</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td style="width:110px;">How to fix it:</td>' +
-            '<td>'+ $('.modal-body #priority-how-' + arr[i]).val() +'</td>' +
-          '</tr>' +
-        '</table>' +
-      '</div>'
-    );
+      for (var i = 0; i < count; i++)
+      {
+        $('.priority-table-wrapper').append(
+          '<div class="result-table priority-table">' +
+            '<table>' +
+              '<tr>' +
+                '<td rowspan="3" class="table-score-wrapper">' +
+                  '<span class="text-red text-priority">PRIORITY TASK</span>' +
+                '</td>' +
+                '<td style="width:110px;">What?</td>' +
+                '<td><strong>'+ $('.modal-body #priority-what-' + arr[i]).val().toUpperCase() +'</strong></td>' +
+              '</tr>' +
+              '<tr>' +
+                '<td style="width:110px;">Why?</td>' +
+                '<td>'+ $('.modal-body #priority-why-' + arr[i]).val() +'</td>' +
+              '</tr>' +
+              '<tr>' +
+                '<td style="width:110px;">How to fix it:</td>' +
+                '<td>'+ $('.modal-body #priority-how-' + arr[i]).val() +'</td>' +
+              '</tr>' +
+            '</table>' +
+          '</div>'
+        );
+      }
   }
+  else
+  {
+    for (var i = 0; i < count; i++)
+    {
+      $('.priority-table-wrapper').append(
+        '<div class="result-table priority-table">' +
+          '<table>' +
+            '<tr>' +
+              '<td rowspan="3" class="table-score-wrapper">' +
+                '<span class="text-red text-priority">PRIORITY TASK</span>' +
+              '</td>' +
+              '<td style="width:110px;">What?</td>' +
+              '<td><strong>'+ arr[i].section_name +'</strong></td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="width:110px;">Why?</td>' +
+              '<td>'+ arr[i].section_why +'</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="width:110px;">How to fix it:</td>' +
+              '<td>score: '+ arr[i].section_score +' priority: '+ arr[i].section_priority +'</td>' +
+            '</tr>' +
+          '</table>' +
+        '</div>'
+      );
+    }
+  }
+
 }
 
 function backtotop()
@@ -245,7 +352,7 @@ function backtotop()
             scrollTop: 0
         }, 700);
     });
-}
+  }
 }
 
 $(function () {
@@ -713,10 +820,21 @@ $('.save-all').click(function(){
     var totalSection = $('#total-section').html();
     var savedSection = parseInt($('#saved-section').html());
     if (totalSection != savedSection) {
-    //  $('#save-section').modal('show');
-      $('#modal-priority').modal('show');
+      $('#save-section').modal('show');
+      //$('#modal-priority').modal('show');
     }else{
       $('#modal-priority').modal('show');
+      $('#modal-priority').on('shown.bs.modal', function (e) {
+        if($('#state').val() == 'true')
+        {
+            $('#btn-save-summary').trigger('click');
+        }
+        else
+        {
+            console.log('not valid');
+        }
+        $(this).off('shown.bs.modal');
+      })
     }
 });
 

@@ -115,7 +115,7 @@
             <hr>
             <div class="collapse in res" id="<?php echo $section_value['section_slug']?>">
               <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $section_value['section_slug']?>">
-                <input type="hidden" class="_section" value="<?php echo strtoupper($section_name); ?>" data-id="<?php echo $section_value['id_section']; ?>" data-importance="<?php echo $section_value['section_importance']?>" data-score="xx" />
+                <input type="hidden" class="_section" value="<?php echo strtoupper($section_name); ?>" data-id="<?php echo $section_value['id_section']; ?>" data-why="<?php echo $section_value['section_why']?>" data-importance="<?php echo $section_value['section_importance']?>" data-score="40" />
                 <div class="result-table">
                   <table>
                     <tr>
@@ -302,6 +302,7 @@
         </form>
 
         <div class="priority-summary-result" style="display:none">
+          <input type="hidden" value="false" id="state">
           <div class="priority-table-wrapper"></div>
           <h3>Report Summary</h3>
           <p class="report-summary"></p>
