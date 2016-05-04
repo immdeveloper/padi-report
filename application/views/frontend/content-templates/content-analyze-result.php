@@ -1,4 +1,3 @@
-<a href="#" id="get-section" class="btn btn-default">get all section</a>
 <a href="#" class="back-to-top"><i class="fa fa-chevron-circle-up fa-3x"></i></a>
 <form action="" method="post" id="hidden-web-url">
   <!-- Keep the url being analyze -->

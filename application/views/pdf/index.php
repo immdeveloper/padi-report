@@ -251,6 +251,7 @@
               $color = 'text-green';
             }
         ?>
+          <div style="page-break-inside: avoid">
               <h2 class="heading sub-heading"><?php echo strtoupper($section); ?></h2>
         <?php
 
@@ -278,6 +279,8 @@
             </tr>
           </table>
         </div>
+      </div>
+        <div style="page-break-inside: avoid">
         <table class="detail-list detail-list-loop">
             <?php
               $index = 0;
@@ -357,13 +360,14 @@
                 }
                 ?>
         </table>
+      </div>
         <?php
       }
       $section_number++;
       if($section_number == $num)
       {
       ?>
-      <div style="text-align:center">
+      <div style="text-align:center; margin-top:50px">
         <p style="text-align:center">For help with definitions, please visit the excellent online marketing reference at Moz:</p>
         <p style="text-align:center"><a href="http://moz.com/blog/smwc-and-other-essential-seo-jargon">http://moz.com/blog/smwc-and-other-essential-seo-jargon</a></p>
       </div>
