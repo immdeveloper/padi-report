@@ -54,7 +54,6 @@
             echo '<li><span>Section '.$num.':</span> <a href="#category-'.$num.'">'.ucwords($category).'</a></li>';
             $num++;
           }
-
           ?>
 
       </section>
@@ -361,7 +360,18 @@
         <?php
       }
       $section_number++;
-
+      if($section_number == $num)
+      {
+      ?>
+      <div style="text-align:center">
+        <p style="text-align:center">For help with definitions, please visit the excellent online marketing reference at Moz:</p>
+        <p style="text-align:center"><a href="http://moz.com/blog/smwc-and-other-essential-seo-jargon">http://moz.com/blog/smwc-and-other-essential-seo-jargon</a></p>
+      </div>
+      <div style="margin-top:50px;">
+        <p>Our team here at Island Media Management invites you to send us any questions you may have to our inbox at <a href="mailto:info@islandmediamanagement.com">info@islandmediamanagement.com</a></p>
+      </div>
+      <?php
+      }
         echo '</section>';
       }
       ?>
