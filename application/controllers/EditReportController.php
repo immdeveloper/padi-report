@@ -14,6 +14,18 @@ class EditReportController extends CI_Controller
   {
     //echo '' + $assessment_id;
     $join_result = $this->WebsiteReview->getSectionJoinPointCheck();
+    $report = $this->EditReport->getReportData($assessment_id);
+
+    foreach ($report as $value) {
+      $point[$value['id_point']] = array(
+        'id_assessment' => $value['id_assessment'],
+        'result'        => json_decode($value['result'], TRUE)
+      );
+      $section[$value['id_section']] = array(
+        'section_score' => $value['section_score']
+      );
+    }
+
     $data = array();
     foreach ($join_result as $value) {
       $data[$value->section_cat][$value->section_name] = array(
@@ -23,23 +35,35 @@ class EditReportController extends CI_Controller
         'section_why'         => $value->section_why,
         'section_importance'  => $value->section_importance,
         'section_difficulty'  => $value->section_difficulty,
+        'section_score'       => $section[$value->id_section]['section_score']
       );
     }
 
     foreach ($join_result as $value) {
-      $data[$value->section_cat][$value->section_name]['point'][] = array(
-        'id_point'                => $value->id_point,
-        'id_source'               => $value->id_source,
-        'point_name'              => $value->point_name,
-        'point_desc'              => $value->point_desc,
-        'point_what_need_fixing'  => $value->point_what_need_fixing,
-        'point_who_can_fix'       => $value->point_who_can_fix,
-        'point_how_to_fix'        => $value->point_how_to_fix,
-      );
+      if(isset($point[$value->id_point]['result']['description'])){
+        $data[$value->section_cat][$value->section_name]['point'][] = array(
+          'id_point'                => $value->id_point,
+          'id_source'               => $value->id_source,
+          'point_name'              => $value->point_name,
+          'point_desc'              => $point[$value->id_point]['result']['description'],//$value->point_desc,
+          'point_what_need_fixing'  => $value->point_what_need_fixing,
+          'point_who_can_fix'       => $value->point_who_can_fix,
+          'point_how_to_fix'        => $value->point_how_to_fix
+        );
+      }else{
+        $data[$value->section_cat][$value->section_name]['point'][] = array(
+          'id_point'                => $value->id_point,
+          'id_source'               => $value->id_source,
+          'point_name'              => $value->point_name,
+          'point_desc'              => $value->point_desc,
+          'point_what_need_fixing'  => $point[$value->id_point]['result']['point_what_need_fixing'],//$value->point_what_need_fixing,
+          'point_who_can_fix'       => $point[$value->id_point]['result']['point_who_can_fix'],//$value->point_who_can_fix,
+          'point_how_to_fix'        => $point[$value->id_point]['result']['point_how_to_fix']//$value->point_how_to_fix
+        );
+      }
     }
 
     $raw['data'] = $data;
-    $raw['raws'] = $this->EditReport->getResult();
     $data['title'] = "Edit Report " . $assessment_id;
     $data['content'] = $this->load->view('frontend/content-templates/content-edit-report', $raw, TRUE);
     $this->load->view('frontend/page', $data);

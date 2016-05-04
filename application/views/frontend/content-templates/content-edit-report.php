@@ -12,9 +12,11 @@
     //   $hidden_url = parse_url('http://'.$hidden_url, PHP_URL_HOST);
     // }
   ?>
-  <input type="hidden" name="hidden-url" id="hidden-url" value="<?php //echo str_ireplace('www.', '', $hidden_url); ?>" />
+  <input type="hidden" name="hidden-url" id="hidden-url" value="google.com<?php //echo str_ireplace('www.', '', $hidden_url); ?>" />
 </form>
-<?php var_dump($raws) ?>
+<?php //var_dump($data); ?>
+<?php //var_dump($raws/*[1]['result']['description']*/); ?>
+<?php //var_dump($raws2); ?>
 <div class="preload" style="display:none">
   <i class="fa fa-circle-o-notch fa-spin"></i> <span>Getting results...<span id="load-status"></span></span>
 </div>
@@ -115,13 +117,13 @@
             <span class="card-subtitle"><?php echo $section_value['section_desc']; ?></span>
             <hr>
             <div class="collapse in res" id="<?php echo $section_value['section_slug']?>">
-              <div class="result-table-wrapper" style="display:none;" id="result-<?php echo $section_value['section_slug']?>">
+              <div class="result-table-wrapper" style="display:block;" id="result-<?php echo $section_value['section_slug']?>">
                 <div class="result-table">
                   <table>
                     <tr>
                       <td rowspan="4" style="vertical-align:middle" id="section-score-<?php echo $section_value['section_slug']?>" class="table-score-wrapper">
                         <div id="current-score-<?php echo $section_value['section_slug']?>">
-                          <span class="table-score">100</span>
+                          <span class="table-score"><?php echo $section_value['section_score']?></span>
                           <span>score %</span>
                           <span><a href="#" class="btn btn-default edit-score" data-section-name="<?php echo $section_value['section_slug']?>" id="edit-section-score-<?php echo $section_value['section_slug']?>">Edit Score</a></span>
                         </div>
@@ -151,11 +153,11 @@
                 </div>
                 <a href="#" data-section-name="<?php echo $section_value['section_slug']?>" class="btn btn-default edit-field" id="edit-<?php echo $section_value['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
               </div><!-- Result table wrapper -->
-              <div class="report-form" id="report-<?php echo $section_value['section_slug']?>">
+              <div class="report-form" id="report-<?php echo $section_value['section_slug']?>" style="display:none;">
                 <p><strong>What needs fixing?</strong></p>
                 <form class="" action="" method="post" id="form-<?php echo $section_value['section_slug']?>">
                   <input id="" name="section-score-<?php echo $section_value['id_section']?>" type="hidden" value="section-score" checked>
-                  <input type="hidden" value="0" name="score-section-score-<?php echo $section_value['id_section']?>" class="score-<?php echo $section_value['section_slug']?>">
+                  <input type="hidden" value="<?php echo $section_value['section_score']?>" name="score-section-score-<?php echo $section_value['id_section']?>" class="score-<?php echo $section_value['section_slug']?>">
                   <input type="hidden" value="<?php echo $section_value['id_section']?>" name="section-id-section-score-<?php echo $section_value['id_section']?>">
 
                   <?php
@@ -234,7 +236,7 @@
           <?php /*category loop*/ } ?>
 
           <div id="total-section" style="display:none;"><?= $section_count+1 ?></div>
-          <div id="saved-section" style="display:none;">0</div>
+          <div id="saved-section" style="display:none;">23</div>
           <!-- Priority task and report summary -->
           <div role="tabpanel" class="tab-pane fade" id="tab6">
             <div class="card">
@@ -329,7 +331,7 @@
                 <a href="#" class="btn btn-default" id="btn-save-summary">Save</a>
               </div>
               </div>
-          </div>
+          </div><!-- Priority task and report summary -->
         </div><!-- tab content -->
 
       </div><!-- Result -->

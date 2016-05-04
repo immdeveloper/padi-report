@@ -115,7 +115,7 @@ function getPriorityType()
 
       },
       error: function() {
-        alert('error');
+        alert('priority type error');
       },
       success: function(res) {
         var data = '';
@@ -715,7 +715,7 @@ $('.save-all').click(function(){
       // $('#load-status').html('Preparing fetching data');
     },
     error: function() {
-      alert('error');
+      alert('save-all error');
     },
     success: function(res) {
       // console.log(desktop_score);
