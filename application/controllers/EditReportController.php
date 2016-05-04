@@ -17,13 +17,20 @@ class EditReportController extends CI_Controller
     $report = $this->EditReport->getReportData($assessment_id);
 
     foreach ($report as $value) {
-      $point[$value['id_point']] = array(
-        'id_assessment' => $value['id_assessment'],
-        'result'        => json_decode($value['result'], TRUE)
-      );
-      $section[$value['id_section']] = array(
-        'section_score' => $value['section_score']
-      );
+      if($value['status'] == $GLOBALS['PERSONAL_JUDGEMENT_POINT']){
+        $personal[$value['id_section']][$value['id_point']] = array(
+          'id_point'      => $value['id_point'],
+          'result'        => json_decode($value['result'], TRUE)
+        );
+      }else{
+        $point[$value['id_point']] = array(
+          'result'        => json_decode($value['result'], TRUE)
+        );
+
+        $section[$value['id_section']] = array(
+          'section_score' => $value['section_score']
+        );
+      }
     }
 
     $data = array();
@@ -64,6 +71,9 @@ class EditReportController extends CI_Controller
     }
 
     $raw['data'] = $data;
+    $raw['id_assessment'] = $report[0]['id_assessment'];
+    $raw['url'] = $report[0]['url'];
+    $raw['personal'] =$personal;
     $data['title'] = "Edit Report " . $assessment_id;
     $data['content'] = $this->load->view('frontend/content-templates/content-edit-report', $raw, TRUE);
     $this->load->view('frontend/page', $data);
@@ -169,10 +179,13 @@ class EditReportController extends CI_Controller
     echo $data['bing'];
   }
 
-  public function save()
+  public function update()
   {
+    $id_assessment = $this->input->post('id-assessment');
+    $this->EditReport->updateSectionScore(1, 2, 20);
+
     //get url that being assess
-    $hidden_url = $this->input->post('hidden-url');
+    /*$hidden_url = $this->input->post('hidden-url');
 
     //get domain id from the url or insert new domain if doesn't exist
     $id_domain = $this->WebsiteReview->getDomainId($hidden_url);
@@ -246,7 +259,9 @@ class EditReportController extends CI_Controller
 // $personal["key"] = 3;
     // echo json_encode( $id_point );
     // echo json_encode($score);
-    echo $id_assessment;
+    echo $id_assessment;*/
+
+     echo json_encode($id_assessment);
   }
 }
 //$formatted_url = str_ireplace('www.', '', parse_url($url_to_format, PHP_URL_HOST));

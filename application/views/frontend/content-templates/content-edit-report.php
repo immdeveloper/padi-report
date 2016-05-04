@@ -12,11 +12,13 @@
     //   $hidden_url = parse_url('http://'.$hidden_url, PHP_URL_HOST);
     // }
   ?>
-  <input type="hidden" name="hidden-url" id="hidden-url" value="google.com<?php //echo str_ireplace('www.', '', $hidden_url); ?>" />
+  <input type="hidden" name="hidden-url" id="hidden-url" value="<?= $url ?>" />
+  <input type="hidden" name="id-assessment" id="id-assessment" value="<?= $id_assessment ?>">
 </form>
 <?php //var_dump($data); ?>
 <?php //var_dump($raws/*[1]['result']['description']*/); ?>
 <?php //var_dump($raws2); ?>
+<?php var_dump($personal); ?>
 <div class="preload" style="display:none">
   <i class="fa fa-circle-o-notch fa-spin"></i> <span>Getting results...<span id="load-status"></span></span>
 </div>
@@ -25,9 +27,9 @@
 
   </div>
   <a href="#tab6" role="tab" data-toggle="tab" class="btn btn-default pull-right" style="margin-right:5%; margin-top:30px">Priority & Summary</a>
-  <a href="#" class="btn btn-default save-all pull-right" id="save-all" style="margin-right:20px; margin-top:30px">Save All</a>
+  <a href="#" class="btn btn-default update-all pull-right" id="update-all" style="margin-right:20px; margin-top:30px">Update All</a>
   <div class="result-title">
-    <span>Analysis of <span style="color: #0D8FDB;">http://</span>
+    <span>Analysis of <span style="color: #0D8FDB;">http://<?= $url ?></span>
     <span class="result-date"><i class="fa fa-calendar"></i> <?= date("Y F d"); ?></span>
   </div>
   <div class="card summary hide">
@@ -221,7 +223,51 @@
                     <?php /*point loop*/ } ?>
                     <hr />
                     <div class="personal-wrapper" id="wrapper-<?php echo $section_value['id_section']?>">
-
+                    <?php if(isset($personal[$section_value['id_section']])){
+                        //if there is a personal judgement in this section
+                        $personal_counter = 1;
+                          foreach ($personal[$section_value['id_section']] as $id_personal => $value) {
+                          //foreach personal judgement point
+                    ?>
+                    <div class="well">
+                    <a href="#" class="pull-right remove-field">
+                      <i class="fa fa-times fa-fw"></i>
+                    </a>
+                    <div class="clearfix"></div>
+                    <input id="check-<?=$section_value['id_section']?>" name="edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" style="display:none" type="checkbox" value="edit-personal" checked="">
+                    <input type="text" name="personal-id-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" value="<?= $id_personal?>" class="form-control">
+                    <div class="row">
+                      <div class="col-md-4 col-lg-4" style="padding-right:0">
+                        <div class="form-group"><span><strong>What needs fixing?</strong></span>
+                          <input type="hidden" value="<?=$section_value['id_section']?>" name="id-section-personal-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>">
+                          <input type="text" name="name-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?><?=$section_value['id_section']?><?= $personal_counter?>" value="<?=$value['result']['point_name']?>" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group">
+                          <span><strong>Explanation</strong></span><input type="text" name="explanation-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" value="<?=$value['result']['point_what_need_fixing']?>" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group"><span><strong>Who can fix it?</strong></span>
+                      <select class="form-control" name="who-fix-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>">
+                        <option value="">-- select user --</option>
+                        <option value="Webmaster"
+                        <?php
+                          if($value['result']['point_who_can_fix'] == 'Webmaster'){echo 'selected';}
+                        ?> >Webmaster</option>
+                        <option value="Basic user"
+                        <?php
+                          if($value['result']['point_who_can_fix'] == 'Basic user'){echo 'selected';}
+                        ?> >Basic user</option>
+                      </select>
+                    </div>
+                    <div class="form-group"><span><strong>How do you fix it?</strong></span><input type="text" name="how-fix-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" value="<?=$value['result']['point_how_to_fix']?>" class="form-control"></div>
+                  </div>
+                      <?php
+                      $personal_counter++;
+                      }//end foreach personal judgement point
+                    }//end if there is a personal judgement in this section ?>
                     </div>
                   </form>
                   <a href="javascript:void(0)" class="btn btn-primary save-field" id="save-<?php echo $section_value['id_section'];  ?>" data-section-name="<?php echo $section_value['section_slug']?>">Save</a>

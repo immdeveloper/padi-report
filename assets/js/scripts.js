@@ -491,6 +491,7 @@ function dynamic_priority_task_form()
   })
 }
 
+//personal judgment generator
 function dynamic_form()
 {
   var max_fields      = 10; //maximum input boxes allowed
@@ -548,6 +549,7 @@ function dynamic_form()
   })
 }
 
+//edit point check in backend
 function dynamic_point_check()
 {
   var max_fields      = 10; //maximum input boxes allowed
@@ -733,6 +735,36 @@ $('.preload2').fadeOut();
   });
 
 }
+})
+
+$('#update-all').click(function(){
+    var forms = $('form').serialize();
+    var totalSection = $('#total-section').html();
+    var savedSection = parseInt($('#saved-section').html());
+    console.log('update');
+    if (totalSection != savedSection) {
+      $('#save-section').modal('show');
+    }else{
+      $.ajax({
+        url: base_url + 'update',
+        type: 'POST',
+        dataType: 'json',
+        data: forms,
+        beforeSend: function() {
+          $('.preload2').fadeIn();
+        },
+        error: function() {
+          alert('update-all error');
+        },
+        success: function(res) {
+          console.log(res);
+          //window.location.replace(base_url+'report/'+res+'/preview');
+        },
+        complete: function() {
+          $('.preload2').fadeOut();
+        }
+      });
+    }
 })
 
 $('.edit-field').click(function(e){

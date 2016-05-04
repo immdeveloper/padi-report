@@ -65,6 +65,7 @@ $route['admin'] = 'BackendController/index';
 $route['run'] = 'WebsiteReviewController/run';
 $route['scrape'] = 'WebsiteReviewController/scrape';
 $route['save'] = 'WebsiteReviewController/save';
+$route['update'] = 'EditReportController/update';
 
 /*Point Check Master*/
 $route['admin/point-check-master'] = 'PointCheckMasterController/index';
