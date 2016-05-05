@@ -238,12 +238,23 @@ class EditReportController extends CI_Controller
           $result["point_who_can_fix"] = $post_input["who-fix-" . $name];
           $result["point_how_to_fix"] = $post_input["how-fix-" . $name];
 
-          $result_id = $post_input["result-" . $name];;
+          $result_id = $post_input["result-" . $name];
         }else if ($value == "off"){//if point is not checked = no need to fix
           $result["description"] = $post_input["description-" . $name];
 
-          $result_id = $post_input["result-" . $name];;
-        }//else if ($value == "personal"){ //personal judgement
+          $result_id = $post_input["result-" . $name];
+        }else if ($value == "edit-personal"){
+          $result["id_source"] = $GLOBALS['MANUAL_SOURCE'];
+          $result["id_section"] = $post_input["id-section-personal-" . $name];
+          $result["point_name"] = $post_input["name-" . $name];
+          $result["point_what_need_fixing"] = $post_input["explanation-" . $name];
+          $result["point_who_can_fix"] = $post_input["who-fix-" . $name];
+          $result["point_how_to_fix"] = $post_input["how-fix-" . $name];
+          $result["status"] = $GLOBALS['PERSONAL_JUDGEMENT_POINT'];
+
+          $result_id = $post_input["result-" . $name];
+        }
+        //else if ($value == "personal"){ //personal judgement
         //   $result["id_source"] = $GLOBALS['MANUAL_SOURCE'];
         //   $result["id_section"] = $post_input["id-section-" . $name];
         //   $result["point_name"] = $post_input["name-" . $name];

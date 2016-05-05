@@ -246,6 +246,7 @@
                     <div class="clearfix"></div>
                     <input id="check-<?=$section_value['id_section']?>" name="edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" style="display:none" type="checkbox" value="edit-personal" checked="">
                     <input type="hidden" name="personal-id-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" value="<?= $id_personal?>" class="form-control">
+                    <input type="hidden" name="result-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" value="<?= $value['id_result']?>" class="form-control">
                     <div class="row">
                       <div class="col-md-4 col-lg-4" style="padding-right:0">
                         <div class="form-group"><span><strong>What needs fixing?</strong></span>
