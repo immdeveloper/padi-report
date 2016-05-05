@@ -141,6 +141,7 @@ function getPriorityType()
       $('.priority-summary-result').fadeIn();
       $('.priority-summary-form').fadeOut();
       $('.modal-footer #save-all-report').fadeIn();
+      $('.modal-footer #update-all-report').fadeIn();
       $('.modal-footer #btn-edit-summary').fadeIn();
       $('.modal-footer #btn-save-summary').fadeOut();
 
@@ -174,6 +175,7 @@ function getPriorityType()
   $(document).on("click", "#btn-edit-summary", function(e){
     e.preventDefault();
     $('.modal-footer #save-all-report').fadeOut();
+    $('.modal-footer #update-all-report').fadeOut();
     $('.modal-footer #btn-edit-summary').fadeOut();
     $('.modal-footer #btn-save-summary').fadeIn();
     $('.priority-summary-result').fadeOut();
@@ -893,7 +895,7 @@ $(document).on('click', '#save-all-report', function(e){
   });
 });
 
-$('#update-all').click(function(){
+$('#update-all-report').click(function(){
     var forms = $('form').serialize();
     var totalSection = $('#total-section').html();
     var savedSection = parseInt($('#saved-section').html());

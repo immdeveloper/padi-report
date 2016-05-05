@@ -202,7 +202,22 @@ class EditReportController extends CI_Controller
   public function update()
   {
     $id_assessment = $this->input->post('id-assessment');
-    $this->EditReport->updateSectionScore(1, 2, 20);
+    // $this->EditReport->updateSectionScore(1, 2, 20);
+    $summary = $this->input->post('report-summary');
+
+    /*Get all priority task*/
+    $priority = array();
+    $priority_count = count($this->input->post('priority-what'));
+    for ($i=0; $i < $priority_count; $i++)
+    {
+      $priority[$i] = array(
+        'priority_what' => $this->input->post('priority-what')[$i],
+        'priority_why'  => $this->input->post('priority-why')[$i],
+        'priority_how'  => $this->input->post('priority-how')[$i]
+      );
+    }
+
+    $this->EditReport->updatePriorityTaskAndSummary($id_assessment, json_encode($priority, JSON_UNESCAPED_UNICODE), $summary);
 
     //get url that being assess
     /*$hidden_url = $this->input->post('hidden-url');

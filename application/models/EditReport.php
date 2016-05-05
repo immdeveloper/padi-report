@@ -25,6 +25,16 @@ class EditReport extends CI_Model {
     return $query->result_array();
   }
 
+  public function updatePriorityTaskAndSummary($id_assessment, $priority, $summary){
+    $data = array(
+               'priority_task' => $priority,
+               'summary'       => $summary
+            );
+    $this->db->where('id_assessment', $id_assessment);
+    $this->db->update('assessment', $data);
+  }
+
+
   public function updateSectionScore($id_assessment, $id_section, $score){
     $data = array(
                'result' => $score

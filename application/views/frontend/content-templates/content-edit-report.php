@@ -377,7 +377,7 @@
             </div>
             <div class="radio">
               <label>
-                <input type="radio" name="set-priority-task" id="optionsRadios2" value="manual">
+                <input type="radio" name="set-priority-task" id="optionsRadios2" value="manual" checked>
                 Manually choose priority task for this report <small style="color:#999; font-style:italic">(Only 4 max priority task of each report)</small>
               </label>
             </div>
@@ -444,7 +444,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <a href="#" class="btn btn-default pull-left" id="btn-edit-summary" style="display:none"><i class="fa fa-pencil fa-fw"></i> Edit</a>
         <a href="#" class="btn btn-primary" id="btn-save-summary">Show preview</a>
-        <button type="button" class="btn btn-primary" id="save-all-report" style="display:none">Save changes</button>
+        <button type="button" class="btn btn-primary" id="update-all-report" style="display:none">Save changes</button>
       </div>
     </div>
   </div>
