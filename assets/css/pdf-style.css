@@ -12,13 +12,12 @@ body{
 }
 
 /*Page break*/
-section,
-.detail-list-loop{
+/*.detail-list-loop*/
+section{
   page-break-after: always;
 }
 
-section:last-child,
-.detail-list-loop:last-child{
+section:last-child{
   page-break-after: avoid;
 }
 
