@@ -20,7 +20,7 @@ class ReportController extends CI_Controller
       }
       else
       {
-        $date = 'No report performed yet';
+        $date = 'No review performed yet';
       }
 
       $content[] = array(

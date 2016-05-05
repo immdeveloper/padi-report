@@ -49,7 +49,7 @@ for ($i=0; $i < count($point); $i++) {
         ?>
         <tr>
           <td><?php echo $no; ?></td>
-          <td><a href="#"><?php echo $value['url']; ?></a></td>
+          <td><a href="<?php echo $link; ?>"><?php echo $value['url']; ?></a></td>
           <td><?php echo $value['report_count']; ?></td>
           <td><?php echo $value['last_report']; ?></td>
           <td>
