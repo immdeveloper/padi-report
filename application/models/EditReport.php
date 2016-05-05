@@ -10,7 +10,7 @@ class EditReport extends CI_Model {
   }
 
   public function getReportData($id){
-    $this->db->select('assessment.id_assessment, domain.url, section_result.id_section, section_result.result as section_score, point_check.id_point, point_check.status, result.result');
+    $this->db->select('assessment.id_assessment, assessment.priority_task, assessment.summary, domain.url, section_result.id_section, section_result.result as section_score, point_check.id_point, point_check.status, result.result');
 
     $this->db->from('assessment');
     $this->db->join('domain', 'assessment.id_domain = domain.id_domain');

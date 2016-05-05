@@ -92,6 +92,8 @@ class EditReportController extends CI_Controller
     $raw['personal'] =$personal;
     $raw['checked_point'] = $checked_point;
     $raw['disable_point'] = $disable_point;
+    $raw['priority_task'] = json_decode($report[0]['priority_task'], TRUE);
+    $raw['summary'] = $report[0]['summary'];
     $data['title'] = "Edit Report " . $assessment_id;
     $data['content'] = $this->load->view('frontend/content-templates/content-edit-report', $raw, TRUE);
     $this->load->view('frontend/page', $data);
@@ -200,7 +202,7 @@ class EditReportController extends CI_Controller
   public function update()
   {
     $id_assessment = $this->input->post('id-assessment');
-    $this->EditReport->updateSectionScore(1, 2, 20);
+    //$this->EditReport->updateSectionScore(1, 2, 20);
 
     //get url that being assess
     /*$hidden_url = $this->input->post('hidden-url');

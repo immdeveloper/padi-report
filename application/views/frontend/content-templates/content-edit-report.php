@@ -23,6 +23,7 @@
 <?php //var_dump($raws2); ?>
 <?php //var_dump($personal); ?>
 <?php //var_dump($checked_point); ?>
+<?php //var_dump($priority_task); ?>
 <div class="preload" style="display:none">
   <i class="fa fa-circle-o-notch fa-spin"></i> <span>Getting results...<span id="load-status"></span></span>
 </div>
@@ -381,14 +382,16 @@
               </label>
             </div>
             <hr />
-            <div class="priority-container" style="display:none">
+            <div class="priority-container" style="display:block">
               <div class="priority-block-wrapper">
-              <div class="priority-block" data-id="0">
+                <?php foreach ($priority_task as $key => $value) { //foreach priority_task  ?>
+
+              <div class="priority-block" data-id="<?= $key ?>">
                 <a href="#" class="pull-right remove-priority-task"><i class="fa fa-times fa-fw"></i></a>
-                <h4>Priority Task 1</h4>
+                <h4>Priority Task <?= $key+1 ?></h4>
                 <form class="form-inline select-priority-type">
                   <div class="form-group">
-                    <select class="form-control priority-type" id="priority-type-0" data-id="0">
+                    <select class="form-control priority-type" id="priority-type-<?= $key ?>" data-id="<?= $key ?>">
                       <option>-- Select type of priority task --</option>
                       <option value="section">Section</option>
                       <option value="sub-section">Sub Section</option>
@@ -396,7 +399,7 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <select class="form-control result-type-0" name="" id="result-type-0">
+                    <select class="form-control result-type-<?= $key ?>" name="" id="result-type-<?= $key ?>">
                       <option>-- Section --</option>
                     </select>
                   </div>
@@ -406,22 +409,24 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>What?</label>
-                        <input type="text" class="form-control" readonly id="priority-what-0">
+                        <input type="text" class="form-control" readonly id="priority-what-<?= $key ?>"
+                        value="<?= $value['priority_what']?>" >
                       </div>
                     </div>
                     <div class="col-md-8">
                       <div class="form-group">
                         <label>Why?</label>
-                        <input type="text" class="form-control" id="priority-why-0">
+                        <input type="text" class="form-control" id="priority-why-<?= $key ?>" value="<?= $value['priority_why']?>">
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
                     <label>How to fix it:</label>
-                    <input type="text" class="form-control" id="priority-how-0">
+                    <input type="text" class="form-control" id="priority-how-<?= $key ?>" value="<?= $value['priority_how']?>">
                   </div>
                 </form>
               </div><!-- Priority block -->
+              <?php } // end foreach priority_task ?>
             </div>
             <a href="#" class="add-priority-task btn btn-default">Add priority task</a>
             <hr />
@@ -430,7 +435,7 @@
           <fieldset>
             <legend>Report Summary</legend>
             <div class="form-group">
-              <textarea rows="8" cols="40" class="form-control" id="report-summary"></textarea>
+              <textarea rows="8" cols="40" class="form-control" id="report-summary"><?= $summary ?></textarea>
             </div>
           </fieldset>
         </div>
