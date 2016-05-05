@@ -356,7 +356,8 @@ function backtotop()
 }
 
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip();
+  $('.dropdown-toggle').dropdown();
 })
 
 //setup before functions
