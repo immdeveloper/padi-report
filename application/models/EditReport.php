@@ -34,14 +34,13 @@ class EditReport extends CI_Model {
     $this->db->update('assessment', $data);
   }
 
-
-  public function updateSectionScore($id_assessment, $id_section, $score){
+  public function updateSectionResult($section_result){
     $data = array(
-               'result' => $score
+               'result' => $section_result['result']
             );
     // $this->db->update_batch('section_result', $data, 'id_assessment');
-    $this->db->where('id_assessment', $id_assessment);
-    $this->db->where('id_section', $id_section);
+    $this->db->where('id_assessment', $section_result["id_assessment"]);
+    $this->db->where('id_section', $section_result["id_section"]);
 
     $this->db->update('section_result', $data);
   }
