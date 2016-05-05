@@ -34,6 +34,8 @@ class EditReportController extends CI_Controller
     }
 
     $data = array();
+    $checked_point = array();
+    $disable_point = array();
     foreach ($join_result as $value) {
       $data[$value->section_cat][$value->section_name] = array(
         'id_section'          => $value->id_section,
@@ -47,26 +49,40 @@ class EditReportController extends CI_Controller
     }
 
     foreach ($join_result as $value) {
-      if(isset($point[$value->id_point]['result']['description'])){
-        $data[$value->section_cat][$value->section_name]['point'][] = array(
-          'id_point'                => $value->id_point,
-          'id_source'               => $value->id_source,
-          'point_name'              => $value->point_name,
-          'point_desc'              => $point[$value->id_point]['result']['description'],//$value->point_desc,
-          'point_what_need_fixing'  => $value->point_what_need_fixing,
-          'point_who_can_fix'       => $value->point_who_can_fix,
-          'point_how_to_fix'        => $value->point_how_to_fix
-        );
-      }else{
+      if (!isset($point[$value->id_point])) {
         $data[$value->section_cat][$value->section_name]['point'][] = array(
           'id_point'                => $value->id_point,
           'id_source'               => $value->id_source,
           'point_name'              => $value->point_name,
           'point_desc'              => $value->point_desc,
-          'point_what_need_fixing'  => $point[$value->id_point]['result']['point_what_need_fixing'],//$value->point_what_need_fixing,
-          'point_who_can_fix'       => $point[$value->id_point]['result']['point_who_can_fix'],//$value->point_who_can_fix,
-          'point_how_to_fix'        => $point[$value->id_point]['result']['point_how_to_fix']//$value->point_how_to_fix
+          'point_what_need_fixing'  => $value->point_what_need_fixing,
+          'point_who_can_fix'       => $value->point_who_can_fix,
+          'point_how_to_fix'        => $value->point_how_to_fix
         );
+        array_push($disable_point, $value->id_point);
+      }else{
+        if(isset($point[$value->id_point]['result']['description'])){
+          $data[$value->section_cat][$value->section_name]['point'][] = array(
+            'id_point'                => $value->id_point,
+            'id_source'               => $value->id_source,
+            'point_name'              => $value->point_name,
+            'point_desc'              => $point[$value->id_point]['result']['description'],//$value->point_desc,
+            'point_what_need_fixing'  => $value->point_what_need_fixing,
+            'point_who_can_fix'       => $value->point_who_can_fix,
+            'point_how_to_fix'        => $value->point_how_to_fix
+          );
+        }else{
+          $data[$value->section_cat][$value->section_name]['point'][] = array(
+            'id_point'                => $value->id_point,
+            'id_source'               => $value->id_source,
+            'point_name'              => $value->point_name,
+            'point_desc'              => $value->point_desc,
+            'point_what_need_fixing'  => $point[$value->id_point]['result']['point_what_need_fixing'],//$value->point_what_need_fixing,
+            'point_who_can_fix'       => $point[$value->id_point]['result']['point_who_can_fix'],//$value->point_who_can_fix,
+            'point_how_to_fix'        => $point[$value->id_point]['result']['point_how_to_fix']//$value->point_how_to_fix
+          );
+          array_push($checked_point, $value->id_point);
+        }
       }
     }
 
@@ -74,6 +90,8 @@ class EditReportController extends CI_Controller
     $raw['id_assessment'] = $report[0]['id_assessment'];
     $raw['url'] = $report[0]['url'];
     $raw['personal'] =$personal;
+    $raw['checked_point'] = $checked_point;
+    $raw['disable_point'] = $disable_point;
     $data['title'] = "Edit Report " . $assessment_id;
     $data['content'] = $this->load->view('frontend/content-templates/content-edit-report', $raw, TRUE);
     $this->load->view('frontend/page', $data);

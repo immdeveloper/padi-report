@@ -14,11 +14,15 @@
   ?>
   <input type="hidden" name="hidden-url" id="hidden-url" value="<?= $url ?>" />
   <input type="hidden" name="id-assessment" id="id-assessment" value="<?= $id_assessment ?>">
+  <input type="hidden" id="checked-point" disabled value="<?= implode(" ",$checked_point); ?>">
+  <input type="hidden" id="disable-point" disabled value="<?= implode(" ",$disable_point); ?>">
+
 </form>
 <?php //var_dump($data); ?>
 <?php //var_dump($raws/*[1]['result']['description']*/); ?>
 <?php //var_dump($raws2); ?>
-<?php var_dump($personal); ?>
+<?php //var_dump($personal); ?>
+<?php //var_dump($checked_point); ?>
 <div class="preload" style="display:none">
   <i class="fa fa-circle-o-notch fa-spin"></i> <span>Getting results...<span id="load-status"></span></span>
 </div>
@@ -26,8 +30,8 @@
   <div id="test-scraping">
 
   </div>
-  <a href="#tab6" role="tab" data-toggle="tab" class="btn btn-default pull-right" style="margin-right:5%; margin-top:30px">Priority & Summary</a>
-  <a href="#" class="btn btn-default update-all pull-right" id="update-all" style="margin-right:20px; margin-top:30px">Update All</a>
+
+  <a href="#" class="btn btn-default save-all pull-right" id="" style="margin-right:20px; margin-top:30px">Update All</a>
   <div class="result-title">
     <span>Analysis of <span style="color: #0D8FDB;">http://<?= $url ?></span>
     <span class="result-date"><i class="fa fa-calendar"></i> <?= date("Y F d"); ?></span>
@@ -120,10 +124,13 @@
             <hr>
             <div class="collapse in res" id="<?php echo $section_value['section_slug']?>">
               <div class="result-table-wrapper" style="display:block;" id="result-<?php echo $section_value['section_slug']?>">
+                <input type="hidden" class="_section" value="<?php echo strtoupper($section_name); ?>" data-id="<?php echo $section_value['id_section']; ?>" data-why="<?php echo $section_value['section_why']?>" data-importance="<?php echo $section_value['section_importance']?>" data-score="40" />
                 <div class="result-table">
                   <table>
                     <tr>
-                      <td rowspan="4" style="vertical-align:middle" id="section-score-<?php echo $section_value['section_slug']?>" class="table-score-wrapper">
+                      <td rowspan="4" style="vertical-align:middle" id="section-score-<?php echo $section_value['section_slug']?>" class="table-score-wrapper
+                        <?php if ($section_value['section_score'] < 50){echo 'red';}
+                              elseif($section_value['section_score'] < 80){echo 'orange';} ?>">
                         <div id="current-score-<?php echo $section_value['section_slug']?>">
                           <span class="table-score"><?php echo $section_value['section_score']?></span>
                           <span>score %</span>
@@ -235,12 +242,12 @@
                     </a>
                     <div class="clearfix"></div>
                     <input id="check-<?=$section_value['id_section']?>" name="edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" style="display:none" type="checkbox" value="edit-personal" checked="">
-                    <input type="text" name="personal-id-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" value="<?= $id_personal?>" class="form-control">
+                    <input type="hidden" name="personal-id-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" value="<?= $id_personal?>" class="form-control">
                     <div class="row">
                       <div class="col-md-4 col-lg-4" style="padding-right:0">
                         <div class="form-group"><span><strong>What needs fixing?</strong></span>
                           <input type="hidden" value="<?=$section_value['id_section']?>" name="id-section-personal-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>">
-                          <input type="text" name="name-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?><?=$section_value['id_section']?><?= $personal_counter?>" value="<?=$value['result']['point_name']?>" class="form-control">
+                          <input type="text" name="name-edit-personal-<?=$section_value['id_section']?><?= $personal_counter?>" value="<?=$value['result']['point_name']?>" class="form-control">
                         </div>
                       </div>
                       <div class="col-md-8">
@@ -281,103 +288,10 @@
           <?php $i++;?>
           <?php /*category loop*/ } ?>
 
-          <div id="total-section" style="display:none;"><?= $section_count+1 ?></div>
+          <div id="total-section" style="display:none;"><?= $section_count ?></div>
           <div id="saved-section" style="display:none;">23</div>
           <!-- Priority task and report summary -->
-          <div role="tabpanel" class="tab-pane fade" id="tab6">
-            <div class="card">
-              <h4 class="card-title">PRIORITY TASK & REPORT SUMMARY</h4>
-              <span class="card-subtitle"></span>
-              <hr>
-              <form>
-                <div class="form-group priority-result">
 
-                </div>
-                <div class="form-group">
-                  <input type="hidden" name="report-summary" id="report-summary-result">
-                </div>
-              </form>
-
-              <div class="priority-summary-result" style="display:none">
-                <div class="priority-table-wrapper"></div>
-                <h3>Report Summary</h3>
-                <p class="report-summary"></p>
-                <a href="#" class="btn btn-default" id="btn-edit-summary"><i class="fa fa-pencil fa-fw"></i> Edit</a>
-              </div>
-
-              <div class="priority-summary-form">
-                <fieldset>
-                  <legend>Priority Task</legend>
-                  <span>How you want to generate priority task?</span>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="set-priority-task" id="optionsRadios1" value="auto">
-                      Automatically generate priority task for this report
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="set-priority-task" id="optionsRadios2" value="manual">
-                      Manually choose priority task for this report <small style="color:#999; font-style:italic">(Only 4 max priority task of each report)</small>
-                    </label>
-                  </div>
-                  <hr />
-                  <div class="priority-container" style="display:none">
-                    <div class="priority-block-wrapper">
-                    <div class="priority-block" data-id="0">
-                      <a href="#" class="pull-right remove-priority-task"><i class="fa fa-times fa-fw"></i></a>
-                      <h4>Priority Task 1</h4>
-                      <form class="form-inline select-priority-type">
-                        <div class="form-group">
-                          <select class="form-control priority-type" id="priority-type-0" data-id="0">
-                            <option>-- Select type of priority task --</option>
-                            <option value="section">Section</option>
-                            <option value="sub-section">Sub Section</option>
-                            <option value="point">Point</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <select class="form-control" name="" id="result-type-0">
-                            <option>-- Section --</option>
-                          </select>
-                        </div>
-                      </form>
-                      <form>
-                        <div class="row">
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <label>What?</label>
-                              <input type="text" class="form-control" readonly id="priority-what-0">
-                            </div>
-                          </div>
-                          <div class="col-md-8">
-                            <div class="form-group">
-                              <label>Why?</label>
-                              <input type="text" class="form-control" id="priority-why-0">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label>How to fix it:</label>
-                          <input type="text" class="form-control" id="priority-how-0">
-                        </div>
-                      </form>
-                    </div><!-- Priority block -->
-                  </div>
-                  <a href="#" class="add-priority-task btn btn-default">Add priority task</a>
-                  <hr />
-                </div>
-                </fieldset>
-                <fieldset>
-                  <legend>Report Summary</legend>
-                  <div class="form-group">
-                    <textarea name="name" rows="8" cols="40" class="form-control" id="report-summary"></textarea>
-                  </div>
-                </fieldset>
-                <a href="#" class="btn btn-default" id="btn-save-summary">Save</a>
-              </div>
-              </div>
-          </div><!-- Priority task and report summary -->
         </div><!-- tab content -->
 
       </div><!-- Result -->
@@ -427,3 +341,106 @@
 <!-- Loading Save to DB Modal -->
 
 <!-- Modal -->
+<!-- Priority Task and Report Summary Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-priority">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">PRIORITY TASK & REPORT SUMMARY</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group priority-result"></div>
+          <div class="form-group">
+            <input type="hidden" name="report-summary" id="report-summary-result">
+          </div>
+        </form>
+
+        <div class="priority-summary-result" style="display:none">
+          <input type="hidden" value="false" id="state">
+          <div class="priority-table-wrapper"></div>
+          <h3>Report Summary</h3>
+          <p class="report-summary"></p>
+        </div>
+
+        <div class="priority-summary-form">
+          <fieldset>
+            <legend>Priority Task</legend>
+            <span>How you want to generate priority task?</span>
+            <div class="radio">
+              <label>
+                <input type="radio" name="set-priority-task" id="optionsRadios1" value="auto">
+                Automatically generate priority task for this report
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="set-priority-task" id="optionsRadios2" value="manual">
+                Manually choose priority task for this report <small style="color:#999; font-style:italic">(Only 4 max priority task of each report)</small>
+              </label>
+            </div>
+            <hr />
+            <div class="priority-container" style="display:none">
+              <div class="priority-block-wrapper">
+              <div class="priority-block" data-id="0">
+                <a href="#" class="pull-right remove-priority-task"><i class="fa fa-times fa-fw"></i></a>
+                <h4>Priority Task 1</h4>
+                <form class="form-inline select-priority-type">
+                  <div class="form-group">
+                    <select class="form-control priority-type" id="priority-type-0" data-id="0">
+                      <option>-- Select type of priority task --</option>
+                      <option value="section">Section</option>
+                      <option value="sub-section">Sub Section</option>
+                      <option value="point">Point</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <select class="form-control result-type-0" name="" id="result-type-0">
+                      <option>-- Section --</option>
+                    </select>
+                  </div>
+                </form>
+                <form>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>What?</label>
+                        <input type="text" class="form-control" readonly id="priority-what-0">
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="form-group">
+                        <label>Why?</label>
+                        <input type="text" class="form-control" id="priority-why-0">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>How to fix it:</label>
+                    <input type="text" class="form-control" id="priority-how-0">
+                  </div>
+                </form>
+              </div><!-- Priority block -->
+            </div>
+            <a href="#" class="add-priority-task btn btn-default">Add priority task</a>
+            <hr />
+          </div>
+          </fieldset>
+          <fieldset>
+            <legend>Report Summary</legend>
+            <div class="form-group">
+              <textarea rows="8" cols="40" class="form-control" id="report-summary"></textarea>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a href="#" class="btn btn-default pull-left" id="btn-edit-summary" style="display:none"><i class="fa fa-pencil fa-fw"></i> Edit</a>
+        <a href="#" class="btn btn-primary" id="btn-save-summary">Show preview</a>
+        <button type="button" class="btn btn-primary" id="save-all-report" style="display:none">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
