@@ -15,15 +15,18 @@ class EditReportController extends CI_Controller
     //echo '' + $assessment_id;
     $join_result = $this->WebsiteReview->getSectionJoinPointCheck();
     $report = $this->EditReport->getReportData($assessment_id);
+    $personal=array();
 
     foreach ($report as $value) {
-      if($value['status'] == $GLOBALS['PERSONAL_JUDGEMENT_POINT']){
+      if($value['status'] == $GLOBALS['PERSONAL_JUDGEMENT_POINT']){//personal judgement
         $personal[$value['id_section']][$value['id_point']] = array(
           'id_point'      => $value['id_point'],
+          'id_result'     => $value['id_result'],
           'result'        => json_decode($value['result'], TRUE)
         );
       }else{
         $point[$value['id_point']] = array(
+          'id_result'     => $value['id_result'],
           'result'        => json_decode($value['result'], TRUE)
         );
 
@@ -53,6 +56,7 @@ class EditReportController extends CI_Controller
         $data[$value->section_cat][$value->section_name]['point'][] = array(
           'id_point'                => $value->id_point,
           'id_source'               => $value->id_source,
+          'id_result'               => 0,
           'point_name'              => $value->point_name,
           'point_desc'              => $value->point_desc,
           'point_what_need_fixing'  => $value->point_what_need_fixing,
@@ -65,6 +69,7 @@ class EditReportController extends CI_Controller
           $data[$value->section_cat][$value->section_name]['point'][] = array(
             'id_point'                => $value->id_point,
             'id_source'               => $value->id_source,
+            'id_result'               => $point[$value->id_point]['id_result'],
             'point_name'              => $value->point_name,
             'point_desc'              => $point[$value->id_point]['result']['description'],//$value->point_desc,
             'point_what_need_fixing'  => $value->point_what_need_fixing,
@@ -75,6 +80,7 @@ class EditReportController extends CI_Controller
           $data[$value->section_cat][$value->section_name]['point'][] = array(
             'id_point'                => $value->id_point,
             'id_source'               => $value->id_source,
+            'id_result'               => $point[$value->id_point]['id_result'],
             'point_name'              => $value->point_name,
             'point_desc'              => $value->point_desc,
             'point_what_need_fixing'  => $point[$value->id_point]['result']['point_what_need_fixing'],//$value->point_what_need_fixing,
@@ -225,19 +231,19 @@ class EditReportController extends CI_Controller
     $personal = array();
     $i = 0;
     foreach ($post_input as $name => $value) {//$name is the field name //$value is the field value
-        // $id_point = $name;
-        // // if the submitted value is on or off, set the result variable
-        // if($value == "on"){//if point is checked = need to fix
-        //   $result["point_what_need_fixing"] = $post_input["explanation-" . $name];
-        //   $result["point_who_can_fix"] = $post_input["who-fix-" . $name];
-        //   $result["point_how_to_fix"] = $post_input["how-fix-" . $name];
-        //
-        //   $id_source = $post_input["source-" . $name];
-        // }else if ($value == "off"){//if point is not checked = no need to fix
-        //   $result["description"] = $post_input["description-" . $name];
-        //
-        //   $id_source = $post_input["source-" . $name];
-        // }else if ($value == "personal"){ //personal judgement
+        $id_point = $name;
+        // if the submitted value is on or off, set the result variable
+        if($value == "on"){//if point is checked = need to fix
+          $result["point_what_need_fixing"] = $post_input["explanation-" . $name];
+          $result["point_who_can_fix"] = $post_input["who-fix-" . $name];
+          $result["point_how_to_fix"] = $post_input["how-fix-" . $name];
+
+          $result_id = $post_input["result-" . $name];;
+        }else if ($value == "off"){//if point is not checked = no need to fix
+          $result["description"] = $post_input["description-" . $name];
+
+          $result_id = $post_input["result-" . $name];;
+        }//else if ($value == "personal"){ //personal judgement
         //   $result["id_source"] = $GLOBALS['MANUAL_SOURCE'];
         //   $result["id_section"] = $post_input["id-section-" . $name];
         //   $result["point_name"] = $post_input["name-" . $name];
@@ -248,8 +254,8 @@ class EditReportController extends CI_Controller
         //
         //   $id_point = $this->WebsiteReview->insertNewPersonalPoint($result);
         //   $id_source = $result["id_source"];
-        // }else
-        if ($value == "section-score"){
+        // }
+        else if ($value == "section-score"){
           $section_result["id_section"] = $post_input["section-id-" . $name];
           $section_result["id_assessment"] = $id_assessment;
           $section_result["result"] = $post_input["score-" . $name];
@@ -258,17 +264,17 @@ class EditReportController extends CI_Controller
 
         //if result is not empty, insert data to result table and assessment_detail table
         if(!empty($result)){
-          $data = array(
-              'id_source' => $id_source,
+          $point_result = array(
+              'id_result' => $result_id,
               'result'    => json_encode($result, JSON_UNESCAPED_UNICODE)
             );
-          $id_result = $this->WebsiteReview->insertNewResult($data);
-          $data = array(
-              'id_assessment' => $id_assessment,
-              'id_point'      => $id_point,
-              'id_result'     => $id_result
-            );
-          $id_assessment_detail = $this->WebsiteReview->insertNewAssessmentDetail($data);
+          $this->EditReport->updatePointResult($point_result);
+          // $data = array(
+          //     'id_assessment' => $id_assessment,
+          //     'id_point'      => $id_point,
+          //     'id_result'     => $id_result
+          //   );
+          // $id_assessment_detail = $this->WebsiteReview->insertNewAssessmentDetail($data);
           $result = array();
         }
     }

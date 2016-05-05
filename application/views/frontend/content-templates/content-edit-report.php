@@ -183,6 +183,8 @@
                         onclick="onClickPointCheck(<?php echo $point_value['id_point']; ?>)"; >
                         <input type="hidden" name="source-<?php echo $point_value['id_point']; ?>"
                         value="<?php echo $point_value['id_source'];?>" class="form-control" id="source-<?php echo $point_value['id_point']; ?>">
+                        <input type="hidden" name="result-<?php echo $point_value['id_point']; ?>"
+                        value="<?php echo $point_value['id_result'];?>" class="form-control" id="result-<?php echo $point_value['id_point']; ?>">
                         <span id="text-<?php echo $point_value['id_point'];?>"><?php echo $point_value['point_name']; ?></span> <a href="#" class="exclude-point" data-active="1" data-id="<?php echo $point_value['id_point'];?>"><i class="fa fa-times-circle fa-fw" style="color:#f03"></i></a>
                       </label>
                       <div class="collapse in" id="well-desc-<?php echo $point_value['id_point'];?>">

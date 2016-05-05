@@ -10,7 +10,7 @@ class EditReport extends CI_Model {
   }
 
   public function getReportData($id){
-    $this->db->select('assessment.id_assessment, assessment.priority_task, assessment.summary, domain.url, section_result.id_section, section_result.result as section_score, point_check.id_point, point_check.status, result.result');
+    $this->db->select('assessment.id_assessment, assessment.priority_task, assessment.summary, domain.url, section_result.id_section, section_result.result as section_score, point_check.id_point, point_check.status, result.id_result, result.result');
 
     $this->db->from('assessment');
     $this->db->join('domain', 'assessment.id_domain = domain.id_domain');
@@ -43,6 +43,17 @@ class EditReport extends CI_Model {
     $this->db->where('id_section', $section_result["id_section"]);
 
     $this->db->update('section_result', $data);
+  }
+
+  public function updatePointResult($point_result){
+    $data = array(
+               'result' => $point_result['result']
+            );
+    // $this->db->update_batch('section_result', $data, 'id_assessment');
+    $this->db->where('id_result', $point_result["id_result"]);
+    //$this->db->where('id_section', $section_result["id_section"]);
+
+    $this->db->update('result', $data);
   }
 
 }
