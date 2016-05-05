@@ -113,6 +113,8 @@ class WebsiteReview extends CI_Model {
     section_cat,
     date,
     url,
+    priority_task,
+    summary,
     point_name,
     result.result AS `point_result`,
     section_desc,

@@ -8,87 +8,158 @@ $(document).ready(function(){
   dynamic_priority_task_form();
   backtotop();
   getPriorityType();
+  $('.modal').on('hidden.bs.modal', function(e)
+  {
+      $(this).removeData();
+  }) ;
 });
 
-function showPreload(wrapper, text)
+function getSectionMeta()
 {
-  //Generating report preview, please wait...
-  $html = '<div class="preload2" style="display:none; background-image:url(' + base_url + 'assets/images/rolling.svg)">' +
-      '<span>' + text + '</span>'+
-    '</div>';
-  wrapper.html($html);
+  var section = new Array();
+  var section_count = $('._section').length;
+  for (var i = 0; i < section_count; i++) {
+    section[i] = {
+      section_name: $('._section').eq(i).val(),
+      section_id: $('._section').eq(i).data('id'),
+      section_importance: $('._section').eq(i).data('importance'),
+      section_score: $('._section').eq(i).attr('data-score'),
+      section_why: $('._section').eq(i).data('why'),
+      section_priority: 0
+    };
+  }
+
+  return section;
+}
+
+function calculatePriority()
+{
+  var section = getSectionMeta();
+  var tmp1 = new Array();
+  var tmp2 = new Array();
+  var priority_point = new Array();
+  var priority_task = new Array();
+  for (var i = 0; i < section.length; i++)
+  {
+    tmp1[i] = parseInt(section[i]['section_score']) / parseInt(section[i]['section_importance']);
+    tmp2[i] = tmp1[i] / parseInt(section[i]['section_importance']);
+    section[i].section_priority = parseFloat(tmp2[i]).toFixed(2);
+  }
+
+  section.sort(function(a,b){
+    return parseFloat(a.section_priority) - parseFloat(b.section_priority);
+  });
+
+  for (var i = 0; i < 4; i++) {
+    priority_task[i] = section[i];
+  }
+
+  priority_task.sort(function(a,b){
+    return parseInt(a.section_id) - parseInt(b.section_id);
+  });
+
+
+  return priority_task;
+}
+
+function priority_summary_validation()
+{
+  var pass = true;
+  /*Form Validation for all input*/
+  if($('input[type=radio][name=set-priority-task]:checked').val() == 'manual')
+  {
+    $('.priority-block input').each(function(){
+      if($(this).val() == "")
+      {
+        $(this).addClass('not-valid');
+        pass = false;
+      }
+      else
+      {
+        $(this).removeClass('not-valid');
+      }
+    });
+  }
+
+  /*Form Validation for textarea*/
+  if($('.modal-body #report-summary').val().trim().length == 0)
+  {
+    $('.modal-body #report-summary').addClass('not-valid');
+    pass = false;
+  }
+  else
+  {
+    $('.modal-body #report-summary').removeClass('not-valid');
+  }
+
+  /*Form Validation radio button*/
+  if($('input[type=radio][name=set-priority-task]').is(':checked') == false)
+  {
+    $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#f03');
+    pass = false;
+  }
+  else
+  {
+    $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#333');
+  }
+
+  return pass;
 }
 
 function getPriorityType()
 {
   /*Save Priority and Summary*/
-  $('#btn-save-summary').click(function(e){
+  $(document).on("click", "#btn-save-summary", function(e){
     e.preventDefault();
-    var pass = true;
+    var pass = priority_summary_validation();
 
-    /*Form Validation for all input*/
-    if($('input[type=radio][name=set-priority-task]:checked').val() == 'manual')
-    {
-      $('.priority-block input').each(function(){
-        if($(this).val() == "")
-        {
-          $(this).addClass('not-valid');
-          pass = false;
-        }
-        else
-        {
-          $(this).removeClass('not-valid');
-        }
-      });
-    }
-
-    /*Form Validation for textarea*/
-    if($('#report-summary').val().trim().length == 0)
-    {
-      $('#report-summary').addClass('not-valid');
-      pass = false;
-    }
-    else
-    {
-      $('#report-summary').removeClass('not-valid');
-    }
-
-    /*Form Validation radio button*/
-    if($('input[type=radio][name=set-priority-task]').is(':checked') == false)
-    {
-      $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#f03');
-      pass = false;
-    }
-    else
-    {
-      $('input[type=radio][name=set-priority-task]').closest('label').css('color', '#333');
-    }
-
+    /*Validation passed*/
     if(pass == true)
     {
+      var type = '';
+      var count = 4;
+      var arr = new Array();
+
       $('.priority-summary-result').fadeIn();
       $('.priority-summary-form').fadeOut();
-      var count = $('.priority-block').length;
-      var arr = new Array();
-      for (var i = 0; i < count; i++) {
-        arr[i] = $('.priority-block').eq(i).data('id');
+      $('.modal-footer #save-all-report').fadeIn();
+      $('.modal-footer #btn-edit-summary').fadeIn();
+      $('.modal-footer #btn-save-summary').fadeOut();
+
+      /*Manual priority*/
+      if($('input[type=radio][name=set-priority-task]:checked').val() == 'manual')
+      {
+        type = 'manual';
+        count = $('.priority-block').length;
+        for (var i = 0; i < count; i++) {
+          arr[i] = $('.priority-block').eq(i).data('id');
+        }
       }
-      loopPriorityResult(count, arr);
-      loopPriorityTable(count, arr);
-      $('.report-summary').html($('#report-summary').val());
-      $('#report-summary-result').val($('#report-summary').val());
-      var saved = parseInt($('#saved-section').html());
-      $('#saved-section').html(saved+1);
+      else
+      {
+        type = 'auto';
+        arr = calculatePriority();
+        $('#state').val('true');
+      }
+
+      loopPriorityResult(count, arr, type);
+      loopPriorityTable(count, arr, type);
+      $('.report-summary').html($('.modal-body #report-summary').val());
+      $('.modal-body #report-summary-result').val($('.modal-body #report-summary').val());
+    }
+    else {
+      alert('error');
     }
   });
 
   /*Edit Priority and Summary*/
-  $('#btn-edit-summary').click(function(e){
+  $(document).on("click", "#btn-edit-summary", function(e){
     e.preventDefault();
+    $('.modal-footer #save-all-report').fadeOut();
+    $('.modal-footer #btn-edit-summary').fadeOut();
+    $('.modal-footer #btn-save-summary').fadeIn();
     $('.priority-summary-result').fadeOut();
     $('.priority-summary-form').fadeIn();
-    var saved = parseInt($('#saved-section').html());
-    $('#saved-section').html(saved-1);
   });
 
   /*Check priority*/
@@ -122,11 +193,13 @@ function getPriorityType()
         var index = '';
         var why = '';
         var how = '';
-        $('#result-type-' + id)
+
+        $('.modal-body #result-type-' + id)
             .empty()
             .append($("<option></option>")
                        .attr("value", "")
                        .text("-- select " + value + "--"));
+
         $.each(res, function(key, output) {
           if(value == 'section')
           {
@@ -146,7 +219,7 @@ function getPriorityType()
             why = output.point_what_need_fixing;
             how = output.point_how_to_fix;
           }
-             $('#result-type-' + id)
+             $('.modal-body #result-type-' + id)
                  .append($("<option></option>")
                             .attr("value", index)
                             .attr("data-why", why)
@@ -154,10 +227,10 @@ function getPriorityType()
                             .text(data));
         });
 
-        $('#result-type-' + id).on('change', function() {
-          $('#priority-what-' + id).val($(this).find(':selected').text());
-          $('#priority-why-' + id).val($(this).find(':selected').data('why'));
-          $('#priority-how-' + id).val($(this).find(':selected').data('how'));
+        $('.modal-body #result-type-' + id).on('change', function() {
+          $('.modal-body #priority-what-' + id).val($(this).find(':selected').text());
+          $('.modal-body #priority-why-' + id).val($(this).find(':selected').data('why'));
+          $('.modal-body #priority-how-' + id).val($(this).find(':selected').data('how'));
         });
 
      },
@@ -165,48 +238,96 @@ function getPriorityType()
   });
 }
 
-function loopPriorityResult(count, arr)
+function loopPriorityResult(count, arr, type)
 {
   $('.priority-result').empty();
-  for (var i = 0; i < count; i++)
+  if(type == 'manual')
   {
-    $('.priority-result').append(
-      '<div class="form-group">' +
-      '<input type="hidden" name="priority-what[]" id="priority-result-what-' + i + '" value="'+ $('#priority-what-' + arr[i]).val() +'">' +
-      '<input type="hidden" name="priority-why[]" id="priority-result-why-' + i + '" value="'+ $('#priority-why-' + arr[i]).val() +'">' +
-      '<input type="hidden" name="priority-how[]" id="priority-result-how-' + i + '" value="' + $('#priority-what-' + arr[i]).val() + '">' +
-      '</div>'
-    );
+    for (var i = 0; i < count; i++)
+    {
+      $('.priority-result').append(
+        '<div class="form-group">' +
+        '<input type="hidden" name="priority-what[]" id="priority-result-what-' + i + '" value="'+ $('.modal-body #priority-what-' + arr[i]).val() +'">' +
+        '<input type="hidden" name="priority-why[]" id="priority-result-why-' + i + '" value="'+ $('.modal-body #priority-why-' + arr[i]).val() +'">' +
+        '<input type="hidden" name="priority-how[]" id="priority-result-how-' + i + '" value="' + $('.modal-body #priority-how-' + arr[i]).val() + '">' +
+        '</div>'
+      );
+    }
+  }
+  else
+  {
+    for (var i = 0; i < count; i++)
+    {
+      $('.priority-result').append(
+        '<div class="form-group">' +
+        '<input type="hidden" name="priority-what[]" id="priority-result-what-' + i + '" value="'+ arr[i].section_name +'">' +
+        '<input type="hidden" name="priority-why[]" id="priority-result-why-' + i + '" value="'+ arr[i].section_why +'">' +
+        '<input type="hidden" name="priority-how[]" id="priority-result-how-' + i + '" value="lorem ipsum">' +
+        '</div>'
+      );
+    }
   }
 }
 
-function loopPriorityTable(count, arr)
+function loopPriorityTable(count, arr, type)
 {
   $('.priority-table-wrapper').empty();
-  for (var i = 0; i < count; i++)
+
+  if(type == 'manual')
   {
-    $('.priority-table-wrapper').append(
-      '<div class="result-table priority-table">' +
-        '<table>' +
-          '<tr>' +
-            '<td rowspan="3" class="table-score-wrapper">' +
-              '<span class="text-red text-priority">PRIORITY TASK</span>' +
-            '</td>' +
-            '<td style="width:110px;">What?</td>' +
-            '<td><strong>'+ $('#priority-what-' + arr[i]).val().toUpperCase() +'</strong></td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td style="width:110px;">Why?</td>' +
-            '<td>'+ $('#priority-why-' + arr[i]).val() +'</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td style="width:110px;">How to fix it:</td>' +
-            '<td>'+ $('#priority-how-' + arr[i]).val() +'</td>' +
-          '</tr>' +
-        '</table>' +
-      '</div>'
-    );
+      for (var i = 0; i < count; i++)
+      {
+        $('.priority-table-wrapper').append(
+          '<div class="result-table priority-table">' +
+            '<table>' +
+              '<tr>' +
+                '<td rowspan="3" class="table-score-wrapper">' +
+                  '<span class="text-red text-priority">PRIORITY TASK</span>' +
+                '</td>' +
+                '<td style="width:110px;">What?</td>' +
+                '<td><strong>'+ $('.modal-body #priority-what-' + arr[i]).val().toUpperCase() +'</strong></td>' +
+              '</tr>' +
+              '<tr>' +
+                '<td style="width:110px;">Why?</td>' +
+                '<td>'+ $('.modal-body #priority-why-' + arr[i]).val() +'</td>' +
+              '</tr>' +
+              '<tr>' +
+                '<td style="width:110px;">How to fix it:</td>' +
+                '<td>'+ $('.modal-body #priority-how-' + arr[i]).val() +'</td>' +
+              '</tr>' +
+            '</table>' +
+          '</div>'
+        );
+      }
   }
+  else
+  {
+    for (var i = 0; i < count; i++)
+    {
+      $('.priority-table-wrapper').append(
+        '<div class="result-table priority-table">' +
+          '<table>' +
+            '<tr>' +
+              '<td rowspan="3" class="table-score-wrapper">' +
+                '<span class="text-red text-priority">PRIORITY TASK</span>' +
+              '</td>' +
+              '<td style="width:110px;">What?</td>' +
+              '<td><strong>'+ arr[i].section_name +'</strong></td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="width:110px;">Why?</td>' +
+              '<td>'+ arr[i].section_why +'</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="width:110px;">How to fix it:</td>' +
+              '<td>score: '+ arr[i].section_score +' priority: '+ arr[i].section_priority +'</td>' +
+            '</tr>' +
+          '</table>' +
+        '</div>'
+      );
+    }
+  }
+
 }
 
 function backtotop()
@@ -231,7 +352,7 @@ function backtotop()
             scrollTop: 0
         }, 700);
     });
-}
+  }
 }
 
 $(function () {
@@ -625,6 +746,7 @@ $('.save-field').click(function(e){
     var sectionScore = calculateSectionScore(sectionName);
     $('#result-' + sectionName ).find('.table-score').html(sectionScore);
     $('#form-'+ sectionName ).find('.score-'+ sectionName).val(sectionScore);
+    $('#result-' + sectionName).find('._section').attr('data-score', sectionScore);
 
     changeSectionScoreBackground(sectionScore, sectionName);
 
@@ -696,13 +818,31 @@ function setSavedSection(number){// parameter could be 1 or -1
 $('.save-all').click(function(){
   //var url = $('#web-url').val();
   var desktop_score = $('#desktop-score').html();
-  var forms = $('form').serialize();
   //var forms[1] = $('#form-user-navigation').serialize();
     var totalSection = $('#total-section').html();
     var savedSection = parseInt($('#saved-section').html());
     if (totalSection != savedSection) {
       $('#save-section').modal('show');
+      //$('#modal-priority').modal('show');
     }else{
+      $('#modal-priority').modal('show');
+      $('#modal-priority').on('shown.bs.modal', function (e) {
+        if($('#state').val() == 'true')
+        {
+            $('#btn-save-summary').trigger('click');
+        }
+        else
+        {
+            console.log('not valid');
+        }
+        $(this).off('shown.bs.modal');
+      })
+    }
+});
+
+$(document).on('click', '#save-all-report', function(e){
+  e.preventDefault();
+  var forms = $('form').serialize();
   $.ajax({
     url: base_url + 'save',
     type: 'POST',
@@ -730,12 +870,10 @@ $('.save-all').click(function(){
 
    },
    complete: function() {
-$('.preload2').fadeOut();
+  $('.preload2').fadeOut();
    }
   });
-
-}
-})
+});
 
 $('#update-all').click(function(){
     var forms = $('form').serialize();
@@ -816,6 +954,7 @@ $('.save-score').click(function(e){
     setSavedSection(1);//on finish save new score, add saved section +1
     $('#result-' + sectionName ).find('.table-score').html(newScore);
     $('#form-'+ sectionName ).find('.score-'+ sectionName).val(newScore);
+    $('#result-' + sectionName ).find('._section').attr('data-score', newScore);
     changeSectionScoreBackground(newScore, sectionName);
 
     $('#edit-' + sectionName).fadeIn();

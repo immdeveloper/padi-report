@@ -63,6 +63,13 @@ section:last-child,
   /*display: none;*/
 }
 
+.top-bar span{
+  color:#FFF;
+  position: relative;
+  top: 20px;
+  left: 20px;
+}
+
 .generate-btn{
   padding: 10px 15px;
   background-color: #117084;
