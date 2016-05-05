@@ -202,7 +202,7 @@ class EditReportController extends CI_Controller
   public function update()
   {
     $id_assessment = $this->input->post('id-assessment');
-    //$this->EditReport->updateSectionScore(1, 2, 20);
+    $this->EditReport->updateSectionScore(1, 2, 20);
 
     //get url that being assess
     /*$hidden_url = $this->input->post('hidden-url');
