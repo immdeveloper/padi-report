@@ -218,6 +218,11 @@ class EditReportController extends CI_Controller
         $this->EditReport->deleteResult($id_result_new_disable);
       }
     }
+    $new_enable_point = $this->input->post('new-enable-point');
+    if (!empty($new_enable_point)) {
+      $new_enable_point = explode(" ", $new_enable_point);
+    }
+
     $summary = $this->input->post('report-summary');
 
     /*Get all priority task*/
@@ -295,20 +300,30 @@ class EditReportController extends CI_Controller
           $this->EditReport->updateSectionResult($section_result);
         }
 
-        //if result is not empty, insert data to result table and assessment_detail table
+        //if result is not empty
         if(!empty($result)){
-          $point_result = array(
-              'id_result' => $result_id,
-              'result'    => json_encode($result, JSON_UNESCAPED_UNICODE)
-            );
-          $this->EditReport->updatePointResult($point_result);
-          // $data = array(
-          //     'id_assessment' => $id_assessment,
-          //     'id_point'      => $id_point,
-          //     'id_result'     => $id_result
-          //   );
-          // $id_assessment_detail = $this->WebsiteReview->insertNewAssessmentDetail($data);
-          $result = array();
+          if(!empty($new_enable_point) && in_array($id_point, $new_enable_point)){
+            $id_source = $post_input["source-" . $name];
+            $data = array(
+                'id_source' => $id_source,
+                'result'    => json_encode($result, JSON_UNESCAPED_UNICODE)
+              );
+            $id_result = $this->WebsiteReview->insertNewResult($data);
+            $data = array(
+                'id_assessment' => $id_assessment,
+                'id_point'      => $id_point,
+                'id_result'     => $id_result
+              );
+            $id_assessment_detail = $this->WebsiteReview->insertNewAssessmentDetail($data);
+            $result = array();
+          }else{
+            $point_result = array(
+                'id_result' => $result_id,
+                'result'    => json_encode($result, JSON_UNESCAPED_UNICODE)
+              );
+            $this->EditReport->updatePointResult($point_result);
+            $result = array();
+          }
         }
     }
 
