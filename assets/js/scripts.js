@@ -580,6 +580,16 @@ $('.edit-exclude-point').click(function(e){
 
 });
 
+//remove edit-personal-judgement
+function removeEditPersonalJudgement(id){
+  var disablePoints = $('#disable-point').val().split(" ");
+    if($('#new-disable-point').val() == ""){
+      $('#new-disable-point').val(id);
+    }else{
+      $('#new-disable-point').val($('#new-disable-point').val() + " " + id);
+    }
+}
+
 /*Getting Google Page Insights Results*/
 $('#btn-analyze').click(function(){
   var url = $('#web-url').val();

@@ -242,7 +242,8 @@
                           //foreach personal judgement point
                     ?>
                     <div class="well">
-                    <a href="#" class="pull-right remove-field">
+                    <a href="#" class="pull-right remove-field"
+                      onclick="removeEditPersonalJudgement(<?= $id_personal ?>)">
                       <i class="fa fa-times fa-fw"></i>
                     </a>
                     <div class="clearfix"></div>
