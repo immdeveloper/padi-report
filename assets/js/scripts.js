@@ -512,12 +512,22 @@ $('.edit-exclude-point').click(function(e){
   e.preventDefault();
   var id = $(this).data('id');
 
-  if($(this).attr('data-active') == 1)//if point is not disable
+  if($(this).attr('data-active') == 1)//if point is enable -> make it disable
   {
-    if($('#new-disable-point').val() == ""){
-      $('#new-disable-point').val(id);
-    }else{
-      $('#new-disable-point').val($('#new-disable-point').val() + " " + id);
+    var disablePoints = $('#disable-point').val().split(" ");
+    // if id is not inside disablePoints -> put id in newDisablePoints
+    if(disablePoints.indexOf(id.toString()) == -1){
+      if($('#new-disable-point').val() == ""){
+        $('#new-disable-point').val(id);
+      }else{
+        $('#new-disable-point').val($('#new-disable-point').val() + " " + id);
+      }
+    }
+    var newEnablePoint = $('#new-enable-point').val().split(" ");
+    if(newEnablePoint.indexOf(id.toString()) != -1){
+      //if id is in newEnablePoint -> remove it
+      newEnablePoint.splice(newEnablePoint.indexOf(id.toString()), 1);
+      $('#new-enable-point').val(newEnablePoint.join(" "));
     }
     $(this).attr('data-active', 0);
     $(this).find('i').attr('class', 'fa fa-check-circle fa fw');
@@ -534,14 +544,24 @@ $('.edit-exclude-point').click(function(e){
     $('#how-fix-'+id).prop('disabled', true);
     $('#text-'+id).css('text-decoration', 'line-through');
   }
-  else//if point is disable
+  else//if point is disable -> make it enable
   {
     var arr = $('#new-disable-point').val().split(" ");
     // arr.splice(0, 1);
     for (var i = 0; i < arr.length; i++) {
       if(arr[i] == id){
       arr.splice(i, 1);
+      }
     }
+    var newEnablePoint = $('#new-enable-point').val().split(" ");
+    var disablePoints = $('#disable-point').val().split(" ");
+    if(disablePoints.indexOf(id.toString()) != -1){
+      // if id is in disablePoints
+      if($('#new-enable-point').val() == ""){
+        $('#new-enable-point').val(id);
+      }else{
+        $('#new-enable-point').val($('#new-enable-point').val() + " " + id);
+      }
     }
     $('#new-disable-point').val(arr.join(" "));
     $(this).attr('data-active', 1);

@@ -17,6 +17,7 @@
   <input type="hidden" id="checked-point" disabled value="<?= implode(" ",$checked_point); ?>">
   <input type="hidden" id="disable-point" disabled value="<?= implode(" ",$disable_point); ?>">
   <input type="hidden" name="new-disable-point" id="new-disable-point" value="">
+  <input type="hidden" name="new-enable-point" id="new-enable-point" value="">
 
 </form>
 <?php //var_dump($data); ?>
