@@ -254,18 +254,31 @@ class EditReportController extends CI_Controller
 
           $result_id = $post_input["result-" . $name];
         }
-        //else if ($value == "personal"){ //personal judgement
-        //   $result["id_source"] = $GLOBALS['MANUAL_SOURCE'];
-        //   $result["id_section"] = $post_input["id-section-" . $name];
-        //   $result["point_name"] = $post_input["name-" . $name];
-        //   $result["point_what_need_fixing"] = $post_input["explanation-" . $name];
-        //   $result["point_who_can_fix"] = $post_input["who-fix-" . $name];
-        //   $result["point_how_to_fix"] = $post_input["how-fix-" . $name];
-        //   $result["status"] = $GLOBALS['PERSONAL_JUDGEMENT_POINT'];
-        //
-        //   $id_point = $this->WebsiteReview->insertNewPersonalPoint($result);
-        //   $id_source = $result["id_source"];
-        // }
+        else if ($value == "personal"){ //personal judgement
+          $new_personal["id_source"] = $GLOBALS['MANUAL_SOURCE'];
+          $new_personal["id_section"] = $post_input["id-section-" . $name];
+          $new_personal["point_name"] = $post_input["name-" . $name];
+          $new_personal["point_what_need_fixing"] = $post_input["explanation-" . $name];
+          $new_personal["point_who_can_fix"] = $post_input["who-fix-" . $name];
+          $new_personal["point_how_to_fix"] = $post_input["how-fix-" . $name];
+          $new_personal["status"] = $GLOBALS['PERSONAL_JUDGEMENT_POINT'];
+
+          $id_point = $this->WebsiteReview->insertNewPersonalPoint($new_personal);
+          $id_source = $new_personal["id_source"];
+
+          $data = array(
+              'id_source' => $id_source,
+              'result'    => json_encode($new_personal, JSON_UNESCAPED_UNICODE)
+            );
+          $id_result = $this->WebsiteReview->insertNewResult($data);
+          $data = array(
+              'id_assessment' => $id_assessment,
+              'id_point'      => $id_point,
+              'id_result'     => $id_result
+            );
+          $id_assessment_detail = $this->WebsiteReview->insertNewAssessmentDetail($data);
+          $new_personal = array();
+        }
         else if ($value == "section-score"){
           $section_result["id_section"] = $post_input["section-id-" . $name];
           $section_result["id_assessment"] = $id_assessment;
