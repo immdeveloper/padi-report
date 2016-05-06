@@ -209,15 +209,15 @@ class EditReportController extends CI_Controller
   {
     $id_assessment = $this->input->post('id-assessment');
     $new_disable_point = $this->input->post('new-disable-point');
-    if (isset($new_disable_point)) {
+    if (!empty($new_disable_point)) {
       $new_disable_point = explode(" ", $new_disable_point);
+
+      foreach ($new_disable_point as $value) {
+        $id_result_new_disable = $this->EditReport->getIdResult($id_assessment, $value);
+        $this->EditReport->deleteAssessmentDetail($id_assessment, $value);
+        $this->EditReport->deleteResult($id_result_new_disable);
+      }
     }
-    foreach ($new_disable_point as $value) {
-      $id_result_new_disable = $this->EditReport->getIdResult($id_assessment, $value);
-      $this->EditReport->deleteAssessmentDetail($id_assessment, $value);
-      $this->EditReport->deleteResult($id_result_new_disable);
-    }
-    // $this->EditReport->updateSectionScore(1, 2, 20);
     $summary = $this->input->post('report-summary');
 
     /*Get all priority task*/
@@ -340,7 +340,7 @@ class EditReportController extends CI_Controller
     // echo json_encode($score);
     echo $id_assessment;*/
 
-     echo json_encode($id_result_new_disable);
+     echo json_encode($id_assessment);
   }
 }
 //$formatted_url = str_ireplace('www.', '', parse_url($url_to_format, PHP_URL_HOST));
