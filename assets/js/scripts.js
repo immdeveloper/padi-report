@@ -1000,7 +1000,7 @@ $('#update-all-report').click(function(){
         },
         success: function(res) {
           console.log(res);
-          //window.location.replace(base_url+'report/'+res+'/preview');
+          window.location.replace(base_url+'report/'+res+'/preview');
         },
         complete: function() {
           $('.preload2').fadeOut();
