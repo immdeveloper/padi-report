@@ -1,4 +1,5 @@
 <a href="#" class="back-to-top"><i class="fa fa-chevron-circle-up fa-3x"></i></a>
+
 <form action="" method="post" id="hidden-web-url">
   <!-- Keep the url being analyze -->
   <?php
@@ -151,6 +152,24 @@
                 <a href="#" data-section-name="<?php echo $section_value['section_slug']?>" class="btn btn-default edit-field" id="edit-<?php echo $section_value['section_slug'];?>"><i class="fa fa-pencil"></i> Edit</a>
               </div><!-- Result table wrapper -->
               <div class="report-form" id="report-<?php echo $section_value['section_slug']?>">
+                <?php
+                  if($section_value['section_slug'] == 'link-profile')
+                  {
+                ?>
+                <p><strong>Upload Majestic result screenshot here</strong></p>
+                <form id="image-uploader-form">
+                  <div class="well col-md-4">
+                    <div class="img-thumb-wrapper">
+                      <span class="btn btn-default btn-upload text-center">
+                        <span>Browse image...</span><input type="file" name="image" entype="multipart/form-data">
+                      </span>
+                      <div class="img-thumb" style="display:none;"></div>
+                      <input type="hidden" name="img-name" id="img-name"/>
+                    </div>
+                  </div>
+                </form>
+                <div class="clearfix"></div>
+                <?php } ?>
                 <p><strong>What needs fixing?</strong></p>
                 <form class="" action="" method="post" id="form-<?php echo $section_value['section_slug']?>">
                   <input id="" name="section-score-<?php echo $section_value['id_section']?>" type="hidden" value="section-score" checked>
@@ -161,7 +180,22 @@
                   //point loop
                   foreach ($section_value['point'] as $point_value) { ?>
                     <div class="checkbox">
-                      <label data-toggle="tooltip" data-placement="right" title="<?php echo $point_value['point_desc'];?>">
+                      <div class="input-group col-md-6" style="margin-bottom:15px;">
+                        <span class="form-control" id="text-<?php echo $point_value['id_point'];?>"><strong><?php echo $point_value['point_name']; ?></strong></span>
+                        <div class="input-group-btn" data-toggle="buttons">
+                          <span class="btn btn-default point-status" data-toggle="tooltip" data-placement="top" title="This point is working" data-id="<?php echo $point_value['id_point']; ?>">
+                              <input type="radio" name="point-status" value="working"><i class="fa fa-check fa-fw"></i>
+                          </span>
+                          <span class="btn btn-default point-status" data-toggle="tooltip" data-placement="top" title="This point need fixing" data-id="<?php echo $point_value['id_point']; ?>">
+                              <input type="radio" name="point-status" value="need-fixing"><i class="fa fa-exclamation fa-fw"></i>
+                          </span>
+                          <span class="btn btn-default point-status" data-toggle="tooltip" data-placement="top" title="Exclude this point" data-id="<?php echo $point_value['id_point']; ?>">
+                            <input type="radio" name="point-status" value="exclude">  <i class="fa fa-times fa-fw"></i>
+                          </span>
+                        </div>
+                      </div>
+
+                      <label style="position:absolute; visibility:hidden">
                         <input type="hidden" value="off" name="<?php echo $point_value['id_point']; ?>" id="check-status-<?php echo $point_value['id_point']; ?>">
                         <input id="check-<?php echo $point_value['id_point'];?>"
                         name="<?php echo $point_value['id_point']; ?>"
@@ -170,7 +204,7 @@
                         onclick="onClickPointCheck(<?php echo $point_value['id_point']; ?>)"; >
                         <input type="hidden" name="source-<?php echo $point_value['id_point']; ?>"
                         value="<?php echo $point_value['id_source'];?>" class="form-control" id="source-<?php echo $point_value['id_point']; ?>">
-                        <span id="text-<?php echo $point_value['id_point'];?>"><?php echo $point_value['point_name']; ?></span> <a href="#" class="exclude-point" data-active="1" data-id="<?php echo $point_value['id_point'];?>"><i class="fa fa-times-circle fa-fw" style="color:#f03"></i></a>
+                        <span></span> <a href="#" class="exclude-point" data-active="1" data-id="<?php echo $point_value['id_point'];?>"><i class="fa fa-times-circle fa-fw" style="color:#f03"></i></a>
                       </label>
                       <div class="collapse in" id="well-desc-<?php echo $point_value['id_point'];?>">
                         <div class="well">

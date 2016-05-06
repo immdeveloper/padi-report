@@ -8,11 +8,114 @@ $(document).ready(function(){
   dynamic_priority_task_form();
   backtotop();
   getPriorityType();
+  pointStatus();
+
   $('.modal').on('hidden.bs.modal', function(e)
   {
       $(this).removeData();
   }) ;
+
+  $("#image-uploader-form input[type=file]").on('change',function(){
+      imageUpload();
+  });
 });
+
+function pointStatus()
+{
+  $("body").on("click", ".point-status",function() {
+      var status = $(this).find('input[name=point-status]').val();
+      var id = $(this).data('id');
+
+      if(status == 'working')
+      {
+        $('#well-fix-'+id).collapse("hide");
+        $('#well-desc-'+id).collapse("show");
+        $('#description-'+id).prop('disabled', false);
+        $('#explanation-'+id).prop('disabled', true);
+        $('#who-fix-'+id).prop('disabled', true);
+        $('#how-fix-'+id).prop('disabled', true);
+        $('#text-'+id).css('text-decoration', 'none');
+        $(this).addClass('btn-success');
+      }
+      else if(status == 'need-fixing')
+      {
+        $('#well-fix-'+id).collapse("show");
+        $('#well-desc-'+id).collapse("hide");
+        $('#description-'+id).prop('disabled', true);
+        $('#explanation-'+id).prop('disabled', false);
+        $('#who-fix-'+id).prop('disabled', false);
+        $('#how-fix-'+id).prop('disabled', false);
+        $('#text-'+id).css('text-decoration', 'none');
+        $(this).addClass('btn-warning');
+      }
+      else if(status == 'exclude')
+      {
+        $('#check-'+id).attr('checked', false);
+        $('#well-fix-'+id).collapse("hide");
+        $('#well-desc-'+id).collapse("hide");
+        $('#check-'+id).attr('aria-expanded', true);
+        $('#check-'+id).prop('disabled', true);
+        $('#check-status-'+id).prop('disabled', true);
+        $('#source-'+id).prop('disabled', true);
+        $('#description-'+id).prop('disabled', true);
+        $('#explanation-'+id).prop('disabled', true);
+        $('#who-fix-'+id).prop('disabled', true);
+        $('#how-fix-'+id).prop('disabled', true);
+        $('#text-'+id).css('text-decoration', 'line-through');
+        $(this).addClass('btn-danger');
+      }
+      else
+      {
+        $('.point-status').removeClass('btn-warning');
+        $('.point-status').removeClass('btn-danger');
+        $('.point-status').removeClass('btn-success');
+        $('.point-status').addClass('btn-default');
+      }
+  });
+}
+
+function imageUpload()
+{
+  var formData = new FormData($('#image-uploader-form')[0]);
+  formData.append('image', $('input[type=file]')[0].files[0]);
+
+  if($('#img-name').val() != '')
+  {
+    formData.append('old-file', $('#img-name').val());
+  }
+
+  $.ajax({
+    url: base_url + 'image-upload',
+    data: formData,
+    type:'POST',
+    dataType : 'json',
+    contentType: false,
+    processData: false,
+    beforeSend: function() {
+
+    },
+    error: function() {
+      alert('error');
+    },
+    success: function(res) {
+      $('.img-thumb').fadeIn();
+      $('.img-thumb').html('');
+      if(res.result.hasOwnProperty('file_name'))
+      {
+        $('.img-thumb').css('height', '200px');
+        $('.img-thumb').css('background-image', 'url('+ base_url + 'assets/images/uploads/'+ res.result.file_name +')');
+        $('.btn-upload span').html('Change image...');
+        $('#img-name').val(res.result.file_name);
+      }
+      else
+      {
+        $('.img-thumb').css('height', '20px');
+        $('.img-thumb').html(res.result);
+        $('.img-thumb p').css('color', '#f03');
+      }
+   },
+ });
+}
 
 function getSectionMeta()
 {

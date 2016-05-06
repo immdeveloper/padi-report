@@ -27,7 +27,7 @@ for ($i=0; $i < count($point); $i++) {
     <thead>
       <th>No</th>
       <th>Website URL</th>
-      <th>Number of Report</th>
+      <th style="text-align:center">Number of Report</th>
       <th>Last Report Date</th>
       <th></th>
     </thead>
@@ -50,7 +50,7 @@ for ($i=0; $i < count($point); $i++) {
         <tr>
           <td><?php echo $no; ?></td>
           <td><a href="<?php echo $link; ?>"><?php echo $value['url']; ?></a></td>
-          <td><?php echo $value['report_count']; ?></td>
+          <td style="text-align:center"><?php echo $value['report_count']; ?></td>
           <td><?php echo $value['last_report']; ?></td>
           <td>
             <!-- Split button -->

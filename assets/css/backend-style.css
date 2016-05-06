@@ -271,6 +271,41 @@ footer a{
   color: #FFF;
 }
 
+/*Upload button*/
+.btn-upload{
+  display: block;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.img-thumb-wrapper input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.img-thumb-wrapper{
+  text-align: center;
+}
+
+.img-thumb{
+  width: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover !important;
+  margin: 0 auto;
+  position: relative;
+}
+
 /*Analyze Result*/
 .result-title{
   padding: 10px;
