@@ -56,4 +56,31 @@ class EditReport extends CI_Model {
     $this->db->update('result', $data);
   }
 
+  public function getIdResult($id_assessment, $id_point){
+    $this->db->select('id_result');
+    $this->db->from('assessment_detail');
+    $this->db->where('id_assessment', $id_assessment);
+    $this->db->where('id_point', $id_point);
+
+    $query = $this->db->get();
+
+    if ($query->num_rows() > 0){
+      $row = $query->row();
+      $result = $row->id_result;
+    }
+
+    return $result;
+  }
+
+  public function deleteAssessmentDetail($id_assessment, $id_point){
+    $this->db->where('id_assessment', $id_assessment);
+    $this->db->where('id_point', $id_point);
+    $this->db->delete('assessment_detail');
+  }
+
+  public function deleteResult($id_result){
+    $this->db->where('id_result', $id_result);
+    $this->db->delete('result');
+  }
+
 }

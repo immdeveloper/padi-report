@@ -27,9 +27,10 @@ function onReadyEditReport(){//on document ready in edit report page
     var b = $( "#disable-point" ).val().split(" ");//convert #disable-point value into array
     for (var i = 0; i<b.length; i++) {
       //trigger click on disabled point
-      $('.exclude-point[data-id="'+b[i]+'"]').trigger('click');
+      $('.edit-exclude-point[data-id="'+b[i]+'"]').trigger('click');
     }
   }
+  $('#new-disable-point').val("");//clear #new-disable-point value
 }
 
 function getSectionMeta()
@@ -490,6 +491,59 @@ $('.exclude-point').click(function(e){
   }
   else
   {
+    $(this).attr('data-active', 1);
+    $(this).find('i').attr('class', 'fa fa-times-circle fa fw');
+    $(this).find('i').css('color', '#F03');
+    $('#check-'+id).prop('disabled', false);
+    $('#check-status-'+id).prop('disabled', false);
+    $('#source-'+id).prop('disabled', false);
+    $('#description-'+id).prop('disabled', false);
+    // only enable description because the current state of the checkbox is unchecked
+    // $('#explanation-'+id).prop('disabled', false);
+    // $('#who-fix-'+id).prop('disabled', false);
+    // $('#how-fix-'+id).prop('disabled', false);
+    $('#text-'+id).css('text-decoration', 'none');
+  }
+
+});
+
+/*Exclude point from report for edit report feature*/
+$('.edit-exclude-point').click(function(e){
+  e.preventDefault();
+  var id = $(this).data('id');
+
+  if($(this).attr('data-active') == 1)//if point is not disable
+  {
+    if($('#new-disable-point').val() == ""){
+      $('#new-disable-point').val(id);
+    }else{
+      $('#new-disable-point').val($('#new-disable-point').val() + " " + id);
+    }
+    $(this).attr('data-active', 0);
+    $(this).find('i').attr('class', 'fa fa-check-circle fa fw');
+    $(this).find('i').css('color', '#7AA93C');
+    $('#check-'+id).attr('checked', false);
+    $('#well-' +id).collapse( "hide" );
+    $('#check-'+id).attr('aria-expanded', true);
+    $('#check-'+id).prop('disabled', true);
+    $('#check-status-'+id).prop('disabled', true);
+    $('#source-'+id).prop('disabled', true);
+    $('#description-'+id).prop('disabled', true);
+    $('#explanation-'+id).prop('disabled', true);
+    $('#who-fix-'+id).prop('disabled', true);
+    $('#how-fix-'+id).prop('disabled', true);
+    $('#text-'+id).css('text-decoration', 'line-through');
+  }
+  else//if point is disable
+  {
+    var arr = $('#new-disable-point').val().split(" ");
+    // arr.splice(0, 1);
+    for (var i = 0; i < arr.length; i++) {
+      if(arr[i] == id){
+      arr.splice(i, 1);
+    }
+    }
+    $('#new-disable-point').val(arr.join(" "));
     $(this).attr('data-active', 1);
     $(this).find('i').attr('class', 'fa fa-times-circle fa fw');
     $(this).find('i').css('color', '#F03');
