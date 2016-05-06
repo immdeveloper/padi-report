@@ -12,7 +12,26 @@ $(document).ready(function(){
   {
       $(this).removeData();
   }) ;
+  onReadyEditReport();
 });
+
+//set checked point and disabled point on edit report
+function onReadyEditReport(){//on document ready in edit report page
+  if ( $( "#checked-point" ).length ) {//check if input hidden id #checked-point exist
+    var b = $( "#checked-point" ).val().split(" ");//convert #checked-point value into array
+    for (var i = 0; i<b.length; i++) {
+      $('#check-' + b[i]).trigger('click');//trigger click on checked point checkbox
+    }
+  }
+  if ( $( "#disable-point" ).length ) {//check if input hidden id #disable-point exist
+    var b = $( "#disable-point" ).val().split(" ");//convert #disable-point value into array
+    for (var i = 0; i<b.length; i++) {
+      //trigger click on disabled point
+      $('.edit-exclude-point[data-id="'+b[i]+'"]').trigger('click');
+    }
+  }
+  $('#new-disable-point').val("");//clear #new-disable-point value
+}
 
 function getSectionMeta()
 {
@@ -123,6 +142,7 @@ function getPriorityType()
       $('.priority-summary-result').fadeIn();
       $('.priority-summary-form').fadeOut();
       $('.modal-footer #save-all-report').fadeIn();
+      $('.modal-footer #update-all-report').fadeIn();
       $('.modal-footer #btn-edit-summary').fadeIn();
       $('.modal-footer #btn-save-summary').fadeOut();
 
@@ -156,6 +176,7 @@ function getPriorityType()
   $(document).on("click", "#btn-edit-summary", function(e){
     e.preventDefault();
     $('.modal-footer #save-all-report').fadeOut();
+    $('.modal-footer #update-all-report').fadeOut();
     $('.modal-footer #btn-edit-summary').fadeOut();
     $('.modal-footer #btn-save-summary').fadeIn();
     $('.priority-summary-result').fadeOut();
@@ -186,7 +207,7 @@ function getPriorityType()
 
       },
       error: function() {
-        alert('error');
+        alert('priority type error');
       },
       success: function(res) {
         var data = '';
@@ -486,6 +507,89 @@ $('.exclude-point').click(function(e){
 
 });
 
+/*Exclude point from report for edit report feature*/
+$('.edit-exclude-point').click(function(e){
+  e.preventDefault();
+  var id = $(this).data('id');
+
+  if($(this).attr('data-active') == 1)//if point is enable -> make it disable
+  {
+    var disablePoints = $('#disable-point').val().split(" ");
+    // if id is not inside disablePoints -> put id in newDisablePoints
+    if(disablePoints.indexOf(id.toString()) == -1){
+      if($('#new-disable-point').val() == ""){
+        $('#new-disable-point').val(id);
+      }else{
+        $('#new-disable-point').val($('#new-disable-point').val() + " " + id);
+      }
+    }
+    var newEnablePoint = $('#new-enable-point').val().split(" ");
+    if(newEnablePoint.indexOf(id.toString()) != -1){
+      //if id is in newEnablePoint -> remove it
+      newEnablePoint.splice(newEnablePoint.indexOf(id.toString()), 1);
+      $('#new-enable-point').val(newEnablePoint.join(" "));
+    }
+    $(this).attr('data-active', 0);
+    $(this).find('i').attr('class', 'fa fa-check-circle fa fw');
+    $(this).find('i').css('color', '#7AA93C');
+    $('#check-'+id).attr('checked', false);
+    $('#well-' +id).collapse( "hide" );
+    $('#check-'+id).attr('aria-expanded', true);
+    $('#check-'+id).prop('disabled', true);
+    $('#check-status-'+id).prop('disabled', true);
+    $('#source-'+id).prop('disabled', true);
+    $('#description-'+id).prop('disabled', true);
+    $('#explanation-'+id).prop('disabled', true);
+    $('#who-fix-'+id).prop('disabled', true);
+    $('#how-fix-'+id).prop('disabled', true);
+    $('#text-'+id).css('text-decoration', 'line-through');
+  }
+  else//if point is disable -> make it enable
+  {
+    var arr = $('#new-disable-point').val().split(" ");
+    // arr.splice(0, 1);
+    for (var i = 0; i < arr.length; i++) {
+      if(arr[i] == id){
+      arr.splice(i, 1);
+      }
+    }
+    var newEnablePoint = $('#new-enable-point').val().split(" ");
+    var disablePoints = $('#disable-point').val().split(" ");
+    if(disablePoints.indexOf(id.toString()) != -1){
+      // if id is in disablePoints
+      if($('#new-enable-point').val() == ""){
+        $('#new-enable-point').val(id);
+      }else{
+        $('#new-enable-point').val($('#new-enable-point').val() + " " + id);
+      }
+    }
+    $('#new-disable-point').val(arr.join(" "));
+    $(this).attr('data-active', 1);
+    $(this).find('i').attr('class', 'fa fa-times-circle fa fw');
+    $(this).find('i').css('color', '#F03');
+    $('#check-'+id).prop('disabled', false);
+    $('#check-status-'+id).prop('disabled', false);
+    $('#source-'+id).prop('disabled', false);
+    $('#description-'+id).prop('disabled', false);
+    // only enable description because the current state of the checkbox is unchecked
+    // $('#explanation-'+id).prop('disabled', false);
+    // $('#who-fix-'+id).prop('disabled', false);
+    // $('#how-fix-'+id).prop('disabled', false);
+    $('#text-'+id).css('text-decoration', 'none');
+  }
+
+});
+
+//remove edit-personal-judgement
+function removeEditPersonalJudgement(id){
+  var disablePoints = $('#disable-point').val().split(" ");
+    if($('#new-disable-point').val() == ""){
+      $('#new-disable-point').val(id);
+    }else{
+      $('#new-disable-point').val($('#new-disable-point').val() + " " + id);
+    }
+}
+
 /*Getting Google Page Insights Results*/
 $('#btn-analyze').click(function(){
   var url = $('#web-url').val();
@@ -612,6 +716,7 @@ function dynamic_priority_task_form()
   })
 }
 
+//personal judgment generator
 function dynamic_form()
 {
   var max_fields      = 10; //maximum input boxes allowed
@@ -669,6 +774,7 @@ function dynamic_form()
   })
 }
 
+//edit point check in backend
 function dynamic_point_check()
 {
   var max_fields      = 10; //maximum input boxes allowed
@@ -855,7 +961,7 @@ $(document).on('click', '#save-all-report', function(e){
       // $('#load-status').html('Preparing fetching data');
     },
     error: function() {
-      alert('error');
+      alert('save-all error');
     },
     success: function(res) {
       // console.log(desktop_score);
@@ -872,6 +978,36 @@ $(document).on('click', '#save-all-report', function(e){
    }
   });
 });
+
+$('#update-all-report').click(function(){
+    var forms = $('form').serialize();
+    var totalSection = $('#total-section').html();
+    var savedSection = parseInt($('#saved-section').html());
+    console.log('update');
+    if (totalSection != savedSection) {
+      $('#save-section').modal('show');
+    }else{
+      $.ajax({
+        url: base_url + 'update',
+        type: 'POST',
+        dataType: 'json',
+        data: forms,
+        beforeSend: function() {
+          $('.preload2').fadeIn();
+        },
+        error: function() {
+          alert('update-all error');
+        },
+        success: function(res) {
+          console.log(res);
+          window.location.replace(base_url+'report/'+res+'/preview');
+        },
+        complete: function() {
+          $('.preload2').fadeOut();
+        }
+      });
+    }
+})
 
 $('.edit-field').click(function(e){
   e.preventDefault();

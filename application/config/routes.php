@@ -58,11 +58,14 @@ $route['website-review-form'] = 'WebsiteReviewController/index';
 $route['report/(:any)/(:any)'] = 'WebsiteReviewController/report/$1/$2';
 $route['priority-type/(:any)'] = 'WebsiteReviewController/getPriorityType/$1';
 
+$route['edit-report/(:any)'] = 'EditReportController/index/$1';
+
 /*Backend Routes*/
 $route['admin'] = 'BackendController/index';
 $route['run'] = 'WebsiteReviewController/run';
 $route['scrape'] = 'WebsiteReviewController/scrape';
 $route['save'] = 'WebsiteReviewController/save';
+$route['update'] = 'EditReportController/update';
 
 /*Point Check Master*/
 $route['admin/point-check-master'] = 'PointCheckMasterController/index';
