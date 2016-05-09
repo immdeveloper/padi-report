@@ -8,7 +8,7 @@
     <div class="page-wrapper">
       <!-- Top bar -->
       <?php require_once('top-bar.php'); ?>
-      <div class="preload2" style="display:none; background-image:url(<?php echo base_url(); ?>'assets/images/rolling.svg)">
+      <div class="preload2" style="display:none; background-image:url(<?php echo base_url(); ?>assets/images/rolling.svg)">
         <span>Generating report preview, please wait...</span>
       </div>
       <!-- Content -->
