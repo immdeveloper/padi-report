@@ -139,7 +139,7 @@
         <table>
           <tr>
             <td style="vertical-align:middle" class="table-score-wrapper" rowspan="6">
-              <span class="table-score text-red">xx</span>
+              <span class="table-score text-red"><?php echo $total_score ?></span>
               <span>score %</span>
             </td>
             <td class="number">NA</td>
