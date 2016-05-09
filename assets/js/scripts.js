@@ -23,11 +23,13 @@ $(document).ready(function(){
 function pointStatus()
 {
   $("body").on("click", ".point-status",function() {
-      var status = $(this).find('input[name=point-status]').val();
       var id = $(this).data('id');
-
+      var status = $(this).find('input[name=point-status]').val();
       if(status == 'working')
       {
+        $('#check-'+id).attr('checked', false);
+        $('#check-'+id).prop('disabled', false);
+        $('#check-status-'+id).prop('disabled', false);
         $('#well-fix-'+id).collapse("hide");
         $('#well-desc-'+id).collapse("show");
         $('#description-'+id).prop('disabled', false);
@@ -35,10 +37,16 @@ function pointStatus()
         $('#who-fix-'+id).prop('disabled', true);
         $('#how-fix-'+id).prop('disabled', true);
         $('#text-'+id).css('text-decoration', 'none');
-        $(this).addClass('btn-success');
+
+        $('#working-'+id).addClass('btn-success');
+        $('#need-fixing-'+id).removeClass('btn-warning');
+        $('#exclude-'+id).removeClass('btn-danger');
       }
       else if(status == 'need-fixing')
       {
+        $('#check-'+id).attr('checked', true);
+        $('#check-status-'+id).prop('disabled', false);
+        $('#check-'+id).prop('disabled', false);
         $('#well-fix-'+id).collapse("show");
         $('#well-desc-'+id).collapse("hide");
         $('#description-'+id).prop('disabled', true);
@@ -46,7 +54,10 @@ function pointStatus()
         $('#who-fix-'+id).prop('disabled', false);
         $('#how-fix-'+id).prop('disabled', false);
         $('#text-'+id).css('text-decoration', 'none');
-        $(this).addClass('btn-warning');
+
+        $('#working-'+id).removeClass('btn-success');
+        $('#need-fixing-'+id).addClass('btn-warning');
+        $('#exclude-'+id).removeClass('btn-danger');
       }
       else if(status == 'exclude')
       {
@@ -62,14 +73,10 @@ function pointStatus()
         $('#who-fix-'+id).prop('disabled', true);
         $('#how-fix-'+id).prop('disabled', true);
         $('#text-'+id).css('text-decoration', 'line-through');
-        $(this).addClass('btn-danger');
-      }
-      else
-      {
-        $('.point-status').removeClass('btn-warning');
-        $('.point-status').removeClass('btn-danger');
-        $('.point-status').removeClass('btn-success');
-        $('.point-status').addClass('btn-default');
+
+        $('#working-'+id).removeClass('btn-success');
+        $('#need-fixing-'+id).removeClass('btn-warning');
+        $('#exclude-'+id).addClass('btn-danger');
       }
   });
 }
@@ -161,7 +168,6 @@ function calculatePriority()
     return parseInt(a.section_id) - parseInt(b.section_id);
   });
 
-
   return priority_task;
 }
 
@@ -249,9 +255,6 @@ function getPriorityType()
       loopPriorityTable(count, arr, type);
       $('.report-summary').html($('.modal-body #report-summary').val());
       $('.modal-body #report-summary-result').val($('.modal-body #report-summary').val());
-    }
-    else {
-      alert('error');
     }
   });
 
@@ -875,7 +878,7 @@ function changeSectionScoreBackground(sectionScore, sectionName){
 //calculate section score
 function calculateSectionScore(sectionName) {
   var selected = [];
-  $('#form-'+ sectionName + ' input:checked').each(function() {
+  $('#form-'+ sectionName + ' input[type=checkbox]:checked').each(function() {
       selected.push($(this).attr('name'));
   });
   var totalSelected = selected.length;
