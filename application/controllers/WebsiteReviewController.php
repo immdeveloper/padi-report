@@ -46,6 +46,7 @@ class WebsiteReviewController extends CI_Controller
   {
     $raw = $this->WebsiteReview->getReportData($id);
     $score = $this->WebsiteReview->getSectionScore($id);
+    $importance = $this->WebsiteReview->getSectionImportance();
     $tmp = array();
 
     $status = array();
@@ -57,6 +58,7 @@ class WebsiteReviewController extends CI_Controller
     $socialintegrationscore = 0;
     $qualitysignalscore = 0;
 
+    /*Insert all section name to array section[]*/
     foreach ($raw as $key => $value) {
       if($value->section_name != $sectionPrev)
       {
@@ -65,18 +67,83 @@ class WebsiteReviewController extends CI_Controller
       $sectionPrev = $value->section_name;
     }
 
+    /*Insert all section score & importance to arrau section_score[]*/
     foreach ($score as $key => $value) {
-      $section_score[$section[$key]] = $value->section_score;
+      $section_score[$section[$key]] = array(
+        'score'       => $value->section_score,
+        'importance'  => $importance[$key]->section_importance
+      );
     }
 
-    $overallcontentscore = ($section_score['Homepage Content'] + $section_score['Internal Page Content'] + $section_score['Blog / News Section'] + $section_score['Special Offers'] + $section_score['Content Management'] + $section_score['Indexed Pages']) / 6;
-    $socialintegrationscore = ($section_score['Products Pages & Blog Pages'] + $section_score['Homepage']) / 2;
-    $qualitysignalscore = ($section_score['Quality Signals'] + $section_score['Strong Company / About Us Quality']) / 2;
+    /*Make score object to pure array*/
+    $score_raw = array();
+    foreach ($score as $key => $value) {
+      $score_raw[] = $value->section_score;
+    }
 
+    /*Make importance object to pure array*/
+    $importance_raw = array();
+    foreach ($importance as $key => $value) {
+      $importance_raw[] = $value->section_importance;
+    }
+
+    /*Get Overall Content Score Average & Importance Average*/
+    $overallcontentscore = ($section_score['Homepage Content']['score'] + $section_score['Internal Page Content']['score'] + $section_score['Blog / News Section']['score'] + $section_score['Special Offers']['score'] + $section_score['Content Management']['score'] + $section_score['Indexed Pages']['score']) / 6;
+    $overallcontentsimp = 9;
+    $content_average = $overallcontentscore * $overallcontentsimp;
+    unset($score_raw[11]); unset($score_raw[12]); unset($score_raw[13]); unset($score_raw[14]); unset($score_raw[15]); unset($score_raw[16]);
+    unset($importance_raw[11]); unset($importance_raw[12]); unset($importance_raw[13]); unset($importance_raw[14]); unset($importance_raw[15]); unset($importance_raw[16]);
+    $score_raw[11] = $overallcontentscore;
+    $importance_raw[11] = $overallcontentsimp;
+
+    /*Get Social Integration Score Average & Importance Average*/
+    $socialintegrationscore = ($section_score['Products Pages & Blog Pages']['score'] + $section_score['Homepage']['score']) / 2;
+    $socialintegrationimp = 7;
+    $social_average = $socialintegrationscore * $socialintegrationimp;
+    unset($score_raw[17]); unset($score_raw[18]);
+    unset($importance_raw[17]); unset($importance_raw[18]);
+    $score_raw[12] = $socialintegrationscore;
+    $importance_raw[12] = $socialintegrationimp;
+
+    /*Get Quality Signal Score Average & Importance Average*/
+    $qualitysignalscore = ($section_score['Quality Signals']['score'] + $section_score['Strong Company / About Us Quality']['score']) / 2;
+    $qualitysignalimp = 9;
+    $quality_average = $qualitysignalscore * $qualitysignalimp;
+    unset($score_raw[19]); unset($score_raw[20]);
+    unset($importance_raw[19]); unset($importance_raw[20]);
+    $score_raw[13] = $qualitysignalscore;
+    $importance_raw[13] = $qualitysignalimp;
+
+    $score_raw[14] = $score_raw[21];
+    $score_raw[15] = $score_raw[22];
+
+    $importance_raw[14] = $importance_raw[21];
+    $importance_raw[15] = $importance_raw[22];
+
+    unset($score_raw[21]); unset($score_raw[22]);
+    unset($importance_raw[21]); unset($importance_raw[22]);
+
+    $all_score_avg = 0;
+    $all_importance_avg = 0;
+
+    /*Get Score average*/
+    foreach ($score_raw as $key => $value) {
+      $all_score_avg += $value * $importance_raw[$key];
+    }
+
+    /*Get Importance average*/
+    foreach ($importance_raw as $key => $value) {
+      $all_importance_avg += $value;
+    }
+
+    /*Calculate final score (score average / impotance average)*/
+    $final_score = floor($all_score_avg / $all_importance_avg);
+
+    /*Make a structured data for section detail with all metadata*/
     foreach($raw as $arg)
     {
         $tmp[$arg->section_cat][$arg->section_name] = array(
-          'section_score'       => $section_score[$arg->section_name],
+          'section_score'       => $section_score[$arg->section_name]['score'],
           'section_desc'        => $arg->section_desc,
           'section_slug'        => $arg->section_slug,
           'section_why'         => $arg->section_why,
@@ -85,6 +152,7 @@ class WebsiteReviewController extends CI_Controller
         );
     }
 
+    /*Make a structured data for point name & result for each section*/
     foreach ($raw as $arg) {
       $tmp[$arg->section_cat][$arg->section_name]['point'][] = array(
         'point_name' =>  $arg->point_name,
@@ -102,6 +170,7 @@ class WebsiteReviewController extends CI_Controller
     $data['point'] = $tmp;
     $data['status'] = $status;
     $data['action'] = $action;
+    $data['total_score'] = $final_score;
 
     if($action == 'preview')
     {
@@ -116,7 +185,6 @@ class WebsiteReviewController extends CI_Controller
       $data['title'] = "Report for ". $status['url'].', '.$date;
       generate_pdf($this->load->view('pdf/index', $data, true), $filename);
     }
-
   }
 
   public function getPriorityType($type)

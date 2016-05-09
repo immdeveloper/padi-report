@@ -108,6 +108,14 @@ class WebsiteReview extends CI_Model {
     return $query->result();
   }
 
+  public function getSectionImportance()
+  {
+    $this->db->select('section_importance');
+    $this->db->from('section');
+    $query = $this->db->get();
+    return $query->result();
+  }
+
   public function getReportData($id){
     $this->db->select('section_name,
     section_cat,

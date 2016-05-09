@@ -1,9 +1,6 @@
 <?php
 //ini_set('max_execution_time', 300);
 //ini_set('memory_limit', '-1');
-//echo '<pre>';
-//print_r($point);
-//echo '</pre>';
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,6 +31,7 @@
     <div id="footer">
         <p><a href="https://www.islandmediamanagement.com" target="_blank">www.islandmediamanagement.com</a></p>
     </div>
+
     <div class="container">
       <section id="page-1">
         <img src="<?php echo base_url().'assets/images/logo.png'?>" alt="" width="230" height="138" class="logo" />
@@ -141,7 +139,7 @@
         <table>
           <tr>
             <td style="vertical-align:middle" class="table-score-wrapper" rowspan="6">
-              <span class="table-score text-red">xx</span>
+              <span class="table-score text-red"><?php echo $total_score ?></span>
               <span>score %</span>
             </td>
             <td class="number">NA</td>
@@ -258,7 +256,6 @@
         ?>
         <div class="result-table">
           <table>
-
             <tr>
               <td rowspan="3" style="vertical-align:middle; width:80px;" class="table-score-wrapper">
                 <span class="section-loop-score table-score <?php echo $color; ?>"><?php echo $result['section_score'] ?></span>
@@ -280,21 +277,18 @@
           </table>
         </div>
       </div>
-        <div style="page-break-inside: avoid">
-        <table class="detail-list detail-list-loop">
+
+        <div class="row">
             <?php
               $index = 0;
               for ($i=0; $i < count($result['point']); $i++) {
                 if($result['point'][$i]['result'][2] == 'p')
                 {
-                  //echo $i;
                   $item = $result['point'][$i];
                   unset($result['point'][$i]);
                   array_push($result['point'], $item);
-                  break;
                 }
               }
-
 
               foreach ($result['point'] as $i => $detail) {
 
@@ -310,57 +304,105 @@
                 if(isset($report_result[0]['description']) && !isset($report_result[0]['point_what_need_fixing']))
                 {
                 ?>
-                  <tr>
-                  <td style="width:100"><?php echo $title;?></td>
-                  <td><span class="icon">&#10003;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></td>
-                  </tr>
+                  <!-- What's working -->
+                  <div class="avoid-break">
+                    <div class="col-2"><?php echo $title;?></div>
+                    <div class="col-10">
+                      <span><span class="icon">&#10003;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></span>
+                    </div>
+                  </div>
+                  <!-- ### -->
                 <?php
                 }
 
                 if(!isset($report_result[0]['description']) && isset($report_result[0]['point_what_need_fixing']))
                 {
                 ?>
-                  <tr>
-                    <td><span>What needs fixing?</span></td>
-                    <td><span class="icon">&#9744;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?> </td>
-                  </tr>
-                  <tr>
-                    <td><span>Who can fix it?</span></td>
-                    <td><span class="icon-fa">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></td>
-                  </tr>
-                  <tr>
-                    <td><span>How do you fix it?</span></td>
-                    <td><span class="icon">&#9745;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></td>
-                  </tr>
+                  <!-- What needs fixing -->
+                  <div class="avoid-break">
+                    <div class="col-2">
+                      <span>What needs fixing?</span>
+                    </div>
+                    <div class="col-10">
+                      <span><span class="icon">&#9744;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?></span>
+                    </div>
+                  </div>
+                  <!-- ### -->
+
+                  <!-- Who can fix it -->
+                  <div class="avoid-break">
+                    <div class="col-2">
+                      <span>Who can fix it?</span>
+                    </div>
+                    <div class="col-10">
+                      <span><span class="icon-fa">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></span>
+                    </div>
+                  </div>
+                  <!-- ### -->
+
+                  <!-- How do you fix it -->
+                  <div class="avoid-break">
+                    <div class="col-2">
+                      <span>How do you fix it?</span>
+                    </div>
+                    <div class="col-10">
+                      <span><span class="icon">&#9745;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></span>
+                    </div>
+                  </div>
+                  <!-- ### -->
                 <?php
                 }
 
                 if (isset($report_result[0]['description']) && isset($report_result[0]['point_what_need_fixing']))
                 {
                 ?>
-                  <tr>
-                  <td><?php echo $title;?></td>
-                  <td><span class="icon">&#10003;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></td>
-                  </tr>
-                  <tr>
-                    <td><span>What needs fixing?</span></td>
-                    <td><span class="icon">&#9744;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?> </td>
-                  </tr>
-                  <tr>
-                    <td><span>Who can fix it?</span></td>
-                    <td><span class="icon-fa">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></td>
-                  </tr>
-                  <tr>
-                    <td><span>How do you fix it?</span></td>
-                    <td><span class="icon">&#9745;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></td>
-                  </tr>
+                <!-- What's working -->
+                <div class="avoid-break">
+                  <div class="col-2"><?php echo $title;?></div>
+                  <div class="col-10">
+                    <span><span class="icon">&#10003;</span> <strong class="text-blue"><?php echo $detail['point_name']; ?></strong><?php echo ' - '.$report_result[0]['description'] ?></span>
+                  </div>
+                </div>
+                <!-- ### -->
+
+                <!-- What needs fixing -->
+                <div class="avoid-break">
+                  <div class="col-2">
+                    <span>What needs fixing?</span>
+                  </div>
+                  <div class="col-10">
+                    <span><span class="icon">&#9744;</span> - <strong class="text-blue"><?php echo $detail['point_name']; ?>:</strong> <?php echo $report_result[0]['point_what_need_fixing'] ?></span>
+                  </div>
+                </div>
+                <!-- ### -->
+
+                <!-- Who can fix it -->
+                <div class="avoid-break">
+                  <div class="col-2">
+                    <span>Who can fix it?</span>
+                  </div>
+                  <div class="col-10">
+                    <span><span class="icon-fa">&#xf183;</span> <?php echo ' - '.$report_result[0]['point_who_can_fix'] ?></span>
+                  </div>
+                </div>
+                <!-- ### -->
+
+                <!-- How do you fix it -->
+                <div class="avoid-break">
+                  <div class="col-2">
+                    <span>How do you fix it?</span>
+                  </div>
+                  <div class="col-10">
+                    <span><span class="icon">&#9745;</span> <?php echo ' - '.$report_result[0]['point_how_to_fix'] ?></span>
+                  </div>
+                </div>
+                <!-- ### -->
                 <?php
                 }
                   $index++;
                 }
                 ?>
-        </table>
-      </div>
+              </div><!-- Row -->
         <?php
       }
       $section_number++;
