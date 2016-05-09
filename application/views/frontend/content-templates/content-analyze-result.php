@@ -161,7 +161,7 @@
                   //point loop
                   foreach ($section_value['point'] as $point_value) { ?>
                     <div class="checkbox">
-                      <label data-toggle="tooltip" data-placement="right" title="<?php echo $point_value['point_desc'];?>">
+                      <label>
                         <input type="hidden" value="off" name="<?php echo $point_value['id_point']; ?>" id="check-status-<?php echo $point_value['id_point']; ?>">
                         <input id="check-<?php echo $point_value['id_point'];?>"
                         name="<?php echo $point_value['id_point']; ?>"
