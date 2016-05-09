@@ -10,7 +10,7 @@
 //define("DOMPDF_DEFAULT_PAPER_SIZE", "letter");
 //define("DOMPDF_DEFAULT_FONT", "serif");
 //define("DOMPDF_DPI", 72);
-//define("DOMPDF_ENABLE_CSS_FLOAT", true);
+define("DOMPDF_ENABLE_CSS_FLOAT", true);
 //define("DOMPDF_ENABLE_JAVASCRIPT", false);
 //define("DEBUGPNG", true);
 //define("DEBUGKEEPTEMP", true);

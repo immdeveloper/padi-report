@@ -1,10 +1,6 @@
 html{
-  margin: 62.4px 81.6px 74.9px 72.3px;
   font-family: calibri-full;
-}
-
-body{
-  //margin: 62.4px 81.6px 74.9px 72.3px;
+  margin: 62.4px 81.6px 74.9px 72.3px;
 }
 
 .container{
@@ -23,11 +19,13 @@ section:last-child{
 
 span.icon{
   font-family: DejaVu Sans;
+  display: inline !important;
 }
 
 span.icon-fa{
   font-family: FontAwesome;
   margin-right: 5px;
+  display: inline !important;
 }
 
 section p{
@@ -190,7 +188,8 @@ table .number{
 }
 
 .result-table{
-  margin-bottom: 40px;
+  margin-bottom: 10pt;
+  page-break-inside: avoid;
 }
 
 .result-table table{
@@ -231,4 +230,42 @@ table .number{
 .priority-link a{
   font-size: 8pt;
   color: #000;
+}
+
+/*Rework Detail List Loop*/
+.row{
+  clear:both;
+  position:relative;
+}
+
+.col-2,
+.col-10{
+  padding: 5pt 0;
+}
+
+.col-2{
+  position:absolute;
+  left:0pt;
+  width:110pt;
+}
+
+.col-2 span{
+  font-weight: 800;
+}
+
+.col-10{
+  margin-left:110pt;
+}
+
+.col-10 span{
+  display: block;
+  padding: 2pt 0;
+}
+
+.col-10 i{
+  font-style: normal;
+}
+
+.avoid-break{
+  page-break-inside: avoid;
 }
