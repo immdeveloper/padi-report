@@ -122,7 +122,7 @@
             <a class="pull-right" data-toggle="collapse" href="#<?php echo $section_value['section_slug']?>">
               <i class="fa fa-chevron-down fa-fw"></i>
             </a>
-            <h4 class="card-title"><?php echo strtoupper($section_name); ?></h4>
+            <h4 class="card-title" id="title-<?= $section_value['section_slug'] ?>"><?php echo strtoupper($section_name); ?></h4>
             <span class="card-subtitle"><?php echo $section_value['section_desc']; ?></span>
             <hr>
             <div class="collapse in res" id="<?php echo $section_value['section_slug']?>">
@@ -299,7 +299,7 @@
                     </div>
                   </form>
                   <a href="javascript:void(0)" class="btn btn-primary save-field" id="save-<?php echo $section_value['id_section'];  ?>" data-section-name="<?php echo $section_value['section_slug']?>">Save</a>
-                  <a href="javascript:void(0)" class="btn btn-default add-field" id="add-<?php echo $section_value['id_section']; ?>" data-section-id=<?php echo $section_value['id_section']; ?>><i class="fa fa-plus-circle fa-fw"></i> Personal judgement</a>
+                  <a href="javascript:void(0)" class="btn btn-default add-field" id="add-<?php echo $section_value['id_section']; ?>" data-section-id=<?php echo $section_value['id_section']; ?> data-section-name="<?php echo $section_value['section_slug']?>"><i class="fa fa-plus-circle fa-fw"></i> Personal judgement</a>
                 </div>
               </div>
             </div><!-- card -->

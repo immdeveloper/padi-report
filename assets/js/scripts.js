@@ -951,7 +951,13 @@ $('.save-field').click(function(e){
     var result_id = $('#'+collapse_id).children('.result-table-wrapper').attr('id');
     $('#'+wrapper_id).hide();
     $('#'+result_id).fadeIn();
+
+    //after save scroll to section header
+    $('html, body').animate({
+         scrollTop: $("#title-" + sectionName).offset().top - 80
+     }, 700);
   }
+
 });
 
 //change #section-score- background based on section score
@@ -1118,6 +1124,11 @@ $('.edit-field').click(function(e){
   var result_id = $('#'+collapse_id).children('.report-form').attr('id');
   $('#'+wrapper_id).hide();
   $('#'+result_id).fadeIn();
+
+  //after save scroll to section header
+  $('html, body').animate({
+       scrollTop: $("#title-" + sectionName).offset().top - 80
+   }, 700);
 });
 
 // onclick button edit score
