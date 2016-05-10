@@ -122,7 +122,7 @@
             <a class="pull-right" data-toggle="collapse" href="#<?php echo $section_value['section_slug']?>">
               <i class="fa fa-chevron-down fa-fw"></i>
             </a>
-            <h4 class="card-title"><?php echo strtoupper($section_name); ?></h4>
+            <h4 class="card-title" id="title-<?= $section_value['section_slug'] ?>"><?php echo strtoupper($section_name); ?></h4>
             <span class="card-subtitle"><?php echo $section_value['section_desc']; ?></span>
             <hr>
             <div class="collapse in res" id="<?php echo $section_value['section_slug']?>">
@@ -176,7 +176,21 @@
                   //point loop
                   foreach ($section_value['point'] as $point_value) { ?>
                     <div class="checkbox">
-                      <label data-toggle="tooltip" data-placement="right" title="<?php echo $point_value['point_desc'];?>">
+                      <div class="input-group col-md-6" style="margin-bottom:15px;">
+                        <span class="form-control" id="text-<?php echo $point_value['id_point'];?>"><strong><?php echo $point_value['point_name']; ?></strong></span>
+                        <div class="input-group-btn" data-toggle="buttons">
+                          <span class="btn btn-default point-status" data-toggle="tooltip" data-placement="top" title="This point is working" data-id="<?php echo $point_value['id_point']; ?>" id="working-<?php echo $point_value['id_point']; ?>">
+                              <input type="radio" name="point-status" value="working"><i class="fa fa-check fa-fw"></i>
+                          </span>
+                          <span class="btn btn-default point-status" data-toggle="tooltip" data-placement="top" title="This point need fixing" data-id="<?php echo $point_value['id_point']; ?>" id="need-fixing-<?php echo $point_value['id_point']; ?>">
+                              <input type="radio" name="point-status" value="need-fixing"><i class="fa fa-exclamation fa-fw"></i>
+                          </span>
+                          <span class="btn btn-default point-status" data-toggle="tooltip" data-placement="top" title="Exclude this point" data-id="<?php echo $point_value['id_point']; ?>" id="exclude-<?php echo $point_value['id_point']; ?>">
+                            <input type="radio" name="point-status" value="exclude">  <i class="fa fa-times fa-fw"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <label style="position:absolute; visibility:hidden">
                         <input type="hidden" value="off" name="<?php echo $point_value['id_point']; ?>" id="check-status-<?php echo $point_value['id_point']; ?>">
                         <input id="check-<?php echo $point_value['id_point'];?>"
                         name="<?php echo $point_value['id_point']; ?>"
@@ -285,7 +299,7 @@
                     </div>
                   </form>
                   <a href="javascript:void(0)" class="btn btn-primary save-field" id="save-<?php echo $section_value['id_section'];  ?>" data-section-name="<?php echo $section_value['section_slug']?>">Save</a>
-                  <a href="javascript:void(0)" class="btn btn-default add-field" id="add-<?php echo $section_value['id_section']; ?>" data-section-id=<?php echo $section_value['id_section']; ?>><i class="fa fa-plus-circle fa-fw"></i> Personal judgement</a>
+                  <a href="javascript:void(0)" class="btn btn-default add-field" id="add-<?php echo $section_value['id_section']; ?>" data-section-id=<?php echo $section_value['id_section']; ?> data-section-name="<?php echo $section_value['section_slug']?>"><i class="fa fa-plus-circle fa-fw"></i> Personal judgement</a>
                 </div>
               </div>
             </div><!-- card -->

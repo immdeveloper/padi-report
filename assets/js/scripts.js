@@ -25,14 +25,16 @@ function onReadyEditReport(){//on document ready in edit report page
   if ( $( "#checked-point" ).length ) {//check if input hidden id #checked-point exist
     var b = $( "#checked-point" ).val().split(" ");//convert #checked-point value into array
     for (var i = 0; i<b.length; i++) {
-      $('#check-' + b[i]).trigger('click');//trigger click on checked point checkbox
+      // $('#check-' + b[i]).trigger('click');//trigger click on checked point checkbox
+      $("#need-fixing-" + b[i]).trigger('click');
     }
   }
   if ( $( "#disable-point" ).length ) {//check if input hidden id #disable-point exist
     var b = $( "#disable-point" ).val().split(" ");//convert #disable-point value into array
     for (var i = 0; i<b.length; i++) {
       //trigger click on disabled point
-      $('.edit-exclude-point[data-id="'+b[i]+'"]').trigger('click');
+      // $('.edit-exclude-point[data-id="'+b[i]+'"]').trigger('click');
+      $("#exclude-" + b[i]).trigger('click');
     }
   }
   $('#new-disable-point').val("");//clear #new-disable-point value
@@ -949,7 +951,13 @@ $('.save-field').click(function(e){
     var result_id = $('#'+collapse_id).children('.result-table-wrapper').attr('id');
     $('#'+wrapper_id).hide();
     $('#'+result_id).fadeIn();
+
+    //after save scroll to section header
+    $('html, body').animate({
+         scrollTop: $("#title-" + sectionName).offset().top - 80
+     }, 700);
   }
+
 });
 
 //change #section-score- background based on section score
@@ -1116,6 +1124,11 @@ $('.edit-field').click(function(e){
   var result_id = $('#'+collapse_id).children('.report-form').attr('id');
   $('#'+wrapper_id).hide();
   $('#'+result_id).fadeIn();
+
+  //after save scroll to section header
+  $('html, body').animate({
+       scrollTop: $("#title-" + sectionName).offset().top - 80
+   }, 700);
 });
 
 // onclick button edit score
