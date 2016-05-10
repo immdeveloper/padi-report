@@ -57,6 +57,9 @@ $route['translate_uri_dashes'] = FALSE;
 $route['website-review-form'] = 'WebsiteReviewController/index';
 $route['report/(:any)/(:any)'] = 'WebsiteReviewController/report/$1/$2';
 $route['priority-type/(:any)'] = 'WebsiteReviewController/getPriorityType/$1';
+$route['report'] = 'ReportController/index';
+$route['report-list/(:any)'] = 'ReportController/show_report/$1';
+$route['image-upload'] = 'WebsiteReviewController/imageUpload';
 
 $route['edit-report/(:any)'] = 'EditReportController/index/$1';
 

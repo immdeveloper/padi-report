@@ -42,6 +42,41 @@ class WebsiteReviewController extends CI_Controller
     $this->load->view('frontend/page', $data);
   }
 
+  public function imageUpload()
+  {
+    if($this->input->post('old-file') !== null)
+    {
+      $old_file = $this->input->post('old-file');
+      $path = './assets/images/uploads/'.$old_file;
+      if(file_exists($path))
+      {
+          unlink($path);
+      }
+    }
+
+    $config['upload_path']      = './assets/images/uploads';
+    $config['allowed_types']    = 'gif|jpg|png';
+    $config['encrypt_name']     = TRUE;
+    $config['max_size']         = 1024;
+
+    $this->load->library('upload', $config);
+    $this->upload->initialize($config);
+    $data = array();
+
+    if ( ! $this->upload->do_upload('image'))
+    {
+        $data['result'] = $this->upload->display_errors();
+    }
+    else
+    {
+        $data['result'] = $this->upload->data();
+    }
+
+    header('Content-type: application/json');
+    echo json_encode($data);
+
+  }
+
   public function report($id, $action)
   {
     $raw = $this->WebsiteReview->getReportData($id);

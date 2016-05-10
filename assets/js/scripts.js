@@ -8,10 +8,15 @@ $(document).ready(function(){
   dynamic_priority_task_form();
   backtotop();
   getPriorityType();
+  pointStatus();
+
   $('.modal').on('hidden.bs.modal', function(e)
   {
       $(this).removeData();
-  }) ;
+  });
+  $("#image-uploader-form input[type=file]").on('change',function(){
+      imageUpload();
+  });
   onReadyEditReport();
 });
 
@@ -31,6 +36,110 @@ function onReadyEditReport(){//on document ready in edit report page
     }
   }
   $('#new-disable-point').val("");//clear #new-disable-point value
+}
+
+function pointStatus()
+{
+  $("body").on("click", ".point-status",function() {
+      var id = $(this).data('id');
+      var status = $(this).find('input[name=point-status]').val();
+      if(status == 'working')
+      {
+        $('#check-'+id).attr('checked', false);
+        $('#check-'+id).prop('disabled', false);
+        $('#check-status-'+id).prop('disabled', false);
+        $('#well-fix-'+id).collapse("hide");
+        $('#well-desc-'+id).collapse("show");
+        $('#description-'+id).prop('disabled', false);
+        $('#explanation-'+id).prop('disabled', true);
+        $('#who-fix-'+id).prop('disabled', true);
+        $('#how-fix-'+id).prop('disabled', true);
+        $('#text-'+id).css('text-decoration', 'none');
+
+        $('#working-'+id).addClass('btn-success');
+        $('#need-fixing-'+id).removeClass('btn-warning');
+        $('#exclude-'+id).removeClass('btn-danger');
+      }
+      else if(status == 'need-fixing')
+      {
+        $('#check-'+id).attr('checked', true);
+        $('#check-status-'+id).prop('disabled', false);
+        $('#check-'+id).prop('disabled', false);
+        $('#well-fix-'+id).collapse("show");
+        $('#well-desc-'+id).collapse("hide");
+        $('#description-'+id).prop('disabled', true);
+        $('#explanation-'+id).prop('disabled', false);
+        $('#who-fix-'+id).prop('disabled', false);
+        $('#how-fix-'+id).prop('disabled', false);
+        $('#text-'+id).css('text-decoration', 'none');
+
+        $('#working-'+id).removeClass('btn-success');
+        $('#need-fixing-'+id).addClass('btn-warning');
+        $('#exclude-'+id).removeClass('btn-danger');
+      }
+      else if(status == 'exclude')
+      {
+        $('#check-'+id).attr('checked', false);
+        $('#well-fix-'+id).collapse("hide");
+        $('#well-desc-'+id).collapse("hide");
+        $('#check-'+id).attr('aria-expanded', true);
+        $('#check-'+id).prop('disabled', true);
+        $('#check-status-'+id).prop('disabled', true);
+        $('#source-'+id).prop('disabled', true);
+        $('#description-'+id).prop('disabled', true);
+        $('#explanation-'+id).prop('disabled', true);
+        $('#who-fix-'+id).prop('disabled', true);
+        $('#how-fix-'+id).prop('disabled', true);
+        $('#text-'+id).css('text-decoration', 'line-through');
+
+        $('#working-'+id).removeClass('btn-success');
+        $('#need-fixing-'+id).removeClass('btn-warning');
+        $('#exclude-'+id).addClass('btn-danger');
+      }
+  });
+}
+
+function imageUpload()
+{
+  var formData = new FormData($('#image-uploader-form')[0]);
+  formData.append('image', $('input[type=file]')[0].files[0]);
+
+  if($('#img-name').val() != '')
+  {
+    formData.append('old-file', $('#img-name').val());
+  }
+
+  $.ajax({
+    url: base_url + 'image-upload',
+    data: formData,
+    type:'POST',
+    dataType : 'json',
+    contentType: false,
+    processData: false,
+    beforeSend: function() {
+
+    },
+    error: function() {
+      alert('error');
+    },
+    success: function(res) {
+      $('.img-thumb').fadeIn();
+      $('.img-thumb').html('');
+      if(res.result.hasOwnProperty('file_name'))
+      {
+        $('.img-thumb').css('height', '200px');
+        $('.img-thumb').css('background-image', 'url('+ base_url + 'assets/images/uploads/'+ res.result.file_name +')');
+        $('.btn-upload span').html('Change image...');
+        $('#img-name').val(res.result.file_name);
+      }
+      else
+      {
+        $('.img-thumb').css('height', '20px');
+        $('.img-thumb').html(res.result);
+        $('.img-thumb p').css('color', '#f03');
+      }
+   },
+ });
 }
 
 function getSectionMeta()
@@ -76,7 +185,6 @@ function calculatePriority()
   priority_task.sort(function(a,b){
     return parseInt(a.section_id) - parseInt(b.section_id);
   });
-
 
   return priority_task;
 }
@@ -166,9 +274,6 @@ function getPriorityType()
       loopPriorityTable(count, arr, type);
       $('.report-summary').html($('.modal-body #report-summary').val());
       $('.modal-body #report-summary-result').val($('.modal-body #report-summary').val());
-    }
-    else {
-      alert('error');
     }
   });
 
@@ -377,7 +482,8 @@ function backtotop()
 }
 
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip();
+  $('.dropdown-toggle').dropdown();
 })
 
 //setup before functions
@@ -860,7 +966,7 @@ function changeSectionScoreBackground(sectionScore, sectionName){
 //calculate section score
 function calculateSectionScore(sectionName) {
   var selected = [];
-  $('#form-'+ sectionName + ' input:checked').each(function() {
+  $('#form-'+ sectionName + ' input[type=checkbox]:checked').each(function() {
       selected.push($(this).attr('name'));
   });
   var totalSelected = selected.length;
