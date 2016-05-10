@@ -110,7 +110,7 @@
             <a class="pull-right" data-toggle="collapse" href="#<?php echo $section_value['section_slug']?>">
               <i class="fa fa-chevron-down fa-fw"></i>
             </a>
-            <h4 class="card-title"><?php echo strtoupper($section_name); ?></h4>
+            <h4 class="card-title" id="title-<?= $section_value['section_slug'] ?>"><?php echo strtoupper($section_name); ?></h4>
             <span class="card-subtitle"><?php echo $section_value['section_desc']; ?></span>
             <hr>
             <div class="collapse in res" id="<?php echo $section_value['section_slug']?>">
