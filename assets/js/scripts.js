@@ -40,12 +40,13 @@ function onReadyEditReport(){//on document ready in edit report page
 
 function pointStatus()
 {
+  $('input[value=working]').closest('.point-status').addClass('btn-success');
   $("body").on("click", ".point-status",function() {
       var id = $(this).data('id');
       var status = $(this).find('input[name=point-status]').val();
       if(status == 'working')
       {
-        $('#check-'+id).attr('checked', false);
+        $('#check-'+id).prop('checked', false);
         $('#check-'+id).prop('disabled', false);
         $('#check-status-'+id).prop('disabled', false);
         $('#well-fix-'+id).collapse("hide");
@@ -62,7 +63,7 @@ function pointStatus()
       }
       else if(status == 'need-fixing')
       {
-        $('#check-'+id).attr('checked', true);
+        $('#check-'+id).prop('checked', true);
         $('#check-status-'+id).prop('disabled', false);
         $('#check-'+id).prop('disabled', false);
         $('#well-fix-'+id).collapse("show");
@@ -79,7 +80,7 @@ function pointStatus()
       }
       else if(status == 'exclude')
       {
-        $('#check-'+id).attr('checked', false);
+        $('#check-'+id).prop('checked', false);
         $('#well-fix-'+id).collapse("hide");
         $('#well-desc-'+id).collapse("hide");
         $('#check-'+id).attr('aria-expanded', true);
